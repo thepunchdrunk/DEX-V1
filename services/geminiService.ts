@@ -29,10 +29,11 @@ const Type = {
 const MODEL_NAME = "gemini-2.5-flash-preview-05-20";
 
 // ============================================================================
-// API CLIENT (SECURE PROXY)
+// API CLIENT (SECURE PROXY WITH CLIENT-SIDE FALLBACK)
 // ============================================================================
 const callGemini = async (prompt: string, schema?: any) => {
   try {
+    // 1. Try Proxy Server (Local Development)
     const response = await fetch('http://localhost:3001/api/generate', {
       method: 'POST',
       headers: {
@@ -41,18 +42,153 @@ const callGemini = async (prompt: string, schema?: any) => {
       body: JSON.stringify({ prompt, schema }),
     });
 
+    if (response.ok) {
+      const data = await response.json();
+      return { text: data.text };
+    }
+  } catch (error) {
+    console.warn("Proxy server unreachable, falling back to client-side API.");
+  }
+
+  // 2. Fallback to Client-Side API (Deployed on GitHub Pages etc.)
+  try {
+    const apiKey = (import.meta as any).env.VITE_GEMINI_API_KEY || (process as any).env.GEMINI_API_KEY;
+    if (!apiKey) throw new Error("Missing Gemini API Key in environment");
+
+    // Using direct REST API to avoid SDK dependency issues on client-side
+
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL_NAME}:generateContent?key=${apiKey}`;
+
+    const requestBody: any = {
+      contents: [{ parts: [{ text: prompt }] }],
+    };
+
+    if (schema) {
+      requestBody.generationConfig = {
+        responseMimeType: "application/json",
+        responseSchema: schema
+      };
+    }
+
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(requestBody)
+    });
+
     if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      throw new Error(errorData.error || `Server Error: ${response.status}`);
+      throw new Error(`Gemini API functionality failed: ${response.statusText}`);
     }
 
     const data = await response.json();
-    return { text: data.text };
-  } catch (error) {
-    console.error("Gemini API Proxy Error:", error);
-    throw error;
+    return { text: data.candidates?.[0]?.content?.parts?.[0]?.text || "" };
+
+  } catch (directError) {
+    console.error("Gemini Client-Side Error:", directError);
+    throw directError;
   }
 };
+
+// ============================================================================
+// FALLBACK DATA
+// ============================================================================
+function getFallbackDaily3(cognitiveLoad: CognitiveLoadState): DailyCard[] {
+  const fallbackCards: any[] = [
+    {
+      id: "fallback-1",
+      horizon: "IMMEDIATE",
+      type: "CRITICAL",
+      title: "Cybersecurity Refresher",
+      description: "Annual phishing awareness module pending. Required for compliance.",
+      actionLabel: "Start Module",
+      priority: "CRITICAL",
+      urgency: 95,
+      impact: 80,
+      novelty: 30,
+      confidence: {
+        level: "HIGH",
+        freshness: 100,
+        completeness: 100,
+        behavioralReliability: 95,
+        sources: ["Compliance System"],
+        lastUpdated: new Date().toISOString(),
+      },
+      cognitiveLoadAware: false,
+      estimatedMinutes: 20,
+      slot: "CONTEXT_ANCHOR",
+      source: "System",
+      sourceType: "INTERNAL",
+      timestamp: new Date().toISOString(),
+      read: false,
+      flagged: false
+    },
+    {
+      id: "fallback-2",
+      horizon: "IMMEDIATE",
+      type: "ORG_CONTEXT",
+      title: "Sprint Review Today",
+      description: "Team sprint review at 3 PM. Prepare your demo items.",
+      priority: "HIGH",
+      urgency: 80,
+      impact: 60,
+      novelty: 70,
+      confidence: {
+        level: "HIGH",
+        freshness: 100,
+        completeness: 90,
+        behavioralReliability: 90,
+        sources: ["Calendar"],
+        lastUpdated: new Date().toISOString(),
+      },
+      cognitiveLoadAware: true,
+      estimatedMinutes: 5,
+      slot: "CONTEXT_ANCHOR",
+      source: "Calendar",
+      sourceType: "INTERNAL",
+      timestamp: new Date().toISOString(),
+      read: false,
+      flagged: false
+    },
+    {
+      id: "fallback-3",
+      horizon: "GROWTH",
+      type: "SKILL_GROWTH",
+      title: "React Performance Tips",
+      description: "Learn about useMemo optimization - 5 minute read.",
+      actionLabel: "Read Article",
+      priority: "LOW",
+      urgency: 20,
+      impact: 50,
+      novelty: 60,
+      confidence: {
+        level: "MEDIUM",
+        freshness: 80,
+        completeness: 70,
+        behavioralReliability: 65,
+        sources: ["Learning System"],
+        lastUpdated: new Date().toISOString(),
+      },
+      cognitiveLoadAware: true,
+      estimatedMinutes: 5,
+      slot: "MICRO_SKILL",
+      source: "Learning Platform",
+      sourceType: "SYSTEM",
+      timestamp: new Date().toISOString(),
+      read: false,
+      flagged: false,
+      frictionSource: "N/A",
+      frictionMetric: "N/A",
+      tipType: "BEST_PRACTICE"
+    },
+  ];
+
+  // If high cognitive load, filter to only critical
+  if (cognitiveLoad.overallLoad === "HIGH" || cognitiveLoad.overallLoad === "CRITICAL") {
+    return fallbackCards.filter((c) => c.type === "CRITICAL" || c.priority === "CRITICAL") as DailyCard[];
+  }
+
+  return fallbackCards as DailyCard[];
+}
 
 // ============================================================================
 // MASTER SYSTEM PROMPT v2
@@ -681,84 +817,8 @@ function getResponseTime(type: string): string {
 }
 
 // ============================================================================
-// FALLBACK DATA
+// LEGACY SUPPORT
 // ============================================================================
-function getFallbackDaily3(cognitiveLoad: CognitiveLoadState): DailyCard[] {
-  const fallbackCards: DailyCard[] = [
-    {
-      id: "fallback-1",
-      horizon: "IMMEDIATE",
-      type: "CRITICAL",
-      title: "Cybersecurity Refresher",
-      description: "Annual phishing awareness module pending. Required for compliance.",
-      actionLabel: "Start Module",
-      priority: "CRITICAL",
-      urgency: 95,
-      impact: 80,
-      novelty: 30,
-      confidence: {
-        level: "HIGH",
-        freshness: 100,
-        completeness: 100,
-        behavioralReliability: 95,
-        sources: ["Compliance System"],
-        lastUpdated: new Date().toISOString(),
-      },
-      cognitiveLoadAware: false,
-      estimatedMinutes: 20,
-    },
-    {
-      id: "fallback-2",
-      horizon: "IMMEDIATE",
-      type: "ORG_CONTEXT",
-      title: "Sprint Review Today",
-      description: "Team sprint review at 3 PM. Prepare your demo items.",
-      priority: "HIGH",
-      urgency: 80,
-      impact: 60,
-      novelty: 70,
-      confidence: {
-        level: "HIGH",
-        freshness: 100,
-        completeness: 90,
-        behavioralReliability: 90,
-        sources: ["Calendar"],
-        lastUpdated: new Date().toISOString(),
-      },
-      cognitiveLoadAware: true,
-      estimatedMinutes: 5,
-    },
-    {
-      id: "fallback-3",
-      horizon: "GROWTH",
-      type: "SKILL_GROWTH",
-      title: "React Performance Tips",
-      description: "Learn about useMemo optimization - 5 minute read.",
-      actionLabel: "Read Article",
-      priority: "LOW",
-      urgency: 20,
-      impact: 50,
-      novelty: 60,
-      confidence: {
-        level: "MEDIUM",
-        freshness: 80,
-        completeness: 70,
-        behavioralReliability: 65,
-        sources: ["Learning System"],
-        lastUpdated: new Date().toISOString(),
-      },
-      cognitiveLoadAware: true,
-      estimatedMinutes: 5,
-    },
-  ];
-
-  // If high cognitive load, filter to only critical
-  if (cognitiveLoad.overallLoad === "HIGH" || cognitiveLoad.overallLoad === "CRITICAL") {
-    return fallbackCards.filter((c) => c.type === "CRITICAL" || c.priority === "CRITICAL");
-  }
-
-  return fallbackCards;
-}
 
 // Legacy export for backward compatibility
 export const generateDailyCards = async (userContext: string): Promise<DailyCard[]> => {

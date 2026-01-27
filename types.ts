@@ -175,6 +175,23 @@ export interface DailyCard {
   flagReason?: 'INCORRECT' | 'OUTDATED' | 'INAPPROPRIATE';
   explainer?: string; // "Why this appeared" explanation
   isQuarantined?: boolean; // 3+ flags triggers quarantine
+
+  // New fields for Contextual Performance Engine
+  horizon?: 'IMMEDIATE' | 'GROWTH' | 'TRAJECTORY';
+  type?: string;
+  urgency?: number;
+  impact?: number;
+  novelty?: number;
+  estimatedMinutes?: number;
+  cognitiveLoadAware?: boolean;
+  confidence?: {
+    level: 'HIGH' | 'MEDIUM' | 'LOW';
+    freshness: number;
+    completeness: number;
+    behavioralReliability: number;
+    sources: string[];
+    lastUpdated: string;
+  };
 }
 
 // Card 1: Context Anchor (Internal KPIs, Strategic Updates)
