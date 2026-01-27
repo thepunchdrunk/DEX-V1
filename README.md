@@ -1,20 +1,47 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# DEX: Digital Employee Experience
 
-# Run and deploy your AI Studio app
+A Contextual Performance Engine designed to remove uncertainty and increase clarity, capability, and forward momentum at work.
 
-This contains everything you need to run your app locally.
+## Core Pillars
 
-View your app in AI Studio: https://ai.studio/apps/drive/1zo-t_9KxEBanr5IMNtcMmTX2JxRSSw3n
+1. **Context-First Design**
+   - Content adapts to user role, tenure, and current task.
+   - "Zero-Search" philosophy: Information finds you when you need it.
 
-## Run Locally
+2. **Active Intelligence**
+   - **Impact Dynamics**: Move beyond vanity metrics to career velocity and organizational alignment.
+   - **Daily 3 Engine**: Prioritized, actionable cards instead of endless feeds.
+   - **Magic Search**: Intent-based navigation and action execution.
 
-**Prerequisites:**  Node.js
+3. **Role-Specific Cockpits**
+   - **Employee**: Focus on skill growth, daily focus, and insights.
+   - **Manager**: "Team Command Center" for unblocking and enabling the team (Servant Leadership structure).
 
+4. **Privacy & Trust**
+   - Clear boundaries between "Safe Mode" learning and Manager visibility.
+   - User control over development data sharing.
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+## Setup Instructions
+
+1. **Install Dependencies**
+   ```bash
+   npm install
+   ```
+
+2. **Environment Setup**
+   Create a `.env.local` file in the root directory:
+   ```env
+   GEMINI_API_KEY=your_gemini_api_key_here
+   ```
+
+3. **Run Application**
+   ```bash
+   npm run dev
+   ```
+
+## Tech Stack
+- React 18 + Vite
+- TypeScript
+- Tailwind CSS
+- Lucide React (Icons)
+- Google Gemini AI (Intelligence Layer)
