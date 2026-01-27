@@ -1,0 +1,565 @@
+/* ============================================================================
+   LIVING OS — DESIGN SYSTEM
+   "Zero-Search" Employee Experience Platform
+   ============================================================================ */
+
+/* ----------------------------------------------------------------------------
+   CSS RESET & BASE
+   ---------------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+  color: #E2E8F0;
+}
+
+/* ----------------------------------------------------------------------------
+   THEME COLORS
+   Two modes: Onboarding (Blue) → Performance (Gold)
+   ---------------------------------------------------------------------------- */
+:root {
+  /* Onboarding Theme (Blue) */
+  --onboarding-primary: #3B82F6;
+  --onboarding-secondary: #60A5FA;
+  --onboarding-accent: #93C5FD;
+  --onboarding-bg: linear-gradient(135deg, #1E3A5F 0%, #0F172A 100%);
+
+  /* Performance Theme (Gold) */
+  --performance-primary: #F59E0B;
+  --performance-secondary: #FBBF24;
+  --performance-accent: #FCD34D;
+  --performance-bg: linear-gradient(135deg, #451A03 0%, #0F172A 100%);
+
+  /* Neutral Colors */
+  --slate-900: #0F172A;
+  --slate-800: #1E293B;
+  --slate-700: #334155;
+  --slate-600: #475569;
+  --slate-500: #64748B;
+  --slate-400: #94A3B8;
+  --slate-300: #CBD5E1;
+  --slate-200: #E2E8F0;
+  --slate-100: #F1F5F9;
+
+  /* Status Colors */
+  --green-500: #22C55E;
+  --green-400: #4ADE80;
+  --amber-500: #F59E0B;
+  --amber-400: #FBBF24;
+  --red-500: #EF4444;
+  --red-400: #F87171;
+  --blue-500: #3B82F6;
+  --blue-400: #60A5FA;
+  --purple-500: #8B5CF6;
+  --purple-400: #A78BFA;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+  --shadow-glow: 0 0 40px -10px var(--blue-500);
+
+  /* Border Radius */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+  --radius-full: 9999px;
+
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-base: 200ms ease;
+  --transition-slow: 300ms ease;
+}
+
+/* ----------------------------------------------------------------------------
+   GLASSMORPHISM UTILITIES
+   ---------------------------------------------------------------------------- */
+.glass {
+  background: rgba(30, 41, 59, 0.5);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(71, 85, 105, 0.3);
+}
+
+.glass-light {
+  background: rgba(51, 65, 85, 0.3);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(71, 85, 105, 0.2);
+}
+
+/* ----------------------------------------------------------------------------
+   ANIMATIONS
+   ---------------------------------------------------------------------------- */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+/* Animation Classes */
+.animate-fade-in {
+  animation: fadeIn 0.3s ease forwards;
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.4s ease forwards;
+}
+
+.animate-slide-down {
+  animation: slideDown 0.3s ease forwards;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.4s ease forwards;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.3s ease forwards;
+}
+
+.animate-pulse {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+.animate-shimmer {
+  background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.1) 50%,
+      transparent 100%);
+  background-size: 200% 100%;
+  animation: shimmer 2s ease-in-out infinite;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* ----------------------------------------------------------------------------
+   CARD COMPONENTS
+   ---------------------------------------------------------------------------- */
+.card {
+  background: rgba(30, 41, 59, 0.5);
+  backdrop-filter: blur(12px);
+  border-radius: var(--radius-2xl);
+  border: 1px solid rgba(71, 85, 105, 0.3);
+  transition: all var(--transition-base);
+}
+
+.card:hover {
+  border-color: rgba(71, 85, 105, 0.5);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.card-slot-context {
+  border-left: 3px solid var(--blue-500);
+}
+
+.card-slot-domain {
+  border-left: 3px solid var(--purple-500);
+}
+
+.card-slot-skill {
+  border-left: 3px solid var(--green-500);
+}
+
+.card-slot-simulator {
+  border-left: 3px solid var(--amber-500);
+}
+
+/* ----------------------------------------------------------------------------
+   SKILL TREE STYLES
+   ---------------------------------------------------------------------------- */
+.skill-thriving {
+  --skill-color: var(--green-500);
+}
+
+.skill-healthy {
+  --skill-color: #10B981;
+}
+
+.skill-fading {
+  --skill-color: var(--amber-500);
+}
+
+.skill-decayed {
+  --skill-color: var(--red-500);
+}
+
+.skill-node {
+  transition: all var(--transition-base);
+}
+
+.skill-node:hover {
+  transform: scale(1.02);
+}
+
+/* Decay Ring */
+.decay-ring {
+  stroke-dasharray: 251.2;
+  /* 2 * PI * 40 (radius) */
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset var(--transition-slow);
+}
+
+/* ----------------------------------------------------------------------------
+   BUTTON STYLES
+   ---------------------------------------------------------------------------- */
+.btn-primary {
+  background: linear-gradient(135deg, var(--blue-500) 0%, var(--purple-500) 100%);
+  color: white;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-xl);
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px -5px rgba(59, 130, 246, 0.4);
+}
+
+.btn-gold {
+  background: linear-gradient(135deg, var(--performance-primary) 0%, #D97706 100%);
+  color: white;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-xl);
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+.btn-gold:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px -5px rgba(245, 158, 11, 0.4);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--slate-400);
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--slate-700);
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+.btn-ghost:hover {
+  background: rgba(51, 65, 85, 0.5);
+  color: white;
+  border-color: var(--slate-600);
+}
+
+/* ----------------------------------------------------------------------------
+   FORM INPUTS
+   ---------------------------------------------------------------------------- */
+.input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: var(--slate-900);
+  border: 1px solid var(--slate-700);
+  border-radius: var(--radius-xl);
+  color: white;
+  font-size: 1rem;
+  outline: none;
+  transition: all var(--transition-base);
+}
+
+.input:focus {
+  border-color: var(--blue-500);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+.input::placeholder {
+  color: var(--slate-500);
+}
+
+/* ----------------------------------------------------------------------------
+   PROGRESS BARS
+   ---------------------------------------------------------------------------- */
+.progress-bar {
+  height: 0.5rem;
+  background: var(--slate-700);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--blue-500) 0%, var(--blue-400) 100%);
+  border-radius: var(--radius-full);
+  transition: width var(--transition-slow);
+}
+
+.progress-bar-gold .progress-bar-fill {
+  background: linear-gradient(90deg, var(--performance-primary) 0%, var(--performance-secondary) 100%);
+}
+
+/* ----------------------------------------------------------------------------
+   STATUS INDICATORS
+   ---------------------------------------------------------------------------- */
+.status-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: var(--radius-full);
+}
+
+.status-online {
+  background: var(--green-500);
+  box-shadow: 0 0 8px var(--green-500);
+}
+
+.status-offline {
+  background: var(--red-500);
+}
+
+.status-warning {
+  background: var(--amber-500);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* ----------------------------------------------------------------------------
+   HEALTH INDICATORS (for Skill Tree)
+   ---------------------------------------------------------------------------- */
+.health-thriving {
+  color: var(--green-400);
+  background: rgba(34, 197, 94, 0.1);
+  border-color: rgba(34, 197, 94, 0.3);
+}
+
+.health-healthy {
+  color: #34D399;
+  background: rgba(52, 211, 153, 0.1);
+  border-color: rgba(52, 211, 153, 0.3);
+}
+
+.health-fading {
+  color: var(--amber-400);
+  background: rgba(245, 158, 11, 0.1);
+  border-color: rgba(245, 158, 11, 0.3);
+}
+
+.health-decayed {
+  color: var(--red-400);
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+/* ----------------------------------------------------------------------------
+   SCROLLBAR CUSTOMIZATION
+   ---------------------------------------------------------------------------- */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--slate-900);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--slate-700);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--slate-600);
+}
+
+/* ----------------------------------------------------------------------------
+   RESPONSIVE UTILITIES
+   ---------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+  .hide-mobile {
+    display: none !important;
+  }
+}
+
+@media (min-width: 769px) {
+  .hide-desktop {
+    display: none !important;
+  }
+}
+
+/* ----------------------------------------------------------------------------
+   FOCUS STATES (ACCESSIBILITY)
+   ---------------------------------------------------------------------------- */
+:focus-visible {
+  outline: 2px solid var(--blue-500);
+  outline-offset: 2px;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--blue-500);
+  outline-offset: 2px;
+}
+
+/* ----------------------------------------------------------------------------
+   TYPOGRAPHY
+   ---------------------------------------------------------------------------- */
+.text-gradient {
+  background: linear-gradient(135deg, var(--blue-400) 0%, var(--purple-400) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-gold {
+  background: linear-gradient(135deg, var(--performance-primary) 0%, var(--performance-accent) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Monospace for data/metrics */
+.font-mono {
+  font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+}
+
+/* ----------------------------------------------------------------------------
+   CONFETTI ANIMATION (for Graduation)
+   ---------------------------------------------------------------------------- */
+@keyframes confetti-fall {
+  0% {
+    transform: translateY(-10vh) rotate(0deg);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(100vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+.confetti {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  animation: confetti-fall 3s ease-in forwards;
+}
