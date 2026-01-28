@@ -44,6 +44,7 @@ const RoleCockpit: React.FC<RoleCockpitProps> = ({ user, isWednesday = false, on
         { view: 'SKILLS', icon: <TreePine className="w-5 h-5" />, label: 'Skills' },
         { view: 'INSIGHTS', icon: <Compass className="w-5 h-5" />, label: 'Trends' },
         { view: 'ANALYTICS', icon: <TrendingUp className="w-5 h-5" />, label: 'Performance' },
+        ...(user.role === 'MANAGER' ? [{ view: 'MANAGER' as const, icon: <Users className="w-5 h-5" />, label: 'My Team' }] : []),
         { view: 'SETTINGS', icon: <Settings className="w-5 h-5" />, label: 'Settings' },
     ];
 

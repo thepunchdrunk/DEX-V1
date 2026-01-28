@@ -115,21 +115,8 @@ const App: React.FC = () => {
     );
   }
 
-  // Role-Based Cockpit (Day 6+)
-  // Route Managers to separate ManagerCockpit
-  if (user.role === 'MANAGER') {
-    return (
-      <ErrorBoundary>
-        <ManagerCockpit
-          user={user}
-          onUpdateUser={(updates) => setUser((prev) => ({ ...prev, ...updates }))}
-          onSwitchToEmployee={() => setUser((prev) => ({ ...prev, role: 'EMPLOYEE' }))}
-        />
-      </ErrorBoundary>
-    );
-  }
-
-  // Employee Dashboard
+  // Unified Role-Based Cockpit (Day 6+)
+  // Both Employees and Managers use RoleCockpit, but Managers get an extra "My Team" tab
   return (
     <ErrorBoundary>
       <RoleCockpit
