@@ -1,19 +1,16 @@
 # DEX: Digital Employee Experience
+# Workplace Hub
+## Enterprise Context Engine
 
-A Contextual Performance Engine designed to remove uncertainty and increase clarity, capability, and forward momentum at work.
+**Workplace Hub** is a "Zero-Search" employee experience platform that proactively delivers context, tools, and insights to employees based on their role, tenure, and daily rhythm.
 
 ## Core Pillars
+1. **Automated Setup (Day 1)**: Automated provisioning of hardware, identity, and access.
+2. **Company Culture**: Interactive scenarios to learn unwritten rules and cultural norms.
+3. **Daily Dashboard**: A role-specific dashboard (Manager/Employee) focusing on 3 daily priorities.
+4. **Quick Actions**: Intent-based navigation (e.g., "I need a sandbox") executed via AI.
 
-1. **Context-First Design**
-   - Content adapts to user role, tenure, and current task.
-   - "Zero-Search" philosophy: Information finds you when you need it.
-
-2. **Active Intelligence**
-   - **Impact Dynamics**: Move beyond vanity metrics to career velocity and organizational alignment.
-   - **Daily 3 Engine**: Prioritized, actionable cards instead of endless feeds.
-   - **Magic Search**: Intent-based navigation and action execution.
-
-3. **Role-Specific Cockpits**
+3. **Role-Specific Dashboards**
    - **Employee**: Focus on skill growth, daily focus, and insights.
    - **Manager**: "Team Command Center" for unblocking and enabling the team (Servant Leadership structure).
 

@@ -19,7 +19,7 @@ import ErrorBoundary from './components/ErrorBoundary';
 import './styles/design-system.css';
 
 // Storage key for persisting state
-const STORAGE_KEY = 'livingos_state';
+const STORAGE_KEY = 'dex_state';
 
 interface AppPersistedState {
   appState: AppState;
@@ -129,7 +129,7 @@ const App: React.FC = () => {
     );
   }
 
-  // Employee Cockpit
+  // Employee Dashboard
   return (
     <ErrorBoundary>
       <RoleCockpit

@@ -28,6 +28,9 @@ import {
 import {
     WORK_TOOLS,
     FIRST_TASK_SIMULATION_QA,
+    FIRST_TASK_SIMULATION_MANAGER,
+    FIRST_TASK_SIMULATION_FRONTLINE,
+    FIRST_TASK_SIMULATION_SALES,
     FIRST_CONTRIBUTIONS,
     PRODUCTIVITY_TIPS,
 } from '../../../constants';
@@ -46,7 +49,16 @@ const Day3ToolsWorkflow: React.FC<Day3ToolsWorkflowProps> = ({ user, onComplete 
     );
 
     const [tools, setTools] = useState<WorkTool[]>(relevantTools);
-    const [simulation, setSimulation] = useState<FirstTaskSimulation>(FIRST_TASK_SIMULATION_QA);
+
+    // Select simulation based on role
+    const getSimulationForRole = () => {
+        if (user.role === 'MANAGER') return FIRST_TASK_SIMULATION_MANAGER;
+        if (user.roleCategory === 'FRONTLINE') return FIRST_TASK_SIMULATION_FRONTLINE;
+        if (user.department === 'Sales' || user.roleCategory === 'REMOTE') return FIRST_TASK_SIMULATION_SALES;
+        return FIRST_TASK_SIMULATION_QA;
+    };
+
+    const [simulation, setSimulation] = useState<FirstTaskSimulation>(getSimulationForRole());
     const [contributions, setContributions] = useState<FirstContribution[]>(FIRST_CONTRIBUTIONS);
     const [tips] = useState<ProductivityTip[]>(PRODUCTIVITY_TIPS);
     const [activeToolId, setActiveToolId] = useState<string | null>(null);
@@ -127,15 +139,15 @@ const Day3ToolsWorkflow: React.FC<Day3ToolsWorkflowProps> = ({ user, onComplete 
         <div className="space-y-6">
             <div className="flex items-center justify-between">
                 <div>
-                    <h3 className="text-xl font-semibold text-white">Your Work Toolkit</h3>
-                    <p className="text-slate-400 text-sm mt-1">
+                    <h3 className="text-xl font-semibold text-black">Your Work Toolkit</h3>
+                    <p className="text-[#616161] text-sm mt-1">
                         Learn the essential tools you'll use daily in your role.
                     </p>
                 </div>
                 {toolkitComplete && (
                     <button
                         onClick={() => setPhase('SIMULATOR')}
-                        className="px-4 py-2 bg-blue-500 hover:bg-blue-400 text-white font-medium rounded-lg flex items-center gap-2 transition-all"
+                        className="px-4 py-2 bg-[#E60000] hover:bg-[#CC0000] text-white font-medium rounded-lg flex items-center gap-2 transition-all"
                     >
                         Continue to Simulator <ChevronRight className="w-4 h-4" />
                     </button>
@@ -143,27 +155,27 @@ const Day3ToolsWorkflow: React.FC<Day3ToolsWorkflowProps> = ({ user, onComplete 
             </div>
 
             {/* Tool Flow Diagram */}
-            <div className="bg-slate-800/50 rounded-xl border border-slate-700/50 p-6">
-                <h4 className="text-sm font-medium text-slate-400 mb-4">How your tools connect</h4>
+            <div className="bg-[#FAFAFA] rounded-xl border border-[#E0E0E0] p-6">
+                <h4 className="text-sm font-medium text-[#616161] mb-4">How your tools connect</h4>
                 <div className="flex items-center justify-center gap-4 flex-wrap">
                     {tools.filter(t => t.category === 'CORE').map((tool, index) => (
                         <React.Fragment key={tool.id}>
                             <div className={`
                                 flex flex-col items-center p-4 rounded-xl border-2 transition-all cursor-pointer
                                 ${tool.walkthroughCompleted
-                                    ? 'border-green-500/50 bg-green-500/10'
-                                    : 'border-slate-700 bg-slate-800 hover:border-blue-500/50'}
+                                    ? 'border-[#4CAF50]/50 bg-[#E8F5E9]'
+                                    : 'border-[#E0E0E0] bg-white hover:border-[#E60000]/50'}
                             `}
                                 onClick={() => handleToolWalkthrough(tool.id)}
                             >
                                 <span className="text-3xl mb-2">{tool.icon}</span>
-                                <span className="text-sm font-medium text-white">{tool.name}</span>
+                                <span className="text-sm font-medium text-black">{tool.name}</span>
                                 {tool.walkthroughCompleted && (
-                                    <Check className="w-4 h-4 text-green-400 mt-1" />
+                                    <Check className="w-4 h-4 text-[#4CAF50] mt-1" />
                                 )}
                             </div>
                             {index < tools.filter(t => t.category === 'CORE').length - 1 && (
-                                <ChevronRight className="w-6 h-6 text-slate-600" />
+                                <ChevronRight className="w-6 h-6 text-[#BDBDBD]" />
                             )}
                         </React.Fragment>
                     ))}
@@ -176,37 +188,37 @@ const Day3ToolsWorkflow: React.FC<Day3ToolsWorkflowProps> = ({ user, onComplete 
                     <div
                         key={tool.id}
                         className={`
-                            bg-slate-800/50 rounded-xl border transition-all
-                            ${tool.walkthroughCompleted ? 'border-green-500/30' : 'border-slate-700/50'}
-                            ${activeToolId === tool.id ? 'ring-2 ring-blue-500' : ''}
+                            bg-[#FAFAFA] rounded-xl border transition-all
+                            ${tool.walkthroughCompleted ? 'border-[#4CAF50]/30' : 'border-[#E0E0E0]'}
+                            ${activeToolId === tool.id ? 'ring-2 ring-[#E60000]' : ''}
                         `}
                     >
                         <div className="p-4">
                             <div className="flex items-start gap-4">
                                 <div className={`
                                     w-12 h-12 rounded-xl flex items-center justify-center text-2xl
-                                    ${tool.walkthroughCompleted ? 'bg-green-500/20' : 'bg-slate-700'}
+                                    ${tool.walkthroughCompleted ? 'bg-[#E8F5E9]' : 'bg-[#E0E0E0]'}
                                 `}>
                                     {tool.icon}
                                 </div>
                                 <div className="flex-1">
                                     <div className="flex items-center gap-2">
-                                        <h4 className="font-medium text-white">{tool.name}</h4>
+                                        <h4 className="font-medium text-black">{tool.name}</h4>
                                         <span className={`
                                             text-xs px-2 py-0.5 rounded
-                                            ${tool.category === 'CORE' ? 'bg-blue-500/20 text-blue-400' : 'bg-slate-700 text-slate-400'}
+                                            ${tool.category === 'CORE' ? 'bg-red-50 text-[#E60000]' : 'bg-[#E0E0E0] text-[#616161]'}
                                         `}>
                                             {tool.category}
                                         </span>
                                     </div>
-                                    <p className="text-sm text-slate-400 mt-1">{tool.purpose}</p>
+                                    <p className="text-sm text-[#616161] mt-1">{tool.purpose}</p>
                                 </div>
                                 {tool.walkthroughCompleted ? (
-                                    <CheckCircle2 className="w-6 h-6 text-green-400" />
+                                    <CheckCircle2 className="w-6 h-6 text-[#4CAF50]" />
                                 ) : (
                                     <button
                                         onClick={() => handleToolWalkthrough(tool.id)}
-                                        className="px-3 py-1.5 bg-blue-500 hover:bg-blue-400 text-white text-sm font-medium rounded-lg transition-all"
+                                        className="px-3 py-1.5 bg-[#E60000] hover:bg-[#CC0000] text-white text-sm font-medium rounded-lg transition-all"
                                     >
                                         Learn
                                     </button>
@@ -215,21 +227,21 @@ const Day3ToolsWorkflow: React.FC<Day3ToolsWorkflowProps> = ({ user, onComplete 
 
                             {/* Expanded Tool View */}
                             {activeToolId === tool.id && !tool.walkthroughCompleted && (
-                                <div className="mt-4 pt-4 border-t border-slate-700">
-                                    <h5 className="text-sm font-medium text-white mb-3">Quick Actions</h5>
+                                <div className="mt-4 pt-4 border-t border-[#E0E0E0]">
+                                    <h5 className="text-sm font-medium text-black mb-3">Quick Actions</h5>
                                     <div className="space-y-2">
                                         {tool.quickActions.map((action) => (
                                             <div
                                                 key={action.id}
-                                                className="flex items-center gap-3 p-2 bg-slate-900/50 rounded-lg"
+                                                className="flex items-center gap-3 p-2 bg-white border border-[#E0E0E0] rounded-lg"
                                             >
-                                                <Zap className="w-4 h-4 text-amber-400" />
+                                                <Zap className="w-4 h-4 text-[#E60000]" />
                                                 <div className="flex-1">
-                                                    <span className="text-sm text-white">{action.label}</span>
-                                                    <span className="text-xs text-slate-500 ml-2">{action.description}</span>
+                                                    <span className="text-sm text-black">{action.label}</span>
+                                                    <span className="text-xs text-[#9E9E9E] ml-2">{action.description}</span>
                                                 </div>
                                                 {action.shortcut && (
-                                                    <kbd className="px-2 py-0.5 bg-slate-800 border border-slate-700 rounded text-xs text-slate-400">
+                                                    <kbd className="px-2 py-0.5 bg-[#F5F5F5] border border-[#E0E0E0] rounded text-xs text-[#616161]">
                                                         {action.shortcut}
                                                     </kbd>
                                                 )}
@@ -238,7 +250,7 @@ const Day3ToolsWorkflow: React.FC<Day3ToolsWorkflowProps> = ({ user, onComplete 
                                     </div>
                                     <button
                                         onClick={() => handleCompleteToolWalkthrough(tool.id)}
-                                        className="mt-4 w-full py-2 bg-green-500 hover:bg-green-400 text-white font-medium rounded-lg transition-all flex items-center justify-center gap-2"
+                                        className="mt-4 w-full py-2 bg-[#4CAF50] hover:bg-[#43A047] text-white font-medium rounded-lg transition-all flex items-center justify-center gap-2"
                                     >
                                         <Check className="w-4 h-4" /> Mark as Learned
                                     </button>
@@ -250,22 +262,22 @@ const Day3ToolsWorkflow: React.FC<Day3ToolsWorkflowProps> = ({ user, onComplete 
             </div>
 
             {/* Productivity Tips */}
-            <div className="bg-gradient-to-r from-amber-500/10 to-orange-500/10 rounded-xl border border-amber-500/30 p-6">
+            <div className="bg-gradient-to-r from-red-50 to-orange-50 rounded-xl border border-[#E60000]/20 p-6">
                 <div className="flex items-center gap-3 mb-4">
-                    <Lightbulb className="w-6 h-6 text-amber-400" />
-                    <h4 className="font-medium text-white">Insider Tips from Senior Engineers</h4>
+                    <Lightbulb className="w-6 h-6 text-[#E60000]" />
+                    <h4 className="font-medium text-black">Insider Tips from Senior Engineers</h4>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     {tips.map((tip) => (
-                        <div key={tip.id} className="bg-slate-900/50 rounded-lg p-4">
+                        <div key={tip.id} className="bg-white rounded-lg p-4 border border-[#E0E0E0]">
                             <div className="flex items-center gap-2 mb-2">
                                 <span className="text-lg">{tools.find(t => t.id === tip.toolId)?.icon}</span>
-                                <span className="text-xs text-slate-500">{tip.toolName}</span>
+                                <span className="text-xs text-[#9E9E9E]">{tip.toolName}</span>
                             </div>
-                            <h5 className="text-sm font-medium text-white mb-1">{tip.title}</h5>
-                            <p className="text-xs text-slate-400">{tip.description}</p>
+                            <h5 className="text-sm font-medium text-black mb-1">{tip.title}</h5>
+                            <p className="text-xs text-[#616161]">{tip.description}</p>
                             {tip.shortcutKey && (
-                                <kbd className="mt-2 inline-block px-2 py-0.5 bg-slate-800 border border-slate-700 rounded text-xs text-slate-400">
+                                <kbd className="mt-2 inline-block px-2 py-0.5 bg-[#F5F5F5] border border-[#E0E0E0] rounded text-xs text-[#616161]">
                                     {tip.shortcutKey}
                                 </kbd>
                             )}
@@ -280,23 +292,23 @@ const Day3ToolsWorkflow: React.FC<Day3ToolsWorkflowProps> = ({ user, onComplete 
         <div className="space-y-6">
             <div className="flex items-center justify-between">
                 <div>
-                    <h3 className="text-xl font-semibold text-white flex items-center gap-2">
-                        <Target className="w-6 h-6 text-blue-400" />
+                    <h3 className="text-xl font-semibold text-black flex items-center gap-2">
+                        <Target className="w-6 h-6 text-[#E60000]" />
                         First Task Simulator
                     </h3>
-                    <p className="text-slate-400 text-sm mt-1">
+                    <p className="text-[#616161] text-sm mt-1">
                         Practice in a safe sandbox environment. Errors are learning moments!
                     </p>
                 </div>
                 <div className="flex items-center gap-2">
-                    <span className="text-sm text-slate-400">Mode:</span>
+                    <span className="text-sm text-[#616161]">Mode:</span>
                     <button
                         onClick={toggleSimulatorMode}
                         className={`
                             px-3 py-1.5 rounded-lg text-sm font-medium transition-all
                             ${simulation.mode === 'GUIDED'
-                                ? 'bg-blue-500 text-white'
-                                : 'bg-slate-700 text-slate-300'}
+                                ? 'bg-[#E60000] text-white'
+                                : 'bg-[#E0E0E0] text-[#616161]'}
                         `}
                     >
                         🎓 Guided
@@ -307,7 +319,7 @@ const Day3ToolsWorkflow: React.FC<Day3ToolsWorkflowProps> = ({ user, onComplete 
                             px-3 py-1.5 rounded-lg text-sm font-medium transition-all
                             ${simulation.mode === 'CONFIDENCE'
                                 ? 'bg-purple-500 text-white'
-                                : 'bg-slate-700 text-slate-300'}
+                                : 'bg-[#E0E0E0] text-[#616161]'}
                         `}
                     >
                         🚀 Confidence
@@ -316,28 +328,28 @@ const Day3ToolsWorkflow: React.FC<Day3ToolsWorkflowProps> = ({ user, onComplete 
             </div>
 
             {/* Simulator Card */}
-            <div className="bg-slate-800/50 rounded-2xl border border-slate-700/50 overflow-hidden">
+            <div className="bg-[#FAFAFA] rounded-2xl border border-[#E0E0E0] overflow-hidden">
                 {/* Header */}
-                <div className="p-4 bg-slate-900/50 border-b border-slate-700 flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-blue-500/20 flex items-center justify-center">
-                        <FileText className="w-6 h-6 text-blue-400" />
+                <div className="p-4 bg-white border-b border-[#E0E0E0] flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-xl bg-red-50 flex items-center justify-center">
+                        <FileText className="w-6 h-6 text-[#E60000]" />
                     </div>
                     <div className="flex-1">
-                        <h4 className="font-medium text-white">{simulation.title}</h4>
-                        <p className="text-sm text-slate-400">{simulation.description}</p>
+                        <h4 className="font-medium text-black">{simulation.title}</h4>
+                        <p className="text-sm text-[#616161]">{simulation.description}</p>
                     </div>
                     <div className="text-right">
-                        <div className="text-sm text-slate-400">Progress</div>
-                        <div className="text-lg font-bold text-white">
+                        <div className="text-sm text-[#616161]">Progress</div>
+                        <div className="text-lg font-bold text-black">
                             {simulation.steps.filter(s => s.completed).length}/{simulation.steps.length}
                         </div>
                     </div>
                 </div>
 
                 {/* Progress Bar */}
-                <div className="h-1 bg-slate-700">
+                <div className="h-1 bg-[#E0E0E0]">
                     <div
-                        className="h-full bg-gradient-to-r from-blue-500 to-purple-500 transition-all duration-300"
+                        className="h-full bg-gradient-to-r from-[#E60000] to-purple-500 transition-all duration-300"
                         style={{ width: `${(simulation.steps.filter(s => s.completed).length / simulation.steps.length) * 100}%` }}
                     />
                 </div>
@@ -353,16 +365,16 @@ const Day3ToolsWorkflow: React.FC<Day3ToolsWorkflowProps> = ({ user, onComplete 
                                         key={step.id}
                                         className={`
                                             flex items-start gap-3 p-4 rounded-xl transition-all
-                                            ${index === currentStep ? 'bg-blue-500/10 border border-blue-500/30' : ''}
-                                            ${step.completed ? 'bg-green-500/10 border border-green-500/30' : ''}
+                                            ${index === currentStep ? 'bg-red-50 border border-[#E60000]/30' : ''}
+                                            ${step.completed ? 'bg-[#E8F5E9] border border-[#4CAF50]/30' : ''}
                                             ${index > currentStep && !step.completed ? 'opacity-50' : ''}
                                         `}
                                     >
                                         <div className={`
                                             w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0
-                                            ${step.completed ? 'bg-green-500 text-white' : ''}
-                                            ${index === currentStep && !step.completed ? 'bg-blue-500 text-white' : ''}
-                                            ${index > currentStep && !step.completed ? 'bg-slate-700 text-slate-400' : ''}
+                                            ${step.completed ? 'bg-[#4CAF50] text-white' : ''}
+                                            ${index === currentStep && !step.completed ? 'bg-[#E60000] text-white' : ''}
+                                            ${index > currentStep && !step.completed ? 'bg-[#E0E0E0] text-[#9E9E9E]' : ''}
                                         `}>
                                             {step.completed ? (
                                                 <Check className="w-4 h-4" />
@@ -371,17 +383,17 @@ const Day3ToolsWorkflow: React.FC<Day3ToolsWorkflowProps> = ({ user, onComplete 
                                             )}
                                         </div>
                                         <div className="flex-1">
-                                            <p className={`text-sm ${index === currentStep ? 'text-white font-medium' : 'text-slate-400'}`}>
+                                            <p className={`text-sm ${index === currentStep ? 'text-black font-medium' : 'text-[#616161]'}`}>
                                                 {step.instruction}
                                             </p>
                                             {index === currentStep && simulation.mode === 'GUIDED' && step.hint && showHint && (
-                                                <div className="mt-2 p-2 bg-amber-500/10 border border-amber-500/30 rounded-lg flex items-start gap-2">
-                                                    <Lightbulb className="w-4 h-4 text-amber-400 flex-shrink-0 mt-0.5" />
-                                                    <p className="text-xs text-amber-300">{step.hint}</p>
+                                                <div className="mt-2 p-2 bg-[#FFF3E0] border border-[#E65100]/30 rounded-lg flex items-start gap-2">
+                                                    <Lightbulb className="w-4 h-4 text-[#E65100] flex-shrink-0 mt-0.5" />
+                                                    <p className="text-xs text-[#E65100]">{step.hint}</p>
                                                 </div>
                                             )}
                                             {step.errorRecoveryGuidance && index === currentStep && (
-                                                <p className="mt-1 text-xs text-slate-500">
+                                                <p className="mt-1 text-xs text-[#9E9E9E]">
                                                     💡 {step.errorRecoveryGuidance}
                                                 </p>
                                             )}
@@ -395,14 +407,14 @@ const Day3ToolsWorkflow: React.FC<Day3ToolsWorkflowProps> = ({ user, onComplete 
                                 {simulation.mode === 'GUIDED' && simulation.steps[currentStep]?.hint && !showHint && (
                                     <button
                                         onClick={() => setShowHint(true)}
-                                        className="px-4 py-2 bg-amber-500/20 hover:bg-amber-500/30 text-amber-400 font-medium rounded-lg flex items-center gap-2 transition-all"
+                                        className="px-4 py-2 bg-[#FFF3E0] hover:bg-[#FFE0B2] text-[#E65100] font-medium rounded-lg flex items-center gap-2 transition-all"
                                     >
                                         <HelpCircle className="w-4 h-4" /> Show Hint
                                     </button>
                                 )}
                                 <button
                                     onClick={handleSimulatorStep}
-                                    className="flex-1 py-3 bg-blue-500 hover:bg-blue-400 text-white font-semibold rounded-xl transition-all flex items-center justify-center gap-2"
+                                    className="flex-1 py-3 bg-[#E60000] hover:bg-[#CC0000] text-white font-semibold rounded-xl transition-all flex items-center justify-center gap-2"
                                 >
                                     {currentStep < simulation.steps.length - 1 ? (
                                         <>Complete Step {currentStep + 1} <ChevronRight className="w-5 h-5" /></>
@@ -415,24 +427,24 @@ const Day3ToolsWorkflow: React.FC<Day3ToolsWorkflowProps> = ({ user, onComplete 
                     ) : (
                         /* Artifact Created */
                         <div className="text-center py-8">
-                            <div className="w-20 h-20 rounded-full bg-green-500/20 flex items-center justify-center mx-auto mb-4">
-                                <CheckCircle2 className="w-10 h-10 text-green-400" />
+                            <div className="w-20 h-20 rounded-full bg-[#E8F5E9] flex items-center justify-center mx-auto mb-4">
+                                <CheckCircle2 className="w-10 h-10 text-[#4CAF50]" />
                             </div>
-                            <h4 className="text-xl font-bold text-white mb-2">Artifact Created!</h4>
-                            <p className="text-slate-400 mb-6">
+                            <h4 className="text-xl font-bold text-black mb-2">Artifact Created!</h4>
+                            <p className="text-[#616161] mb-6">
                                 Your first task has been logged in the sandbox environment.
                             </p>
 
                             {/* Artifact Preview */}
-                            <div className="bg-slate-900/50 rounded-xl p-4 mb-6 text-left">
+                            <div className="bg-white rounded-xl p-4 mb-6 text-left border border-[#E0E0E0]">
                                 <div className="flex items-center gap-2 mb-2">
-                                    <FileText className="w-5 h-5 text-blue-400" />
-                                    <span className="text-sm font-medium text-white">
+                                    <FileText className="w-5 h-5 text-[#E60000]" />
+                                    <span className="text-sm font-medium text-black">
                                         {simulation.artifactType}: {simulation.artifactId}
                                     </span>
                                 </div>
-                                <p className="text-sm text-slate-400">{simulation.artifactPreview}</p>
-                                <div className="mt-3 flex items-center gap-2 text-xs text-slate-500">
+                                <p className="text-sm text-[#616161]">{simulation.artifactPreview}</p>
+                                <div className="mt-3 flex items-center gap-2 text-xs text-[#9E9E9E]">
                                     <Eye className="w-4 h-4" />
                                     <span>Manager will receive notification to review</span>
                                 </div>
@@ -440,7 +452,7 @@ const Day3ToolsWorkflow: React.FC<Day3ToolsWorkflowProps> = ({ user, onComplete 
 
                             <button
                                 onClick={() => setPhase('CONTRIBUTIONS')}
-                                className="px-6 py-3 bg-blue-500 hover:bg-blue-400 text-white font-semibold rounded-xl transition-all flex items-center justify-center gap-2 mx-auto"
+                                className="px-6 py-3 bg-[#E60000] hover:bg-[#CC0000] text-white font-semibold rounded-xl transition-all flex items-center justify-center gap-2 mx-auto"
                             >
                                 Continue to First Contributions <ChevronRight className="w-5 h-5" />
                             </button>
@@ -454,11 +466,11 @@ const Day3ToolsWorkflow: React.FC<Day3ToolsWorkflowProps> = ({ user, onComplete 
     const renderContributionsPhase = () => (
         <div className="space-y-6">
             <div>
-                <h3 className="text-xl font-semibold text-white flex items-center gap-2">
-                    <Sparkles className="w-6 h-6 text-purple-400" />
+                <h3 className="text-xl font-semibold text-black flex items-center gap-2">
+                    <Sparkles className="w-6 h-6 text-[#E60000]" />
                     First Contribution Path
                 </h3>
-                <p className="text-slate-400 text-sm mt-1">
+                <p className="text-[#616161] text-sm mt-1">
                     Small wins that help you feel useful and build confidence early.
                 </p>
             </div>
@@ -468,17 +480,17 @@ const Day3ToolsWorkflow: React.FC<Day3ToolsWorkflowProps> = ({ user, onComplete 
                     <div
                         key={contribution.id}
                         className={`
-                            bg-slate-800/50 rounded-xl border p-4 transition-all
-                            ${contribution.status === 'COMPLETED' ? 'border-green-500/30' : 'border-slate-700/50'}
+                            bg-[#FAFAFA] rounded-xl border p-4 transition-all
+                            ${contribution.status === 'COMPLETED' ? 'border-[#4CAF50]/30' : 'border-[#E0E0E0]'}
                         `}
                     >
                         <div className="flex items-start gap-4">
                             <div className={`
                                 w-10 h-10 rounded-lg flex items-center justify-center
-                                ${contribution.status === 'COMPLETED' ? 'bg-green-500/20 text-green-400' : ''}
-                                ${contribution.status === 'PENDING_CONFIRM' ? 'bg-amber-500/20 text-amber-400' : ''}
-                                ${contribution.status === 'IN_PROGRESS' ? 'bg-blue-500/20 text-blue-400' : ''}
-                                ${contribution.status === 'AVAILABLE' ? 'bg-slate-700 text-slate-400' : ''}
+                                ${contribution.status === 'COMPLETED' ? 'bg-[#E8F5E9] text-[#4CAF50]' : ''}
+                                ${contribution.status === 'PENDING_CONFIRM' ? 'bg-[#FFF3E0] text-[#E65100]' : ''}
+                                ${contribution.status === 'IN_PROGRESS' ? 'bg-red-50 text-[#E60000]' : ''}
+                                ${contribution.status === 'AVAILABLE' ? 'bg-[#E0E0E0] text-[#616161]' : ''}
                             `}>
                                 {contribution.type === 'STANDUP' && '🎤'}
                                 {contribution.type === 'DOCUMENT_UPDATE' && '📝'}
@@ -487,15 +499,15 @@ const Day3ToolsWorkflow: React.FC<Day3ToolsWorkflowProps> = ({ user, onComplete 
                                 {contribution.type === 'CODE_REVIEW' && '🔍'}
                             </div>
                             <div className="flex-1">
-                                <h4 className="font-medium text-white">{contribution.title}</h4>
-                                <p className="text-sm text-slate-400">{contribution.description}</p>
+                                <h4 className="font-medium text-black">{contribution.title}</h4>
+                                <p className="text-sm text-[#616161]">{contribution.description}</p>
 
                                 {/* Status Badge */}
                                 <div className="mt-2">
                                     {contribution.status === 'AVAILABLE' && (
                                         <button
                                             onClick={() => handleStartContribution(contribution.id)}
-                                            className="px-3 py-1.5 bg-blue-500 hover:bg-blue-400 text-white text-sm font-medium rounded-lg transition-all"
+                                            className="px-3 py-1.5 bg-[#E60000] hover:bg-[#CC0000] text-white text-sm font-medium rounded-lg transition-all"
                                         >
                                             Start
                                         </button>
@@ -503,18 +515,18 @@ const Day3ToolsWorkflow: React.FC<Day3ToolsWorkflowProps> = ({ user, onComplete 
                                     {contribution.status === 'IN_PROGRESS' && (
                                         <button
                                             onClick={() => handleCompleteContribution(contribution.id)}
-                                            className="px-3 py-1.5 bg-green-500 hover:bg-green-400 text-white text-sm font-medium rounded-lg transition-all"
+                                            className="px-3 py-1.5 bg-[#4CAF50] hover:bg-[#43A047] text-white text-sm font-medium rounded-lg transition-all"
                                         >
                                             Mark Complete
                                         </button>
                                     )}
                                     {contribution.status === 'PENDING_CONFIRM' && (
-                                        <span className="inline-flex items-center gap-1 px-3 py-1.5 bg-amber-500/20 text-amber-400 text-sm rounded-lg">
+                                        <span className="inline-flex items-center gap-1 px-3 py-1.5 bg-[#FFF3E0] text-[#E65100] text-sm rounded-lg">
                                             <AlertCircle className="w-4 h-4" /> Awaiting Manager Confirmation
                                         </span>
                                     )}
                                     {contribution.status === 'COMPLETED' && (
-                                        <span className="inline-flex items-center gap-1 px-3 py-1.5 bg-green-500/20 text-green-400 text-sm rounded-lg">
+                                        <span className="inline-flex items-center gap-1 px-3 py-1.5 bg-[#E8F5E9] text-[#4CAF50] text-sm rounded-lg">
                                             <Check className="w-4 h-4" /> Confirmed
                                         </span>
                                     )}
@@ -532,8 +544,8 @@ const Day3ToolsWorkflow: React.FC<Day3ToolsWorkflowProps> = ({ user, onComplete 
                 className={`
                     w-full py-4 font-semibold rounded-xl transition-all flex items-center justify-center gap-2
                     ${contributionsStarted
-                        ? 'bg-blue-500 hover:bg-blue-400 text-white'
-                        : 'bg-slate-700 text-slate-400 cursor-not-allowed'}
+                        ? 'bg-[#E60000] hover:bg-[#CC0000] text-white'
+                        : 'bg-[#E0E0E0] text-[#9E9E9E] cursor-not-allowed'}
                 `}
             >
                 {contributionsStarted ? (
@@ -552,13 +564,13 @@ const Day3ToolsWorkflow: React.FC<Day3ToolsWorkflowProps> = ({ user, onComplete 
         <div className="p-8 max-w-5xl mx-auto">
             {/* Header */}
             <div className="mb-8">
-                <p className="text-blue-400 text-sm font-bold uppercase tracking-wider mb-2">
+                <p className="text-[#E60000] text-sm font-bold uppercase tracking-wider mb-2">
                     Day 3 of 5
                 </p>
-                <h1 className="text-3xl font-bold text-white mb-2">
+                <h1 className="text-3xl font-bold text-black mb-2">
                     Tools, Workflow & Performance
                 </h1>
-                <p className="text-slate-400">
+                <p className="text-[#616161]">
                     How you get work done in this role. Practice makes confident!
                 </p>
             </div>
@@ -580,32 +592,32 @@ const Day3ToolsWorkflow: React.FC<Day3ToolsWorkflowProps> = ({ user, onComplete 
                             <div
                                 className={`
                                     flex items-center gap-2 px-4 py-2 rounded-xl transition-all
-                                    ${isActive ? 'bg-blue-500/20 border border-blue-500/50 text-white' : ''}
-                                    ${isPast ? 'bg-green-500/20 border border-green-500/50 text-green-400' : ''}
-                                    ${!isActive && !isPast ? 'bg-slate-800/50 text-slate-500' : ''}
+                                    ${isActive ? 'bg-red-50 border border-[#E60000] text-black' : ''}
+                                    ${isPast ? 'bg-[#E8F5E9] border border-[#4CAF50]/50 text-[#4CAF50]' : ''}
+                                    ${!isActive && !isPast ? 'bg-[#F5F5F5] text-[#9E9E9E]' : ''}
                                 `}
                             >
                                 {isPast ? <Check className="w-4 h-4" /> : <span>{p.icon}</span>}
                                 <span className="font-medium">{p.label}</span>
                             </div>
-                            {i < 2 && <ChevronRight className="w-5 h-5 text-slate-600" />}
+                            {i < 2 && <ChevronRight className="w-5 h-5 text-[#BDBDBD]" />}
                         </React.Fragment>
                     );
                 })}
             </div>
 
             {/* Phase Content */}
-            <div className="bg-slate-800/50 backdrop-blur-md rounded-2xl border border-slate-700/50 p-6">
+            <div className="bg-white backdrop-blur-md rounded-2xl border border-[#E0E0E0] p-6">
                 {phase === 'TOOLKIT' && renderToolkitPhase()}
                 {phase === 'SIMULATOR' && renderSimulatorPhase()}
                 {phase === 'CONTRIBUTIONS' && renderContributionsPhase()}
                 {phase === 'DONE' && (
                     <div className="text-center py-12">
-                        <div className="w-20 h-20 rounded-full bg-green-500/20 flex items-center justify-center mx-auto mb-4">
-                            <Check className="w-10 h-10 text-green-400" />
+                        <div className="w-20 h-20 rounded-full bg-[#E8F5E9] flex items-center justify-center mx-auto mb-4">
+                            <Check className="w-10 h-10 text-[#4CAF50]" />
                         </div>
-                        <h2 className="text-2xl font-bold text-white mb-2">Day 3 Complete!</h2>
-                        <p className="text-slate-400">Moving to Day 4: Network & Collaboration...</p>
+                        <h2 className="text-2xl font-bold text-black mb-2">Day 3 Complete!</h2>
+                        <p className="text-[#616161]">Moving to Day 4: Network & Collaboration...</p>
                     </div>
                 )}
             </div>

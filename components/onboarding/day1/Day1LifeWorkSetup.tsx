@@ -236,8 +236,8 @@ const Day1LifeWorkSetup: React.FC<Day1LifeWorkSetupProps> = ({
     const renderGreenLightModule = () => (
         <div className="space-y-4">
             <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-semibold text-white">System Readiness Checks</h3>
-                <span className="text-sm text-slate-400">
+                <h3 className="text-lg font-semibold text-black">System Readiness Checks</h3>
+                <span className="text-sm text-[#616161]">
                     {checks.filter(c => c.status === 'PASS').length}/{checks.length} Ready
                 </span>
             </div>
@@ -247,29 +247,29 @@ const Day1LifeWorkSetup: React.FC<Day1LifeWorkSetupProps> = ({
                         key={check.id}
                         className={`
                             flex items-center gap-4 p-4 rounded-xl border transition-all duration-300
-                            ${check.status === 'PASS' ? 'bg-green-500/10 border-green-500/30' : ''}
-                            ${check.status === 'FAIL' ? 'bg-red-500/10 border-red-500/30' : ''}
-                            ${check.status === 'CHECKING' ? 'bg-blue-500/10 border-blue-500/30' : ''}
-                            ${check.status === 'PENDING' ? 'bg-slate-800/50 border-slate-700/50' : ''}
+                            ${check.status === 'PASS' ? 'bg-[#E8F5E9] border-[#4CAF50]/30' : ''}
+                            ${check.status === 'FAIL' ? 'bg-[#FFEBEE] border-[#D32F2F]/30' : ''}
+                            ${check.status === 'CHECKING' ? 'bg-red-50 border-[#E60000]/30' : ''}
+                            ${check.status === 'PENDING' ? 'bg-[#F5F5F5] border-[#E0E0E0]' : ''}
                         `}
                     >
                         <div className={`
                             w-10 h-10 rounded-lg flex items-center justify-center text-xl
-                            ${check.status === 'PASS' ? 'bg-green-500/20' : ''}
-                            ${check.status === 'FAIL' ? 'bg-red-500/20' : ''}
-                            ${check.status === 'CHECKING' ? 'bg-blue-500/20' : ''}
-                            ${check.status === 'PENDING' ? 'bg-slate-700' : ''}
+                            ${check.status === 'PASS' ? 'bg-[#C8E6C9]' : ''}
+                            ${check.status === 'FAIL' ? 'bg-[#FFCDD2]' : ''}
+                            ${check.status === 'CHECKING' ? 'bg-red-100' : ''}
+                            ${check.status === 'PENDING' ? 'bg-[#E0E0E0]' : ''}
                         `}>
                             {check.icon}
                         </div>
                         <div className="flex-1 min-w-0">
-                            <p className="text-sm font-medium text-white">{check.label}</p>
-                            <p className="text-xs text-slate-400 truncate">{check.details}</p>
+                            <p className="text-sm font-medium text-black">{check.label}</p>
+                            <p className="text-xs text-[#757575] truncate">{check.details}</p>
                         </div>
-                        {check.status === 'PASS' && <Check className="w-5 h-5 text-green-400" />}
-                        {check.status === 'FAIL' && <AlertCircle className="w-5 h-5 text-red-400" />}
-                        {check.status === 'CHECKING' && <Loader2 className="w-5 h-5 text-blue-400 animate-spin" />}
-                        {check.status === 'PENDING' && <Circle className="w-5 h-5 text-slate-500" />}
+                        {check.status === 'PASS' && <Check className="w-5 h-5 text-[#4CAF50]" />}
+                        {check.status === 'FAIL' && <AlertCircle className="w-5 h-5 text-[#D32F2F]" />}
+                        {check.status === 'CHECKING' && <Loader2 className="w-5 h-5 text-[#E60000] animate-spin" />}
+                        {check.status === 'PENDING' && <Circle className="w-5 h-5 text-[#9E9E9E]" />}
                     </div>
                 ))}
             </div>
@@ -278,40 +278,40 @@ const Day1LifeWorkSetup: React.FC<Day1LifeWorkSetupProps> = ({
 
     const renderWorkEssentialsModule = () => (
         <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-white mb-4">Work Essentials</h3>
-            <p className="text-slate-400 text-sm mb-6">
+            <h3 className="text-lg font-semibold text-black mb-4">Work Essentials</h3>
+            <p className="text-[#616161] text-sm mb-6">
                 Learn how to manage your time off, expenses, and view company holidays.
             </p>
             {workEssentials.map((item) => (
-                <div key={item.id} className="bg-slate-800/50 rounded-xl border border-slate-700/50 overflow-hidden">
+                <div key={item.id} className="bg-white rounded-xl border border-[#E0E0E0] overflow-hidden">
                     <div className="p-4 flex items-center gap-4">
                         <div className={`
                             w-12 h-12 rounded-xl flex items-center justify-center
-                            ${item.completed ? 'bg-green-500/20 text-green-400' : 'bg-slate-700 text-slate-400'}
+                            ${item.completed ? 'bg-[#E8F5E9] text-[#4CAF50]' : 'bg-[#F5F5F5] text-[#757575]'}
                         `}>
                             {item.category === 'LEAVE' && <Calendar className="w-6 h-6" />}
                             {item.category === 'EXPENSES' && <Receipt className="w-6 h-6" />}
                             {item.category === 'HOLIDAY_CALENDAR' && <Calendar className="w-6 h-6" />}
                         </div>
                         <div className="flex-1">
-                            <p className="font-medium text-white">{item.title}</p>
-                            <p className="text-sm text-slate-400">{item.description}</p>
+                            <p className="font-medium text-black">{item.title}</p>
+                            <p className="text-sm text-[#616161]">{item.description}</p>
                         </div>
                         {item.completed ? (
-                            <div className="px-3 py-1.5 bg-green-500/20 text-green-400 text-sm rounded-lg flex items-center gap-1">
+                            <div className="px-3 py-1.5 bg-[#E8F5E9] text-[#4CAF50] text-sm rounded-lg flex items-center gap-1">
                                 <Check className="w-4 h-4" /> Done
                             </div>
                         ) : item.interactiveDemo ? (
                             <button
                                 onClick={() => handleStartDemo(item.id)}
-                                className="px-4 py-2 bg-blue-500 hover:bg-blue-400 text-white text-sm font-medium rounded-lg flex items-center gap-2 transition-all"
+                                className="px-4 py-2 bg-[#E60000] hover:bg-[#CC0000] text-white text-sm font-medium rounded-lg flex items-center gap-2 transition-all"
                             >
                                 <Play className="w-4 h-4" /> Start Demo
                             </button>
                         ) : (
                             <button
                                 onClick={() => setWorkEssentials(prev => prev.map(w => w.id === item.id ? { ...w, completed: true } : w))}
-                                className="px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white text-sm font-medium rounded-lg transition-all"
+                                className="px-4 py-2 bg-[#F5F5F5] hover:bg-[#E0E0E0] text-black text-sm font-medium rounded-lg transition-all border border-[#E0E0E0]"
                             >
                                 View & Complete
                             </button>
@@ -320,22 +320,22 @@ const Day1LifeWorkSetup: React.FC<Day1LifeWorkSetupProps> = ({
 
                     {/* Interactive Demo */}
                     {activeDemo === item.id && item.demoSteps && (
-                        <div className="p-4 bg-slate-900/50 border-t border-slate-700">
+                        <div className="p-4 bg-[#FAFAFA] border-t border-[#E0E0E0]">
                             <div className="flex items-center gap-2 mb-4">
-                                <span className="text-xs text-blue-400 font-medium">
+                                <span className="text-xs text-[#E60000] font-medium">
                                     Step {demoStep + 1} of {item.demoSteps.length}
                                 </span>
-                                <div className="flex-1 h-1 bg-slate-700 rounded-full overflow-hidden">
+                                <div className="flex-1 h-1 bg-[#E0E0E0] rounded-full overflow-hidden">
                                     <div
-                                        className="h-full bg-blue-500 transition-all"
+                                        className="h-full bg-[#E60000] transition-all"
                                         style={{ width: `${((demoStep + 1) / item.demoSteps.length) * 100}%` }}
                                     />
                                 </div>
                             </div>
-                            <p className="text-white mb-4">{item.demoSteps[demoStep]}</p>
+                            <p className="text-black mb-4">{item.demoSteps[demoStep]}</p>
                             <button
                                 onClick={() => handleDemoNext(item)}
-                                className="px-4 py-2 bg-blue-500 hover:bg-blue-400 text-white text-sm font-medium rounded-lg flex items-center gap-2 transition-all"
+                                className="px-4 py-2 bg-[#E60000] hover:bg-[#CC0000] text-white text-sm font-medium rounded-lg flex items-center gap-2 transition-all"
                             >
                                 {demoStep < item.demoSteps.length - 1 ? 'Next Step' : 'Complete Demo'}
                                 <ChevronRight className="w-4 h-4" />
@@ -349,16 +349,16 @@ const Day1LifeWorkSetup: React.FC<Day1LifeWorkSetupProps> = ({
 
     const renderDailyLogisticsModule = () => (
         <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-white mb-4">Daily Life Logistics</h3>
-            <p className="text-slate-400 text-sm mb-6">
+            <h3 className="text-lg font-semibold text-black mb-4">Daily Life Logistics</h3>
+            <p className="text-[#616161] text-sm mb-6">
                 Everything you need to know about commuting, parking, meals, and workplace facilities.
             </p>
             <div className="grid grid-cols-1 gap-3">
                 {dailyLogistics.map((item) => (
-                    <div key={item.id} className="bg-slate-800/50 rounded-xl border border-slate-700/50 p-4 flex items-center gap-4">
+                    <div key={item.id} className="bg-white rounded-xl border border-[#E0E0E0] p-4 flex items-center gap-4">
                         <div className={`
                             w-12 h-12 rounded-xl flex items-center justify-center
-                            ${item.status === 'COMPLETED' ? 'bg-green-500/20 text-green-400' : 'bg-slate-700 text-slate-400'}
+                            ${item.status === 'COMPLETED' ? 'bg-[#E8F5E9] text-[#4CAF50]' : 'bg-[#F5F5F5] text-[#757575]'}
                         `}>
                             {item.category === 'COMMUTE' && <Car className="w-6 h-6" />}
                             {item.category === 'PARKING' && <Car className="w-6 h-6" />}
@@ -367,17 +367,17 @@ const Day1LifeWorkSetup: React.FC<Day1LifeWorkSetupProps> = ({
                             {item.category === 'WIFI_PRINTER' && <Wifi className="w-6 h-6" />}
                         </div>
                         <div className="flex-1">
-                            <p className="font-medium text-white">{item.title}</p>
-                            <p className="text-sm text-slate-400">{item.description}</p>
+                            <p className="font-medium text-black">{item.title}</p>
+                            <p className="text-sm text-[#616161]">{item.description}</p>
                         </div>
                         {item.status === 'COMPLETED' ? (
-                            <div className="px-3 py-1.5 bg-green-500/20 text-green-400 text-sm rounded-lg flex items-center gap-1">
+                            <div className="px-3 py-1.5 bg-[#E8F5E9] text-[#4CAF50] text-sm rounded-lg flex items-center gap-1">
                                 <Check className="w-4 h-4" /> Done
                             </div>
                         ) : (
                             <button
                                 onClick={() => handleCompleteLogistic(item.id)}
-                                className="px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white text-sm font-medium rounded-lg transition-all"
+                                className="px-4 py-2 bg-[#F5F5F5] hover:bg-[#E0E0E0] text-black text-sm font-medium rounded-lg transition-all border border-[#E0E0E0]"
                             >
                                 {item.actionLabel || 'View'}
                             </button>
@@ -390,16 +390,16 @@ const Day1LifeWorkSetup: React.FC<Day1LifeWorkSetupProps> = ({
 
     const renderPayrollBenefitsModule = () => (
         <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-white mb-4">Payroll & Benefits</h3>
-            <p className="text-slate-400 text-sm mb-6">
+            <h3 className="text-lg font-semibold text-black mb-4">Payroll & Benefits</h3>
+            <p className="text-[#616161] text-sm mb-6">
                 Understand your compensation, benefits, and required forms.
             </p>
             <div className="grid grid-cols-1 gap-3">
                 {payrollBenefits.map((item) => (
-                    <div key={item.id} className="bg-slate-800/50 rounded-xl border border-slate-700/50 p-4 flex items-center gap-4">
+                    <div key={item.id} className="bg-white rounded-xl border border-[#E0E0E0] p-4 flex items-center gap-4">
                         <div className={`
                             w-12 h-12 rounded-xl flex items-center justify-center
-                            ${item.completed ? 'bg-green-500/20 text-green-400' : 'bg-slate-700 text-slate-400'}
+                            ${item.completed ? 'bg-[#E8F5E9] text-[#4CAF50]' : 'bg-[#F5F5F5] text-[#757575]'}
                         `}>
                             {item.category === 'PAYROLL' && <Wallet className="w-6 h-6" />}
                             {item.category === 'INSURANCE' && <Heart className="w-6 h-6" />}
@@ -408,24 +408,24 @@ const Day1LifeWorkSetup: React.FC<Day1LifeWorkSetupProps> = ({
                             {item.category === 'TAX' && <FileSignature className="w-6 h-6" />}
                         </div>
                         <div className="flex-1">
-                            <p className="font-medium text-white flex items-center gap-2">
+                            <p className="font-medium text-black flex items-center gap-2">
                                 {item.title}
                                 {item.requiresSignature && (
-                                    <span className="text-xs px-2 py-0.5 bg-amber-500/20 text-amber-400 rounded">
+                                    <span className="text-xs px-2 py-0.5 bg-[#FFF3E0] text-[#E65100] rounded">
                                         Signature Required
                                     </span>
                                 )}
                             </p>
-                            <p className="text-sm text-slate-400">{item.description}</p>
+                            <p className="text-sm text-[#616161]">{item.description}</p>
                         </div>
                         {item.completed ? (
-                            <div className="px-3 py-1.5 bg-green-500/20 text-green-400 text-sm rounded-lg flex items-center gap-1">
+                            <div className="px-3 py-1.5 bg-[#E8F5E9] text-[#4CAF50] text-sm rounded-lg flex items-center gap-1">
                                 <Check className="w-4 h-4" /> {item.signedAt ? 'Signed' : 'Done'}
                             </div>
                         ) : (
                             <button
                                 onClick={() => handleCompletePayroll(item.id)}
-                                className="px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white text-sm font-medium rounded-lg transition-all"
+                                className="px-4 py-2 bg-[#F5F5F5] hover:bg-[#E0E0E0] text-black text-sm font-medium rounded-lg transition-all border border-[#E0E0E0]"
                             >
                                 {item.requiresSignature ? 'Sign Now' : 'Review'}
                             </button>
@@ -438,40 +438,40 @@ const Day1LifeWorkSetup: React.FC<Day1LifeWorkSetupProps> = ({
 
     const renderDigitalReadinessModule = () => (
         <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-white mb-4">Digital Readiness</h3>
-            <p className="text-slate-400 text-sm mb-6">
+            <h3 className="text-lg font-semibold text-black mb-4">Digital Readiness</h3>
+            <p className="text-[#616161] text-sm mb-6">
                 Verify your access to essential systems and complete security setup.
             </p>
             <div className="grid grid-cols-1 gap-3">
                 {digitalReadiness.map((item) => (
-                    <div key={item.id} className="bg-slate-800/50 rounded-xl border border-slate-700/50 p-4 flex items-center gap-4">
+                    <div key={item.id} className="bg-white rounded-xl border border-[#E0E0E0] p-4 flex items-center gap-4">
                         <div className={`
                             w-12 h-12 rounded-xl flex items-center justify-center
-                            ${item.status === 'VERIFIED' ? 'bg-green-500/20 text-green-400' : ''}
-                            ${item.status === 'FAILED' ? 'bg-red-500/20 text-red-400' : ''}
-                            ${item.status === 'NOT_STARTED' || item.status === 'IN_PROGRESS' ? 'bg-slate-700 text-slate-400' : ''}
+                            ${item.status === 'VERIFIED' ? 'bg-[#E8F5E9] text-[#4CAF50]' : ''}
+                            ${item.status === 'FAILED' ? 'bg-[#FFEBEE] text-[#D32F2F]' : ''}
+                            ${item.status === 'NOT_STARTED' || item.status === 'IN_PROGRESS' ? 'bg-[#F5F5F5] text-[#757575]' : ''}
                         `}>
                             <Key className="w-6 h-6" />
                         </div>
                         <div className="flex-1">
-                            <p className="font-medium text-white">{item.title}</p>
-                            <p className="text-sm text-slate-400">{item.description}</p>
+                            <p className="font-medium text-black">{item.title}</p>
+                            <p className="text-sm text-[#616161]">{item.description}</p>
                         </div>
                         {item.status === 'VERIFIED' ? (
-                            <div className="px-3 py-1.5 bg-green-500/20 text-green-400 text-sm rounded-lg flex items-center gap-1">
+                            <div className="px-3 py-1.5 bg-[#E8F5E9] text-[#4CAF50] text-sm rounded-lg flex items-center gap-1">
                                 <CheckCircle2 className="w-4 h-4" /> Verified
                             </div>
                         ) : item.status === 'FAILED' ? (
                             <button
                                 onClick={() => handleVerifyDigital(item.id)}
-                                className="px-4 py-2 bg-red-500 hover:bg-red-400 text-white text-sm font-medium rounded-lg transition-all"
+                                className="px-4 py-2 bg-[#D32F2F] hover:bg-[#B71C1C] text-white text-sm font-medium rounded-lg transition-all"
                             >
                                 Retry
                             </button>
                         ) : (
                             <button
                                 onClick={() => handleVerifyDigital(item.id)}
-                                className="px-4 py-2 bg-blue-500 hover:bg-blue-400 text-white text-sm font-medium rounded-lg transition-all"
+                                className="px-4 py-2 bg-[#E60000] hover:bg-[#CC0000] text-white text-sm font-medium rounded-lg transition-all"
                             >
                                 Verify Now
                             </button>
@@ -484,17 +484,17 @@ const Day1LifeWorkSetup: React.FC<Day1LifeWorkSetupProps> = ({
 
     const renderSafetyWellbeingModule = () => (
         <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-white mb-4">Safety & Wellbeing</h3>
-            <p className="text-slate-400 text-sm mb-6">
+            <h3 className="text-lg font-semibold text-black mb-4">Safety & Wellbeing</h3>
+            <p className="text-[#616161] text-sm mb-6">
                 Important safety procedures and wellbeing resources available to you.
             </p>
             <div className="grid grid-cols-1 gap-3">
                 {safetyWellbeing.map((item) => (
-                    <div key={item.id} className="bg-slate-800/50 rounded-xl border border-slate-700/50 p-4">
+                    <div key={item.id} className="bg-white rounded-xl border border-[#E0E0E0] p-4">
                         <div className="flex items-center gap-4">
                             <div className={`
                                 w-12 h-12 rounded-xl flex items-center justify-center
-                                ${item.acknowledged ? 'bg-green-500/20 text-green-400' : 'bg-amber-500/20 text-amber-400'}
+                                ${item.acknowledged ? 'bg-[#E8F5E9] text-[#4CAF50]' : 'bg-[#FFF3E0] text-[#E65100]'}
                             `}>
                                 {item.category === 'EMERGENCY' && <AlertTriangle className="w-6 h-6" />}
                                 {item.category === 'EVACUATION' && <MapPin className="w-6 h-6" />}
@@ -502,17 +502,17 @@ const Day1LifeWorkSetup: React.FC<Day1LifeWorkSetupProps> = ({
                                 {item.category === 'ACCESSIBILITY' && <Shield className="w-6 h-6" />}
                             </div>
                             <div className="flex-1">
-                                <p className="font-medium text-white">{item.title}</p>
-                                <p className="text-sm text-slate-400">{item.description}</p>
+                                <p className="font-medium text-black">{item.title}</p>
+                                <p className="text-sm text-[#616161]">{item.description}</p>
                             </div>
                             {item.acknowledged ? (
-                                <div className="px-3 py-1.5 bg-green-500/20 text-green-400 text-sm rounded-lg flex items-center gap-1">
+                                <div className="px-3 py-1.5 bg-[#E8F5E9] text-[#4CAF50] text-sm rounded-lg flex items-center gap-1">
                                     <Check className="w-4 h-4" /> Acknowledged
                                 </div>
                             ) : (
                                 <button
                                     onClick={() => handleAcknowledgeSafety(item.id)}
-                                    className="px-4 py-2 bg-amber-500 hover:bg-amber-400 text-white text-sm font-medium rounded-lg transition-all"
+                                    className="px-4 py-2 bg-[#FF9800] hover:bg-[#F57C00] text-white text-sm font-medium rounded-lg transition-all"
                                 >
                                     Acknowledge
                                 </button>
@@ -526,39 +526,39 @@ const Day1LifeWorkSetup: React.FC<Day1LifeWorkSetupProps> = ({
 
     const renderPrivacyModule = () => (
         <div className="space-y-6">
-            <h3 className="text-lg font-semibold text-white mb-4">Privacy Settings</h3>
-            <p className="text-slate-400 text-sm mb-6">
-                Control how your data is used within Living OS. We believe in transparency.
+            <h3 className="text-lg font-semibold text-black mb-4">Privacy Settings</h3>
+            <p className="text-[#616161] text-sm mb-6">
+                Control how your data is used within Workplace Hub. We believe in transparency.
             </p>
 
             {/* Data Collection Notice */}
-            <div className="bg-slate-800/50 rounded-xl border border-slate-700/50 p-6">
-                <h4 className="font-medium text-white mb-4">What data we collect</h4>
-                <ul className="text-sm text-slate-400 space-y-2">
+            <div className="bg-white rounded-xl border border-[#E0E0E0] p-6">
+                <h4 className="font-medium text-black mb-4">What data we collect</h4>
+                <ul className="text-sm text-[#616161] space-y-2">
                     <li className="flex items-start gap-2">
-                        <Check className="w-4 h-4 text-blue-400 mt-0.5 flex-shrink-0" />
+                        <Check className="w-4 h-4 text-[#E60000] mt-0.5 flex-shrink-0" />
                         <span>Learning progress and completion data to personalize your experience</span>
                     </li>
                     <li className="flex items-start gap-2">
-                        <Check className="w-4 h-4 text-blue-400 mt-0.5 flex-shrink-0" />
+                        <Check className="w-4 h-4 text-[#E60000] mt-0.5 flex-shrink-0" />
                         <span>Tool usage patterns to suggest productivity improvements</span>
                     </li>
                     <li className="flex items-start gap-2">
-                        <Check className="w-4 h-4 text-blue-400 mt-0.5 flex-shrink-0" />
+                        <Check className="w-4 h-4 text-[#E60000] mt-0.5 flex-shrink-0" />
                         <span>Collaboration patterns to identify helpful connections</span>
                     </li>
                 </ul>
             </div>
 
             {/* Safe Mode */}
-            <div className="bg-slate-800/50 rounded-xl border border-slate-700/50 p-6">
+            <div className="bg-white rounded-xl border border-[#E0E0E0] p-6">
                 <div className="flex items-center justify-between mb-4">
                     <div>
-                        <h4 className="font-medium text-white flex items-center gap-2">
+                        <h4 className="font-medium text-black flex items-center gap-2">
                             {privacySettings.safeMode ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                             Safe Mode
                         </h4>
-                        <p className="text-sm text-slate-400 mt-1">
+                        <p className="text-sm text-[#616161] mt-1">
                             When enabled, your learning activity and performance signals are hidden from your manager's view.
                         </p>
                     </div>
@@ -566,7 +566,7 @@ const Day1LifeWorkSetup: React.FC<Day1LifeWorkSetupProps> = ({
                         onClick={() => setPrivacySettings(prev => ({ ...prev, safeMode: !prev.safeMode }))}
                         className={`
                             relative w-12 h-6 rounded-full transition-all
-                            ${privacySettings.safeMode ? 'bg-blue-500' : 'bg-slate-600'}
+                            ${privacySettings.safeMode ? 'bg-[#E60000]' : 'bg-[#BDBDBD]'}
                         `}
                     >
                         <span className={`
@@ -578,8 +578,8 @@ const Day1LifeWorkSetup: React.FC<Day1LifeWorkSetupProps> = ({
             </div>
 
             {/* Learning Visibility */}
-            <div className="bg-slate-800/50 rounded-xl border border-slate-700/50 p-6">
-                <h4 className="font-medium text-white mb-4">Learning Activity Visibility</h4>
+            <div className="bg-white rounded-xl border border-[#E0E0E0] p-6">
+                <h4 className="font-medium text-black mb-4">Learning Activity Visibility</h4>
                 <div className="flex gap-2">
                     {(['VISIBLE', 'TEAM_ONLY', 'PRIVATE'] as const).map((option) => (
                         <button
@@ -588,8 +588,8 @@ const Day1LifeWorkSetup: React.FC<Day1LifeWorkSetupProps> = ({
                             className={`
                                 flex-1 py-2 px-3 rounded-lg text-sm font-medium transition-all
                                 ${privacySettings.learningVisibility === option
-                                    ? 'bg-blue-500 text-white'
-                                    : 'bg-slate-700 text-slate-400 hover:bg-slate-600'}
+                                    ? 'bg-[#E60000] text-white'
+                                    : 'bg-[#F5F5F5] text-[#616161] hover:bg-[#E0E0E0] border border-[#E0E0E0]'}
                             `}
                         >
                             {option === 'VISIBLE' && '🌐 Public'}
@@ -608,7 +608,7 @@ const Day1LifeWorkSetup: React.FC<Day1LifeWorkSetupProps> = ({
                         dataRetentionAcknowledged: true,
                         lastUpdated: new Date().toISOString()
                     }))}
-                    className="w-full py-3 bg-blue-500 hover:bg-blue-400 text-white font-semibold rounded-xl transition-all flex items-center justify-center gap-2"
+                    className="w-full py-3 bg-[#E60000] hover:bg-[#CC0000] text-white font-semibold rounded-xl transition-all flex items-center justify-center gap-2"
                 >
                     <Check className="w-5 h-5" />
                     I understand and accept these privacy settings
@@ -616,9 +616,9 @@ const Day1LifeWorkSetup: React.FC<Day1LifeWorkSetupProps> = ({
             )}
 
             {privacySettings.dataRetentionAcknowledged && (
-                <div className="p-4 bg-green-500/10 border border-green-500/30 rounded-xl text-center">
-                    <Check className="w-8 h-8 text-green-400 mx-auto mb-2" />
-                    <p className="text-green-400 font-medium">Privacy settings configured</p>
+                <div className="p-4 bg-[#E8F5E9] border border-[#4CAF50]/30 rounded-xl text-center">
+                    <Check className="w-8 h-8 text-[#4CAF50] mx-auto mb-2" />
+                    <p className="text-[#4CAF50] font-medium">Privacy settings configured</p>
                 </div>
             )}
         </div>
@@ -628,28 +628,28 @@ const Day1LifeWorkSetup: React.FC<Day1LifeWorkSetupProps> = ({
         <div className="p-8 max-w-5xl mx-auto">
             {/* Header */}
             <div className="mb-8">
-                <p className="text-blue-400 text-sm font-bold uppercase tracking-wider mb-2">
+                <p className="text-[#E60000] text-sm font-bold uppercase tracking-wider mb-2">
                     Day 1 of 5
                 </p>
-                <h1 className="text-3xl font-bold text-white mb-2">
+                <h1 className="text-3xl font-bold text-black mb-2">
                     Life & Work Setup
                 </h1>
-                <p className="text-slate-400">
+                <p className="text-[#616161]">
                     Everything you need to function comfortably starting tomorrow.
                 </p>
             </div>
 
             {/* Progress Overview */}
-            <div className="bg-slate-800/50 backdrop-blur-md rounded-2xl border border-slate-700/50 p-6 mb-8">
+            <div className="bg-white backdrop-blur-md rounded-2xl border border-[#E0E0E0] p-6 mb-8">
                 <div className="flex items-center justify-between mb-4">
-                    <h2 className="text-lg font-semibold text-white">Today's Progress</h2>
-                    <span className="text-sm text-slate-400">
+                    <h2 className="text-lg font-semibold text-black">Today's Progress</h2>
+                    <span className="text-sm text-[#616161]">
                         {completedModulesCount}/{DAY1_MODULES.length} modules complete
                     </span>
                 </div>
-                <div className="h-2 bg-slate-700 rounded-full overflow-hidden mb-6">
+                <div className="h-2 bg-[#E0E0E0] rounded-full overflow-hidden mb-6">
                     <div
-                        className="h-full bg-gradient-to-r from-blue-500 to-blue-400 transition-all duration-500"
+                        className="h-full bg-gradient-to-r from-[#E60000] to-[#FF1A1A] transition-all duration-500"
                         style={{ width: `${(completedModulesCount / DAY1_MODULES.length) * 100}%` }}
                     />
                 </div>
@@ -666,20 +666,20 @@ const Day1LifeWorkSetup: React.FC<Day1LifeWorkSetupProps> = ({
                                 onClick={() => setActiveModule(module.id)}
                                 className={`
                                     p-3 rounded-xl text-center transition-all
-                                    ${isActive ? 'bg-blue-500/20 border-2 border-blue-500' : 'bg-slate-800/50 border border-slate-700/50 hover:border-slate-600'}
+                                    ${isActive ? 'bg-red-50 border-2 border-[#E60000]' : 'bg-[#F5F5F5] border border-[#E0E0E0] hover:border-[#BDBDBD]'}
                                 `}
                             >
                                 <div className={`
                                     w-8 h-8 rounded-lg mx-auto mb-2 flex items-center justify-center text-lg
-                                    ${progress.complete ? 'bg-green-500/20' : 'bg-slate-700'}
+                                    ${progress.complete ? 'bg-[#E8F5E9]' : 'bg-[#E0E0E0]'}
                                 `}>
                                     {progress.complete ? (
-                                        <Check className="w-4 h-4 text-green-400" />
+                                        <Check className="w-4 h-4 text-[#4CAF50]" />
                                     ) : (
                                         <span>{module.icon}</span>
                                     )}
                                 </div>
-                                <p className="text-xs text-slate-300 font-medium truncate">{module.title}</p>
+                                <p className="text-xs text-[#424242] font-medium truncate">{module.title}</p>
                             </button>
                         );
                     })}
@@ -687,7 +687,7 @@ const Day1LifeWorkSetup: React.FC<Day1LifeWorkSetupProps> = ({
             </div>
 
             {/* Active Module Content */}
-            <div className="bg-slate-800/50 backdrop-blur-md rounded-2xl border border-slate-700/50 p-6 mb-8">
+            <div className="bg-white backdrop-blur-md rounded-2xl border border-[#E0E0E0] p-6 mb-8">
                 {renderModuleContent()}
             </div>
 
@@ -698,13 +698,13 @@ const Day1LifeWorkSetup: React.FC<Day1LifeWorkSetupProps> = ({
                 className={`
                     w-full py-4 font-semibold rounded-xl transition-all flex items-center justify-center gap-2
                     ${allModulesComplete
-                        ? 'bg-blue-500 hover:bg-blue-400 text-white'
-                        : 'bg-slate-700 text-slate-400 cursor-not-allowed'}
+                        ? 'bg-[#E60000] hover:bg-[#CC0000] text-white'
+                        : 'bg-[#E0E0E0] text-[#9E9E9E] cursor-not-allowed'}
                 `}
             >
                 {allModulesComplete ? (
                     <>
-                        Complete Day 1 — Proceed to Cultural OS
+                        Complete Day 1 — Proceed to Company Culture
                         <ChevronRight className="w-5 h-5" />
                     </>
                 ) : (

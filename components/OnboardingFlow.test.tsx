@@ -5,7 +5,7 @@ import OnboardingFlow from './OnboardingFlow';
 describe('OnboardingFlow Integration', () => {
     it('renders Day 1 initially', () => {
         render(<OnboardingFlow onComplete={vi.fn()} />);
-        expect(screen.getByText('Zero-Touch Admin')).toBeInTheDocument();
+        expect(screen.getByText('Automated Setup')).toBeInTheDocument();
         expect(screen.getByText('Confirm Profile')).toBeInTheDocument();
     });
 
@@ -22,7 +22,7 @@ describe('OnboardingFlow Integration', () => {
         });
 
         // Check if Day 2 content is visible
-        expect(screen.getByText('Cultural OS')).toBeInTheDocument();
+        expect(screen.getByText('Company Culture')).toBeInTheDocument();
 
         vi.useRealTimers();
     });
@@ -54,7 +54,7 @@ describe('OnboardingFlow Integration', () => {
 
         // Day 5 -> Complete
         expect(screen.getByText('Onboarding Complete')).toBeInTheDocument();
-        const enterButton = screen.getByText('Enter Role Cockpit');
+        const enterButton = screen.getByText('Enter Daily Dashboard');
         fireEvent.click(enterButton);
 
         act(() => {

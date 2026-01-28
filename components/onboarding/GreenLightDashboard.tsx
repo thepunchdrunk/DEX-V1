@@ -106,7 +106,7 @@ const GreenLightDashboard: React.FC<GreenLightDashboardProps> = ({
                     Day 1 of 5
                 </p>
                 <h1 className="text-3xl font-bold text-white mb-2">
-                    Zero-Touch Admin
+                    Automated Setup
                 </h1>
                 <p className="text-slate-400">
                     Let's make sure everything is ready for your first day. We're running background checks on your systems.
@@ -119,13 +119,13 @@ const GreenLightDashboard: React.FC<GreenLightDashboardProps> = ({
                     <h2 className="text-xl font-semibold text-white flex items-center gap-2">
                         <div
                             className={`w-3 h-3 rounded-full ${allPassed
-                                    ? 'bg-green-400 animate-pulse'
-                                    : phase === 'CHECKING'
-                                        ? 'bg-blue-400 animate-pulse'
-                                        : 'bg-amber-400'
+                                ? 'bg-green-400 animate-pulse'
+                                : phase === 'CHECKING'
+                                    ? 'bg-blue-400 animate-pulse'
+                                    : 'bg-amber-400'
                                 }`}
                         />
-                        Green Light Dashboard
+                        Readiness Check
                     </h2>
                     <span className="text-sm text-slate-400">
                         {passCount}/{checks.length} Ready
@@ -306,7 +306,7 @@ const GreenLightDashboard: React.FC<GreenLightDashboardProps> = ({
                         <Check className="w-10 h-10 text-green-400" />
                     </div>
                     <h2 className="text-2xl font-bold text-white mb-2">Day 1 Complete!</h2>
-                    <p className="text-slate-400">Moving to Day 2: Cultural OS...</p>
+                    <p className="text-slate-400">Moving to Day 2: Company Culture...</p>
                 </div>
             )}
         </div>

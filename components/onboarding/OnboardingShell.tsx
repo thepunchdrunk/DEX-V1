@@ -37,20 +37,20 @@ const OnboardingShell: React.FC<OnboardingShellProps> = ({
     onDayComplete,
     onGraduate,
 }) => {
-    // If user is employee and on day 0, start at day 1
-    const initialDay = (user.role === 'EMPLOYEE' && user.onboardingDay === 0) ? 1 : user.onboardingDay;
-    const [currentDay, setCurrentDay] = useState<OnboardingDay>(initialDay);
+    // All roles start at Day 1 (Setup & Essentials). Day 0 (Preboarding) is removed.
+    const initialDay = (user.onboardingDay > 0) ? user.onboardingDay : 1;
+    const [currentDay, setCurrentDay] = useState<OnboardingDay>(initialDay as OnboardingDay);
 
     // Feature flag to toggle between legacy and enhanced components
     const useEnhancedComponents = true;
 
     const days: { day: OnboardingDay; title: string; description: string }[] = [
         { day: 0, title: 'Preboarding', description: 'Get ready before Day 1' },
-        { day: 1, title: 'Life & Work Setup', description: 'Everything to function comfortably' },
-        { day: 2, title: 'Cultural OS', description: 'Learn our unwritten rules' },
+        { day: 1, title: 'Setup & Essentials', description: 'Everything to function comfortably' },
+        { day: 2, title: 'Company Culture', description: 'Learn our unwritten rules' },
         { day: 3, title: 'Tools & Workflow', description: 'How you get work done' },
-        { day: 4, title: 'Network Mapper', description: 'Connect with your Critical 5' },
-        { day: 5, title: 'Graduation Day', description: 'Complete your journey' },
+        { day: 4, title: 'Team Connections', description: 'Connect with your Critical 5' },
+        { day: 5, title: 'Completion Day', description: 'Complete your journey' },
     ];
 
     const handleDayComplete = (day: OnboardingDay) => {
@@ -142,20 +142,19 @@ const OnboardingShell: React.FC<OnboardingShellProps> = ({
 
     return (
         <div
-            className="min-h-screen flex"
-            style={{ background: THEME_COLORS.onboarding.background }}
+            className="min-h-screen flex bg-white"
         >
             {/* Sidebar: Day Navigation */}
-            <aside className="w-72 border-r border-blue-900/30 bg-slate-900/50 backdrop-blur-md p-6 flex flex-col hidden md:flex">
+            <aside className="w-72 border-r border-[#E0E0E0] bg-[#FAFAFA] backdrop-blur-md p-6 flex flex-col hidden md:flex">
                 {/* Header */}
                 <div className="mb-8">
                     <div className="flex items-center gap-2 mb-2">
-                        <div className="h-8 w-8 rounded-lg bg-blue-500 flex items-center justify-center">
+                        <div className="h-8 w-8 rounded-lg bg-[#E60000] flex items-center justify-center">
                             <Sparkles className="h-4 w-4 text-white" />
                         </div>
-                        <span className="text-lg font-bold text-white">Living OS</span>
+                        <span className="text-lg font-bold text-black">Workplace Hub</span>
                     </div>
-                    <p className="text-blue-300/70">Onboarding Sprint</p>
+                    <p className="text-[#757575]">Onboarding Period</p>
                 </div>
 
                 <div className="mb-6">
@@ -166,7 +165,7 @@ const OnboardingShell: React.FC<OnboardingShellProps> = ({
                                 window.location.reload();
                             }
                         }}
-                        className="w-full py-2 px-3 bg-slate-800 hover:bg-red-900/20 text-slate-400 hover:text-red-400 text-xs rounded-lg transition-colors flex items-center justify-center gap-2 mb-2"
+                        className="w-full py-2 px-3 bg-white hover:bg-red-50 text-[#757575] hover:text-[#E60000] text-xs rounded-lg transition-colors flex items-center justify-center gap-2 mb-2 border border-[#E0E0E0]"
                     >
                         <RefreshCw className="w-3 h-3" /> Reset Demo
                     </button>
@@ -180,26 +179,22 @@ const OnboardingShell: React.FC<OnboardingShellProps> = ({
                                 }
                             });
                             // Force update by calling onDayComplete with the fully unlocked user
-                            // We need to trigger the parent update logic.
-                            // Since we don't have a direct "updateUser" prop, we'll simulate completing the current day
-                            // but pass the fully modified object if the parent supports merging.
-                            // A better approach if parent JUST replaces user:
-                            onDayComplete(5); // Hack: Completing day 5 usually triggers graduation or full unlock
+                            onDayComplete(5);
                             alert('Demo Mode: All days unlocked! (Refresh if needed)');
                         }}
-                        className="w-full py-2 px-3 bg-slate-800 hover:bg-blue-900/20 text-slate-400 hover:text-blue-400 text-xs rounded-lg transition-colors flex items-center justify-center gap-2 mb-4"
+                        className="w-full py-2 px-3 bg-white hover:bg-red-50 text-[#757575] hover:text-[#E60000] text-xs rounded-lg transition-colors flex items-center justify-center gap-2 mb-4 border border-[#E0E0E0]"
                     >
                         <Unlock className="w-3 h-3" /> Unlock All (Demo)
                     </button>
-                    <div className="flex justify-between text-xs text-slate-400 mb-2">
+                    <div className="flex justify-between text-xs text-[#757575] mb-2">
                         <span>Progress</span>
                         <span>
                             {Object.values(user.dayProgress).filter((d: any) => d.completed).length}/6
                         </span>
                     </div>
-                    <div className="h-2 bg-slate-800 rounded-full overflow-hidden">
+                    <div className="h-2 bg-[#E0E0E0] rounded-full overflow-hidden">
                         <div
-                            className="h-full bg-gradient-to-r from-blue-500 to-blue-400 transition-all duration-500"
+                            className="h-full bg-[#E60000] transition-all duration-500"
                             style={{
                                 width: `${(Object.values(user.dayProgress).filter((d: any) => d.completed).length /
                                     6) *
@@ -213,7 +208,7 @@ const OnboardingShell: React.FC<OnboardingShellProps> = ({
                 {/* Navigation List */}
                 <nav className="space-y-2 flex-1">
                     {days
-                        .filter(item => user.role === 'MANAGER' || item.day !== 0) // Hide Day 0 for employees
+                        .filter(item => item.day !== 0) // Hide Day 0 for everyone
                         .map((item) => {
                             const status = getDayStatus(item.day);
                             const isActive = status === 'active';
@@ -227,27 +222,27 @@ const OnboardingShell: React.FC<OnboardingShellProps> = ({
                                     className={`
 w-full p-3 rounded-xl text-left transition-all border
                                         ${isActive
-                                            ? 'bg-blue-600 border-blue-500 shadow-lg shadow-blue-900/20'
-                                            : 'border-transparent hover:bg-white/5'
+                                            ? 'bg-[#E60000] border-[#E60000] shadow-lg shadow-red-900/20'
+                                            : 'border-transparent hover:bg-gray-100'
                                         }
                                         ${isLocked ? 'opacity-50 cursor-not-allowed' : ''}
 `}
                                 >
                                     <div className="flex items-center justify-between mb-1">
                                         <span
-                                            className={`text-sm font-semibold ${isActive ? 'text-white' : 'text-slate-300'}`}
+                                            className={`text-sm font-semibold ${isActive ? 'text-white' : 'text-black'}`}
                                         >
                                             Day {item.day}
                                         </span>
                                         {status === 'completed' && (
-                                            <Check className="h-4 w-4 text-green-400" />
+                                            <Check className="h-4 w-4 text-[#4CAF50]" />
                                         )}
                                         {status === 'locked' && (
-                                            <Lock className="h-3 w-3 text-slate-500" />
+                                            <Lock className="h-3 w-3 text-[#BDBDBD]" />
                                         )}
                                     </div>
                                     <div
-                                        className={`text-xs ${isActive ? 'text-blue-100' : 'text-slate-500'}`}
+                                        className={`text-xs ${isActive ? 'text-white/80' : 'text-[#757575]'}`}
                                     >
                                         {item.title}
                                     </div>
@@ -257,15 +252,15 @@ w-full p-3 rounded-xl text-left transition-all border
                 </nav>
 
                 {/* User Profile Snippet */}
-                <div className="mt-8 pt-6 border-t border-slate-800 flex items-center gap-3">
-                    <div className="h-10 w-10 rounded-full bg-gradient-to-tr from-purple-500 to-blue-500 flex items-center justify-center text-white font-bold">
+                <div className="mt-8 pt-6 border-t border-[#E0E0E0] flex items-center gap-3">
+                    <div className="h-10 w-10 rounded-full bg-gradient-to-tr from-gray-700 to-black flex items-center justify-center text-white font-bold">
                         {user.name.charAt(0)}
                     </div>
                     <div className="flex-1 min-w-0">
-                        <div className="text-sm font-medium text-white truncate">
+                        <div className="text-sm font-medium text-black truncate">
                             {user.name}
                         </div>
-                        <div className="text-xs text-slate-500 truncate">
+                        <div className="text-xs text-[#757575] truncate">
                             {user.jobTitle}
                         </div>
                     </div>
@@ -273,18 +268,14 @@ w-full p-3 rounded-xl text-left transition-all border
             </aside>
 
             {/* Main Content Area */}
-            <main className="flex-1 overflow-y-auto relative">
-                {/* Background Ambient Effects */}
-                <div className="absolute inset-0 pointer-events-none overflow-hidden">
-                    <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-                    <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-purple-500/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
-                </div>
+            <main className="flex-1 overflow-y-auto relative bg-white">
+                {/* Background Ambient Effects - Removed for Bright Mode */}
 
                 <div className="relative z-10 min-h-full">
                     {/* Mobile Header (similar to sidebar logic but for small screens) */}
-                    <div className="md:hidden bg-slate-900/80 backdrop-blur-md p-4 sticky top-0 z-20 border-b border-slate-800 flex justify-between items-center">
-                        <span className="text-white font-bold">Day {currentDay}</span>
-                        <div className="text-xs text-slate-400">
+                    <div className="md:hidden bg-white backdrop-blur-md p-4 sticky top-0 z-20 border-b border-[#E0E0E0] flex justify-between items-center">
+                        <span className="text-black font-bold">Day {currentDay}</span>
+                        <div className="text-xs text-[#616161]">
                             {Object.values(user.dayProgress).filter((d: any) => d.completed).length}/6
                         </div>
                     </div>

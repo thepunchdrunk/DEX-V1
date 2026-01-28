@@ -1,5 +1,5 @@
 // ============================================================================
-// LIVING OS v2 — GEMINI AI SERVICE
+// WORKPLACE HUB v2 — GEMINI AI SERVICE
 // Contextual Performance Engine — Master System Prompt v2 Implementation
 // ============================================================================
 
@@ -194,7 +194,7 @@ function getFallbackDaily3(cognitiveLoad: CognitiveLoadState): DailyCard[] {
 // MASTER SYSTEM PROMPT v2
 // ============================================================================
 const MASTER_SYSTEM_PROMPT = `
-You are the intelligence layer of an enterprise platform called **Living OS**.
+You are the intelligence layer of an enterprise platform called **Workplace Hub**.
 
 Your role is to function as a **Contextual Performance Engine** that continuously reduces employee uncertainty and increases clarity, capability, and forward momentum at work.
 
@@ -300,7 +300,7 @@ If significant divergence is detected, generate Market Gap guidance tied to Grow
 
 ---
 
-## MAGIC SEARCH (INTENT TO ACTION)
+## QUICK ACTIONS (INTENT TO ACTION)
 
 When users express intent, map to executable actions where safe.
 
@@ -464,7 +464,7 @@ Return a JSON array of 3 cards.
           freshness: 90,
           completeness: 85,
           behavioralReliability: 80,
-          sources: ["Living OS AI"],
+          sources: ["Workplace Hub AI"],
           lastUpdated: new Date().toISOString(),
         },
         cognitiveLoadAware: card.type !== "CRITICAL",
@@ -583,7 +583,7 @@ export const calibrateTrust = (
 };
 
 // ============================================================================
-// MAGIC SEARCH (Intent to Action)
+// QUICK ACTIONS (Intent to Action)
 // ============================================================================
 export const interpretMagicSearch = async (
   query: string,
@@ -602,7 +602,7 @@ Team: ${userContext.team}
 
 ---
 
-## TASK: Magic Search Intent Classification
+## TASK: Quick Actions Intent Classification
 
 Analyze this user query: "${query}"
 

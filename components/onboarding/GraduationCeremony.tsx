@@ -182,7 +182,7 @@ const GraduationCeremony: React.FC<GraduationCeremonyProps> = ({
                             Launching Performance Mode...
                         </h1>
                         <p className="text-slate-400">
-                            Switching to your personalized cockpit
+                            Switching to your personalized dashboard
                         </p>
                     </div>
                 )}

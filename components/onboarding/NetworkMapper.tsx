@@ -71,7 +71,7 @@ const NetworkMapper: React.FC<NetworkMapperProps> = ({ user, onComplete }) => {
                 <p className="text-blue-400 text-sm font-bold uppercase tracking-wider mb-2">
                     Day 4 of 5
                 </p>
-                <h1 className="text-3xl font-bold text-white mb-2">The Network Mapper</h1>
+                <h1 className="text-3xl font-bold text-white mb-2">Team Connections</h1>
                 <p className="text-slate-400">
                     We've identified your "Critical 5" — key people who'll help you succeed. Let's break the ice!
                 </p>

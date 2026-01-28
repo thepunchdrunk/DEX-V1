@@ -93,7 +93,7 @@ const CulturalOS: React.FC<CulturalOSProps> = ({ onComplete }) => {
                 <p className="text-blue-400 text-sm font-bold uppercase tracking-wider mb-2">
                     Day 2 of 5
                 </p>
-                <h1 className="text-3xl font-bold text-white mb-2">The Cultural OS</h1>
+                <h1 className="text-3xl font-bold text-white mb-2">Company Culture</h1>
                 <p className="text-slate-400">
                     Learn our unwritten rules through interactive scenarios and our AI culture guide.
                 </p>
@@ -181,8 +181,8 @@ const CulturalOS: React.FC<CulturalOSProps> = ({ onComplete }) => {
                                                             )}
                                                             <span
                                                                 className={`text-sm font-medium ${choice.isRecommended
-                                                                        ? 'text-green-400'
-                                                                        : 'text-amber-400'
+                                                                    ? 'text-green-400'
+                                                                    : 'text-amber-400'
                                                                     }`}
                                                             >
                                                                 {choice.isRecommended ? 'Good choice!' : 'Almost right'}

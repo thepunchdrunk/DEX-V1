@@ -1,7 +1,6 @@
-// ============================================================================
-// LIVING OS — MOCK DATA & CONSTANTS
-// Original Specification Implementation
-// ============================================================================
+// WORKPLACE HUB — MOCK DATA & CONSTANTS
+// "Workplace Hub" Employee Experience Platform
+
 
 import {
   UserProfile,
@@ -49,7 +48,7 @@ export const MOCK_USER: UserProfile = {
 };
 
 // ----------------------------------------------------------------------------
-// DAY 1: GREEN LIGHT DASHBOARD
+// DAY 1: READINESS CHECK
 // ----------------------------------------------------------------------------
 export const GREEN_LIGHT_CHECKS: GreenLightCheck[] = [
   {
@@ -107,6 +106,42 @@ export const GREEN_LIGHT_CHECKS: GreenLightCheck[] = [
     details: 'Badge #A3847 - Collect from Security',
     icon: '🪪',
   },
+  {
+    id: 'hw-safety-kit',
+    label: 'Safety Equipment',
+    category: 'HARDWARE',
+    status: 'PASS',
+    details: 'Steel-toe boots & hi-vis vest at Locker 42',
+    icon: '🦺',
+    roleCategories: ['FRONTLINE'],
+  },
+  {
+    id: 'hw-tablet-pro',
+    label: 'Ops Tablet',
+    category: 'HARDWARE',
+    status: 'PASS',
+    details: 'iPad Pro with rugged case - Ready at Floor 2 Hub',
+    icon: '📱',
+    roleCategories: ['FRONTLINE'],
+  },
+  {
+    id: 'hw-badge-rfid',
+    label: 'RFID Access Badge',
+    category: 'FACILITY',
+    status: 'PASS',
+    details: 'All-zone access enabled',
+    icon: '🆔',
+    roleCategories: ['FRONTLINE', 'HYBRID'],
+  },
+  {
+    id: 'hw-stipend',
+    label: 'Remote Office Stipend',
+    category: 'HARDWARE',
+    status: 'PASS',
+    details: '$500 credit applied to your portal',
+    icon: '💰',
+    roleCategories: ['REMOTE'],
+  },
 
 
   {
@@ -120,14 +155,14 @@ export const GREEN_LIGHT_CHECKS: GreenLightCheck[] = [
 ];
 
 // ----------------------------------------------------------------------------
-// DAY 2: CULTURAL MICRO-SCENARIOS
+// DAY 2: CULTURE SCENARIOS
 // ----------------------------------------------------------------------------
 export const MICRO_SCENARIOS: MicroScenario[] = [
   {
     id: 'scenario-1',
     title: 'Speed vs. Perfection',
     description:
-      "You're working on a feature that's 90% complete. The PM asks if it can ship today. There's a minor edge case bug that affects <1% of users.",
+      "You're working on a feature that's 90% complete. The PM asks if it can ship today. There's a minor edge case bug.",
     culturalDimension: 'SPEED_VS_PERFECTION',
     choices: [
       {
@@ -257,6 +292,7 @@ export const CRITICAL_PARTNERS: CriticalPartner[] = [
       "Hi Marcus! I'm Alex, the new Senior QA joining the team. I'd love to grab 15 min to understand the API testing landscape. Coffee this week?",
     platform: 'SLACK',
     connected: false,
+    roleCategories: ['DESK', 'REMOTE', 'HYBRID'],
   },
   {
     id: 'partner-2',
@@ -270,6 +306,7 @@ export const CRITICAL_PARTNERS: CriticalPartner[] = [
       "Hi Priya! I'm Alex, just joined as Senior QA. Would love to understand the product priorities to align my testing strategy. Free for a quick intro?",
     platform: 'TEAMS',
     connected: false,
+    roleCategories: ['DESK', 'REMOTE', 'HYBRID'],
   },
   {
     id: 'partner-3',
@@ -283,6 +320,7 @@ export const CRITICAL_PARTNERS: CriticalPartner[] = [
       "Hey Jordan! New Senior QA here. I'll be setting up test automation and would love to sync on CI/CD best practices. Quick chat?",
     platform: 'SLACK',
     connected: false,
+    roleCategories: ['DESK', 'REMOTE', 'HYBRID'],
   },
   {
     id: 'partner-4',
@@ -296,6 +334,7 @@ export const CRITICAL_PARTNERS: CriticalPartner[] = [
       "Hi Emily! I'm Alex, just starting as Senior QA. I'd love to learn from your experience here. Would you be open to a mentoring coffee chat?",
     platform: 'SLACK',
     connected: false,
+    roleCategories: ['DESK', 'REMOTE', 'HYBRID'],
   },
   {
     id: 'partner-5',
@@ -309,18 +348,19 @@ export const CRITICAL_PARTNERS: CriticalPartner[] = [
       "Hi David! New Senior QA joining. Security testing is a growth area for me. Would appreciate learning about our security testing practices. Free this week?",
     platform: 'TEAMS',
     connected: false,
+    roleCategories: ['DESK', 'REMOTE', 'HYBRID'],
   },
 ];
 
 // ----------------------------------------------------------------------------
-// ROLE-BASED COCKPIT: DAILY 3 CARDS
+// DAILY DASHBOARD: DAILY 3 CARDS
 // ----------------------------------------------------------------------------
 export const MOCK_CONTEXT_ANCHOR: ContextAnchorCard = {
   id: 'card-anchor-1',
   slot: 'CONTEXT_ANCHOR',
   title: 'Q4 Sprint Velocity Report',
   description:
-    'Engineering velocity dropped 12% last sprint. Root cause: unplanned security patches. New prioritization meeting scheduled.',
+    'Engineering velocity dropped 12% last sprint. Root cause: unplanned security patches.',
   source: 'Engineering Weekly',
   sourceType: 'INTERNAL',
   timestamp: new Date().toISOString(),
@@ -332,6 +372,7 @@ export const MOCK_CONTEXT_ANCHOR: ContextAnchorCard = {
   kpiType: 'DEPARTMENT',
   kpiValue: '42 story points',
   kpiChange: -12,
+  roleCategories: ['DESK', 'REMOTE', 'HYBRID'],
 };
 
 export const MOCK_DOMAIN_EDGE: DomainEdgeCard = {
@@ -339,7 +380,7 @@ export const MOCK_DOMAIN_EDGE: DomainEdgeCard = {
   slot: 'DOMAIN_EDGE',
   title: 'Playwright 2.0 Released',
   description:
-    'Major update to Playwright testing framework. New features: Component testing, API mocking improvements, 40% faster execution.',
+    'Major update to Playwright testing framework. New features: Component testing, API mocking improvements.',
   source: 'Tech Radar',
   sourceType: 'EXTERNAL',
   timestamp: new Date().toISOString(),
@@ -351,6 +392,7 @@ export const MOCK_DOMAIN_EDGE: DomainEdgeCard = {
   industry: 'Software Testing',
   relevanceScore: 92,
   trendType: 'TECHNOLOGY',
+  roleCategories: ['DESK', 'REMOTE'],
 };
 
 export const MOCK_MICRO_SKILL: MicroSkillCard = {
@@ -358,8 +400,8 @@ export const MOCK_MICRO_SKILL: MicroSkillCard = {
   slot: 'MICRO_SKILL',
   title: 'Jira Keyboard Shortcuts',
   description:
-    'You spent 2.5 hours in Jira yesterday. Try these shortcuts: "C" to create issue, "J/K" to navigate, "E" to edit.',
-  source: 'Living OS',
+    'Try these shortcuts: "C" to create issue, "J/K" to navigate, "E" to edit.',
+  source: 'Workplace Hub',
   sourceType: 'SYSTEM',
   timestamp: new Date().toISOString(),
   priority: 'LOW',
@@ -369,12 +411,77 @@ export const MOCK_MICRO_SKILL: MicroSkillCard = {
   frictionSource: 'Jira',
   frictionMetric: '2.5 hours spent',
   tipType: 'SHORTCUT',
+  roleCategories: ['DESK', 'REMOTE', 'HYBRID'],
+};
+
+export const MOCK_MANAGER_ALERT: DailyCard = {
+  id: 'card-mgr-1',
+  slot: 'CONTEXT_ANCHOR',
+  title: 'Team Readiness Alert',
+  description: 'Two team members are failing their Day 1 Digital Setup. Click to view help tickets.',
+  source: 'Manager Hub',
+  sourceType: 'SYSTEM',
+  timestamp: new Date().toISOString(),
+  priority: 'CRITICAL',
+  actionLabel: 'View Readiness',
+  read: false,
+  flagged: false,
+  roleCategories: ['DESK', 'FRONTLINE', 'REMOTE', 'HYBRID'], // visible to all managers
+};
+
+export const MOCK_FRONTLINE_SAFETY: DailyCard = {
+  id: 'card-front-1',
+  slot: 'DOMAIN_EDGE',
+  title: 'New Safety Protocol: Zone 4',
+  description: 'Updated guidelines for high-pressure valve maintenance are now in effect.',
+  source: 'Facility Ops',
+  sourceType: 'INTERNAL',
+  timestamp: new Date().toISOString(),
+  priority: 'HIGH',
+  actionLabel: 'Review Protocol',
+  read: false,
+  flagged: false,
+  roleCategories: ['FRONTLINE'],
+};
+
+export const MOCK_REMOTE_SUCCESS: DailyCard = {
+  id: 'card-remote-1',
+  slot: 'DOMAIN_EDGE',
+  title: 'Async Mastery: Slack Threads',
+  description: 'Protip: Using Slack threads for all technical discussions increases team visibility by 40% for remote members.',
+  source: 'Remote Excellence',
+  sourceType: 'EXTERNAL',
+  timestamp: new Date().toISOString(),
+  priority: 'MEDIUM',
+  actionLabel: 'Read Best Practices',
+  read: false,
+  flagged: false,
+  roleCategories: ['REMOTE'],
+};
+
+export const MOCK_LEADERSHIP_TIP: DailyCard = {
+  id: 'card-lead-1',
+  slot: 'MICRO_SKILL',
+  title: 'Leadership: High-Trust 1:1s',
+  description: 'Protip: Spend the first 10 minutes of every 1:1 on personal check-ins. High-trust teams are 50% more productive.',
+  source: 'People Operations',
+  sourceType: 'INTERNAL',
+  timestamp: new Date().toISOString(),
+  priority: 'MEDIUM',
+  actionLabel: 'View Meeting Guide',
+  read: false,
+  flagged: false,
+  roleCategories: ['MANAGER'], // Specifically for managers
 };
 
 export const MOCK_DAILY_CARDS: DailyCard[] = [
   MOCK_CONTEXT_ANCHOR,
   MOCK_DOMAIN_EDGE,
   MOCK_MICRO_SKILL,
+  MOCK_MANAGER_ALERT,
+  MOCK_FRONTLINE_SAFETY,
+  MOCK_REMOTE_SUCCESS,
+  MOCK_LEADERSHIP_TIP,
 ];
 
 // ----------------------------------------------------------------------------
@@ -695,6 +802,37 @@ export const PREBOARDING_ITEMS: PreboardingItem[] = [
     responsibleTeam: 'IT Security',
     estimatedCompletion: '2024-01-21',
     icon: '📱',
+    roleCategories: ['DESK', 'REMOTE', 'FRONTLINE'],
+  },
+  {
+    id: 'pb-safety',
+    category: 'IDENTITY',
+    label: 'Safety Certification',
+    description: 'Verify OSHA/Safety training status for Zone 4',
+    status: 'PENDING',
+    responsibleTeam: 'Safety Ops',
+    icon: '🛡️',
+    roleCategories: ['FRONTLINE'],
+  },
+  {
+    id: 'pb-ppe',
+    category: 'DEVICE',
+    label: 'PPE Kit Sizing',
+    description: 'Confirm sizes for steel-toe boots & hi-vis gear',
+    status: 'IN_PROGRESS',
+    responsibleTeam: 'Facility Ops',
+    icon: '🦺',
+    roleCategories: ['FRONTLINE'],
+  },
+  {
+    id: 'pb-shift',
+    category: 'TEAM',
+    label: 'Shift Assignment',
+    description: 'Review initial schedule and Zone 4 locker',
+    status: 'READY',
+    responsibleTeam: 'Shift Manager',
+    icon: '📅',
+    roleCategories: ['FRONTLINE'],
   },
   {
     id: 'pb-badge',
@@ -704,6 +842,7 @@ export const PREBOARDING_ITEMS: PreboardingItem[] = [
     status: 'READY',
     responsibleTeam: 'Facilities',
     icon: '🪪',
+    roleCategories: ['DESK', 'REMOTE', 'FRONTLINE'],
   },
   {
     id: 'pb-parking',
@@ -1048,7 +1187,7 @@ export const DAY1_MODULES: Day1Module[] = [
 ];
 
 // ============================================================================
-// DAY 2: ENHANCED CULTURAL OS
+// DAY 2: ENHANCED COMPANY CULTURE
 // ============================================================================
 export const ROLE_BASED_SCENARIOS: RoleBasedScenario[] = [
   ...MICRO_SCENARIOS.map(s => ({
@@ -1076,6 +1215,28 @@ export const ROLE_BASED_SCENARIOS: RoleBasedScenario[] = [
         text: 'Respond immediately with all needed context so they can act on it',
         isRecommended: true,
         feedback: 'Great! In remote work, front-loading context in async messages keeps everyone productive.',
+      },
+    ],
+  },
+  {
+    id: 'scenario-frontline-1',
+    title: 'Eyes on Safety',
+    description: 'You notice a minor oil spill in Zone 3. It\'s not your assigned area for the shift.',
+    culturalDimension: 'SPEED_VS_PERFECTION' as const,
+    roleCategory: 'FRONTLINE',
+    difficulty: 'MEDIUM',
+    choices: [
+      {
+        id: 'fl-choice-1a',
+        text: 'Report it immediately via Master Control',
+        isRecommended: true,
+        feedback: 'Correct! Safety is everyone\'s responsibility regardless of zone assignment.',
+      },
+      {
+        id: 'fl-choice-1b',
+        text: 'Continue to your area and assume the Zone 3 lead will see it',
+        isRecommended: false,
+        feedback: 'In our culture, "See something, say something" is the gold standard for safety.',
       },
     ],
   },
@@ -1256,6 +1417,7 @@ export const COFFEE_CHAT_SUGGESTIONS: CoffeeChatSuggestion[] = [
     reason: 'Your assigned buddy - great for informal questions about team dynamics',
     suggestedTopics: ['Team traditions', 'Best lunch spots', 'Hidden features in our tools'],
     scheduled: false,
+    roleCategories: ['DESK', 'REMOTE', 'HYBRID'],
   },
   {
     id: 'ccs-2',
@@ -1265,6 +1427,7 @@ export const COFFEE_CHAT_SUGGESTIONS: CoffeeChatSuggestion[] = [
     reason: 'Cross-functional perspective on how design and QA collaborate',
     suggestedTopics: ['Design handoff process', 'Accessibility testing', 'User feedback loops'],
     scheduled: false,
+    roleCategories: ['DESK', 'REMOTE', 'HYBRID'],
   },
 ];
 
@@ -1345,17 +1508,47 @@ export const WORK_TOOLS: WorkTool[] = [
     upstreamTools: [],
     downstreamTools: ['tool-jira'],
     walkthroughCompleted: false,
+    roleCategories: ['DESK', 'REMOTE', 'HYBRID'],
     quickActions: [
       { id: 'fig-1', label: 'View Designs', description: 'Browse latest mockups' },
       { id: 'fig-2', label: 'Leave Comment', description: 'Provide design feedback' },
     ],
-    roleCategories: ['DESK', 'REMOTE'],
+  },
+  {
+    id: 'tool-salesforce',
+    name: 'Salesforce',
+    icon: '☁️',
+    category: 'CORE',
+    purpose: 'CRM and pipeline management',
+    upstreamTools: [],
+    downstreamTools: ['tool-slack'],
+    walkthroughCompleted: false,
+    quickActions: [
+      { id: 'sf-1', label: 'Search Lead', description: 'Find potential customers' },
+      { id: 'sf-2', label: 'Add Opportunity', description: 'Track a new deal' },
+    ],
+    roleCategories: ['REMOTE', 'DESK'],
+  },
+  {
+    id: 'tool-mrp',
+    name: 'Master Control',
+    icon: '🏭',
+    category: 'CORE',
+    purpose: 'Manufacturing resource planning and shift logs',
+    upstreamTools: [],
+    downstreamTools: [],
+    walkthroughCompleted: false,
+    quickActions: [
+      { id: 'mrp-1', label: 'View Shift Schedule', description: 'See upcoming shift assignments' },
+      { id: 'mrp-2', label: 'Log Incident', description: 'Report floor safety/prod issues' },
+    ],
+    roleCategories: ['FRONTLINE'],
   },
 ];
 
 export const FIRST_TASK_SIMULATION_QA: FirstTaskSimulation = {
   id: 'fts-qa-1',
-  roleCategory: 'QA',
+  roleCategory: 'DESK',
   title: 'Log Your First Bug',
   description: 'Practice logging a bug report in our staging Jira environment',
   mode: 'GUIDED',
@@ -1390,6 +1583,104 @@ export const FIRST_TASK_SIMULATION_QA: FirstTaskSimulation = {
     },
   ],
   artifactType: 'TICKET',
+  managerReviewed: false,
+};
+
+export const FIRST_TASK_SIMULATION_MANAGER: FirstTaskSimulation = {
+  id: 'fts-mgr-1',
+  roleCategory: 'DESK',
+  title: 'Approve First Resource Request',
+  description: 'Practice reviewing and approving a team budget request',
+  mode: 'GUIDED',
+  steps: [
+    {
+      id: 'step-1',
+      instruction: 'Open the "Action Queue" in Manager Cockpit',
+      hint: 'Look for the "Pending Approvals" tab',
+      completed: false,
+    },
+    {
+      id: 'step-2',
+      instruction: 'Select the "Team Training Budget" request from Alex Thompson',
+      completed: false,
+    },
+    {
+      id: 'step-3',
+      instruction: 'Review the justification and budget impact',
+      completed: false,
+    },
+    {
+      id: 'step-4',
+      instruction: 'Click "Approve" and add a comment: "Approved for Q1 development."',
+      completed: false,
+    },
+  ],
+  artifactType: 'APPROVAL',
+  managerReviewed: true,
+};
+
+export const FIRST_TASK_SIMULATION_FRONTLINE: FirstTaskSimulation = {
+  id: 'fts-frontline-1',
+  roleCategory: 'FRONTLINE',
+  title: 'Complete Shift Safety Inspection',
+  description: 'Practice logging a safety check in the Master Control system',
+  mode: 'GUIDED',
+  steps: [
+    {
+      id: 'step-1',
+      instruction: 'Open the Master Control app on your tablet',
+      hint: 'Tape the 🏭 icon on your home screen',
+      completed: false,
+    },
+    {
+      id: 'step-2',
+      instruction: 'Select "Shift Start Checklist"',
+      completed: false,
+    },
+    {
+      id: 'step-3',
+      instruction: 'Verify Safety Station status and Floor Hazards',
+      completed: false,
+    },
+    {
+      id: 'step-4',
+      instruction: 'Submit the log and sync with central ops',
+      completed: false,
+    },
+  ],
+  artifactType: 'SAFETY_LOG',
+  managerReviewed: false,
+};
+
+export const FIRST_TASK_SIMULATION_SALES: FirstTaskSimulation = {
+  id: 'fts-sales-1',
+  roleCategory: 'REMOTE',
+  title: 'Log First Client Discovery',
+  description: 'Practice updating a lead status in Salesforce',
+  mode: 'GUIDED',
+  steps: [
+    {
+      id: 'step-1',
+      instruction: 'Search for "Acme Global" in the Salesforce Leads tab',
+      completed: false,
+    },
+    {
+      id: 'step-2',
+      instruction: 'Change status to "Discovery Phase"',
+      completed: false,
+    },
+    {
+      id: 'step-3',
+      instruction: 'Add a meeting note: "Initial discovery call complete. Interests include cloud scaling."',
+      completed: false,
+    },
+    {
+      id: 'step-4',
+      instruction: 'Schedule a follow-up task for next Tuesday',
+      completed: false,
+    },
+  ],
+  artifactType: 'CRM_RECORD',
   managerReviewed: false,
 };
 
@@ -1760,7 +2051,7 @@ export const MOCK_MANAGER_SIGNOFF: ManagerSignoff = {
 };
 
 // ============================================================================
-// ADVANCED COCKPIT FEATURES — MOCK DATA
+// ADVANCED DASHBOARD FEATURES — MOCK DATA
 // ============================================================================
 
 import {
@@ -2021,7 +2312,7 @@ export const FRIDAY_MICRO_SKILL: MicroSkillCard = {
   slot: 'MICRO_SKILL',
   title: 'Weekly Reflection: Test Coverage Gaps',
   description: 'This week you wrote 12 test cases. 3 covered edge cases you found in code review — that pattern is worth continuing.',
-  source: 'Living OS Analytics',
+  source: 'Workplace Analytics',
   sourceType: 'SYSTEM',
   timestamp: new Date().toISOString(),
   priority: 'MEDIUM',

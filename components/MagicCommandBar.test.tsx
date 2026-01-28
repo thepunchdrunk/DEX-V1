@@ -28,13 +28,13 @@ vi.mock('../services/geminiService', () => ({
 describe('MagicCommandBar', () => {
     it('renders input field', () => {
         render(<MagicCommandBar userContext={mockUserContext} />);
-        expect(screen.getByPlaceholderText(/Ask Living OS/i)).toBeInTheDocument();
+        expect(screen.getByPlaceholderText(/Ask Workplace Hub/i)).toBeInTheDocument();
     });
 
     it('calls service on submission', async () => {
         render(<MagicCommandBar userContext={mockUserContext} />);
 
-        const input = screen.getByPlaceholderText(/Ask Living OS/i);
+        const input = screen.getByPlaceholderText(/Ask Workplace Hub/i);
         fireEvent.change(input, { target: { value: 'Test command' } });
         fireEvent.submit(input.closest('form')!);
 

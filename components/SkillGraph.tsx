@@ -39,7 +39,7 @@ const SkillGraph: React.FC<SkillGraphProps> = ({ nodes, links }) => {
 
     // Links
     const link = svg.append("g")
-      .attr("stroke", "#475569")
+      .attr("stroke", "#BDBDBD")
       .attr("stroke-opacity", 0.6)
       .selectAll("line")
       .data(links)
@@ -64,7 +64,7 @@ const SkillGraph: React.FC<SkillGraphProps> = ({ nodes, links }) => {
       .join("text")
       .text((d) => d.name)
       .attr("font-size", "10px")
-      .attr("fill", "#e2e8f0")
+      .attr("fill", "#424242")
       .attr("dx", 12)
       .attr("dy", 4);
 
@@ -78,7 +78,7 @@ const SkillGraph: React.FC<SkillGraphProps> = ({ nodes, links }) => {
       node
         .attr("cx", (d: any) => d.x)
         .attr("cy", (d: any) => d.y);
-      
+
       labels
         .attr("x", (d: any) => d.x)
         .attr("y", (d: any) => d.y);
@@ -114,7 +114,7 @@ const SkillGraph: React.FC<SkillGraphProps> = ({ nodes, links }) => {
   }, [nodes, links]);
 
   return (
-    <div ref={wrapperRef} className="w-full bg-slate-900/50 rounded-xl border border-slate-700 overflow-hidden shadow-inner">
+    <div ref={wrapperRef} className="w-full bg-white rounded-xl border border-[#E0E0E0] overflow-hidden shadow-sm">
       <svg ref={svgRef}></svg>
     </div>
   );

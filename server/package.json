@@ -1,8 +1,9 @@
 {
     "name": "living-os-server",
     "version": "1.0.0",
-    "description": "Backend proxy for Living OS",
+    "description": "Backend proxy for Workplace Hub",
     "main": "index.js",
+    "type": "commonjs",
     "scripts": {
         "start": "node index.js",
         "dev": "nodemon index.js"

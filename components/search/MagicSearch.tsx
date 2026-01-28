@@ -195,7 +195,7 @@ const MagicSearch: React.FC<MagicSearchProps> = ({ onClose }) => {
                     type="text"
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
-                    placeholder='Magic Search — Try "I need a sandbox" or "Open Jira"'
+                    placeholder='Quick Actions — Try "I need a sandbox" or "Open Jira"'
                     className="w-full pl-12 pr-12 py-4 bg-slate-900 border border-slate-700 rounded-2xl text-white placeholder-slate-500 focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500 outline-none transition-all text-lg"
                 />
                 {query && (

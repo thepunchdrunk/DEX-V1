@@ -35,13 +35,15 @@ const RoleCockpit: React.FC<RoleCockpitProps> = ({ user, isWednesday = false, on
     const [activeView, setActiveView] = useState<CockpitView>('DAILY');
     const [isOnline, setIsOnline] = useState(true);
     const [showSearch, setShowSearch] = useState(false);
-    const [cards, setCards] = useState<DailyCard[]>(MOCK_DAILY_CARDS);
+    const [cards, setCards] = useState<DailyCard[]>(
+        MOCK_DAILY_CARDS.filter(c => !c.roleCategories || (user.roleCategory && c.roleCategories.includes(user.roleCategory)))
+    );
 
     const navItems: { view: CockpitView; icon: React.ReactNode; label: string }[] = [
-        { view: 'DAILY', icon: <Sparkles className="w-5 h-5" />, label: 'Daily 3' },
+        { view: 'DAILY', icon: <Sparkles className="w-5 h-5" />, label: 'Top 3' },
         { view: 'SKILLS', icon: <TreePine className="w-5 h-5" />, label: 'Skills' },
-        { view: 'INSIGHTS', icon: <Compass className="w-5 h-5" />, label: 'Insights' },
-        { view: 'ANALYTICS', icon: <TrendingUp className="w-5 h-5" />, label: 'Impact' },
+        { view: 'INSIGHTS', icon: <Compass className="w-5 h-5" />, label: 'Trends' },
+        { view: 'ANALYTICS', icon: <TrendingUp className="w-5 h-5" />, label: 'Performance' },
         { view: 'SETTINGS', icon: <Settings className="w-5 h-5" />, label: 'Settings' },
     ];
 
@@ -64,21 +66,20 @@ const RoleCockpit: React.FC<RoleCockpitProps> = ({ user, isWednesday = false, on
 
     return (
         <div
-            className="min-h-screen flex flex-col"
-            style={{ background: THEME_COLORS.performance.background }}
+            className="min-h-screen flex flex-col bg-white"
         >
             {/* Top Header */}
-            <header className="sticky top-0 z-50 backdrop-blur-md bg-slate-900/70 border-b border-slate-800">
+            <header className="sticky top-0 z-50 backdrop-blur-md bg-white/90 border-b border-[#E0E0E0]">
                 <div className="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
                     {/* Logo */}
                     <div className="flex items-center gap-2">
-                        <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center">
+                        <div className="h-8 w-8 rounded-lg bg-[#E60000] flex items-center justify-center">
                             <Sparkles className="h-4 w-4 text-white" />
                         </div>
-                        <span className="text-sm font-bold tracking-wider text-slate-300">
-                            LIVING OS
+                        <span className="text-sm font-bold tracking-wider text-black">
+                            WORKPLACE HUB
                         </span>
-                        <span className="text-xs text-amber-400 font-mono">PERFORMANCE</span>
+                        <span className="text-xs text-[#E60000] font-mono">DASHBOARD</span>
                     </div>
 
                     {/* Right Actions */}
@@ -86,7 +87,7 @@ const RoleCockpit: React.FC<RoleCockpitProps> = ({ user, isWednesday = false, on
                         {/* Search Toggle */}
                         <button
                             onClick={() => setShowSearch(!showSearch)}
-                            className="p-2 rounded-lg hover:bg-slate-800 text-slate-400 hover:text-white transition-all"
+                            className="p-2 rounded-lg hover:bg-gray-100 text-[#616161] hover:text-black transition-all"
                             aria-label="Toggle Search"
                         >
                             <Search className="w-5 h-5" />
@@ -94,16 +95,16 @@ const RoleCockpit: React.FC<RoleCockpitProps> = ({ user, isWednesday = false, on
 
                         {/* Market Gap Alert */}
                         {MOCK_MARKET_GAP && (
-                            <button className="p-2 rounded-lg hover:bg-slate-800 text-amber-400 relative">
+                            <button className="p-2 rounded-lg hover:bg-gray-100 text-[#E65100] relative">
                                 <AlertTriangle className="w-5 h-5" />
-                                <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-amber-400" />
+                                <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-[#E65100]" />
                             </button>
                         )}
 
                         {/* Notifications */}
-                        <button className="p-2 text-slate-400 hover:text-white hover:bg-slate-700/50 rounded-lg transition-colors relative" aria-label="Notifications">
+                        <button className="p-2 text-[#616161] hover:text-black hover:bg-gray-100 rounded-lg transition-colors relative" aria-label="Notifications">
                             <Bell className="w-5 h-5" />
-                            <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-slate-900"></span>
+                            <span className="absolute top-2 right-2 w-2 h-2 bg-[#E60000] rounded-full border-2 border-white"></span>
                         </button>
 
                         <button
@@ -113,24 +114,24 @@ const RoleCockpit: React.FC<RoleCockpitProps> = ({ user, isWednesday = false, on
                                     window.location.reload();
                                 }
                             }}
-                            className="p-2 text-slate-400 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-colors"
+                            className="p-2 text-[#616161] hover:text-[#E60000] hover:bg-red-50 rounded-lg transition-colors"
                             title="Reset Demo"
                             aria-label="Reset Demo"
                         >
                             <RefreshCw className="w-5 h-5" />
                         </button>
 
-                        <div className="w-px h-8 bg-slate-700 mx-2"></div>
+                        <div className="w-px h-8 bg-[#E0E0E0] mx-2"></div>
                         <button
                             onClick={() => setIsOnline(!isOnline)}
-                            className={`p-2 rounded-lg hover:bg-slate-800 transition-all ${isOnline ? 'text-green-400' : 'text-red-400'
+                            className={`p-2 rounded-lg hover:bg-gray-100 transition-all ${isOnline ? 'text-[#4CAF50]' : 'text-[#E60000]'
                                 }`}
                         >
                             {isOnline ? <Wifi className="w-5 h-5" /> : <WifiOff className="w-5 h-5" />}
                         </button>
 
                         {/* User Avatar */}
-                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-amber-400 to-purple-500 flex items-center justify-center text-xs font-bold text-white">
+                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#E60000] to-purple-500 flex items-center justify-center text-xs font-bold text-white">
                             {user.name
                                 .split(' ')
                                 .map((n) => n[0])
@@ -139,9 +140,9 @@ const RoleCockpit: React.FC<RoleCockpitProps> = ({ user, isWednesday = false, on
                     </div>
                 </div>
 
-                {/* Magic Search (Expandable) */}
+                {/* Quick Actions (Expandable) */}
                 {showSearch && (
-                    <div className="border-t border-slate-800 p-4 animate-slide-down">
+                    <div className="border-t border-[#E0E0E0] p-4 animate-slide-down">
                         <MagicSearch onClose={() => setShowSearch(false)} />
                     </div>
                 )}
@@ -184,26 +185,26 @@ const RoleCockpit: React.FC<RoleCockpitProps> = ({ user, isWednesday = false, on
                     {/* Settings View */}
                     {activeView === 'SETTINGS' && (
                         <div className="space-y-6">
-                            <h1 className="text-2xl font-bold text-white mb-6">Settings</h1>
+                            <h1 className="text-2xl font-bold text-black mb-6">Settings</h1>
 
                             {/* Safe Mode Toggle */}
-                            <div className="bg-slate-800/50 backdrop-blur-md rounded-xl border border-slate-700/50 p-4">
+                            <div className="bg-white backdrop-blur-md rounded-xl border border-[#E0E0E0] p-4">
                                 <div className="flex items-center justify-between">
                                     <div>
-                                        <p className="font-medium text-white">Safe Mode</p>
-                                        <p className="text-sm text-slate-400">
+                                        <p className="font-medium text-black">Safe Mode</p>
+                                        <p className="text-sm text-[#616161]">
                                             Hide learning activity and simulator failures from Manager Dashboard
                                         </p>
                                     </div>
                                     <button
                                         className={`
                       w-12 h-6 rounded-full transition-all relative
-                      ${user.safeMode ? 'bg-green-500' : 'bg-slate-700'}
+                      ${user.safeMode ? 'bg-[#4CAF50]' : 'bg-[#E0E0E0]'}
                     `}
                                     >
                                         <div
                                             className={`
-                        absolute top-1 w-4 h-4 rounded-full bg-white transition-all
+                        absolute top-1 w-4 h-4 rounded-full bg-white shadow transition-all
                         ${user.safeMode ? 'left-7' : 'left-1'}
                       `}
                                         />
@@ -212,11 +213,11 @@ const RoleCockpit: React.FC<RoleCockpitProps> = ({ user, isWednesday = false, on
                             </div>
 
                             {/* Reset Onboarding (Demo) */}
-                            <div className="bg-slate-800/50 backdrop-blur-md rounded-xl border border-slate-700/50 p-4">
+                            <div className="bg-white backdrop-blur-md rounded-xl border border-[#E0E0E0] p-4">
                                 <div className="flex items-center justify-between">
                                     <div>
-                                        <p className="font-medium text-white">Reset Onboarding</p>
-                                        <p className="text-sm text-slate-400">
+                                        <p className="font-medium text-black">Reset Onboarding</p>
+                                        <p className="text-sm text-[#616161]">
                                             Restart the onboarding sprint (demo only)
                                         </p>
                                     </div>
@@ -225,7 +226,7 @@ const RoleCockpit: React.FC<RoleCockpitProps> = ({ user, isWednesday = false, on
                                             localStorage.removeItem('livingos_state');
                                             window.location.reload();
                                         }}
-                                        className="px-4 py-2 bg-red-500/20 text-red-400 text-sm font-medium rounded-lg hover:bg-red-500/30 transition-all"
+                                        className="px-4 py-2 bg-red-50 text-[#E60000] text-sm font-medium rounded-lg hover:bg-red-100 transition-all"
                                     >
                                         Reset
                                     </button>
@@ -233,11 +234,11 @@ const RoleCockpit: React.FC<RoleCockpitProps> = ({ user, isWednesday = false, on
                             </div>
 
                             {/* Demo Settings: Role Switcher */}
-                            <div className="bg-slate-800/50 backdrop-blur-md rounded-xl border border-slate-700/50 p-4">
+                            <div className="bg-white backdrop-blur-md rounded-xl border border-[#E0E0E0] p-4">
                                 <div className="flex items-center justify-between mb-2">
                                     <div>
-                                        <p className="font-medium text-white">Demo Mode: Manager View</p>
-                                        <p className="text-sm text-slate-400">
+                                        <p className="font-medium text-black">Demo Mode: Manager View</p>
+                                        <p className="text-sm text-[#616161]">
                                             Enable experimental manager features
                                         </p>
                                     </div>
@@ -245,19 +246,19 @@ const RoleCockpit: React.FC<RoleCockpitProps> = ({ user, isWednesday = false, on
                                         onClick={() => onUpdateUser({ role: user.role === 'MANAGER' ? 'EMPLOYEE' : 'MANAGER' })}
                                         className={`
                       w-12 h-6 rounded-full transition-all relative
-                      ${user.role === 'MANAGER' ? 'bg-amber-500' : 'bg-slate-700'}
+                      ${user.role === 'MANAGER' ? 'bg-[#E60000]' : 'bg-[#E0E0E0]'}
                     `}
                                     >
                                         <div
                                             className={`
-                        absolute top-1 w-4 h-4 rounded-full bg-white transition-all
+                        absolute top-1 w-4 h-4 rounded-full bg-white shadow transition-all
                         ${user.role === 'MANAGER' ? 'left-7' : 'left-1'}
                       `}
                                         />
                                     </button>
                                 </div>
-                                <p className="text-xs text-slate-500 p-2 bg-slate-900/50 rounded-lg">
-                                    Current Role: <span className="font-mono text-amber-500">{user.role}</span>
+                                <p className="text-xs text-[#9E9E9E] p-2 bg-[#FAFAFA] rounded-lg">
+                                    Current Role: <span className="font-mono text-[#E60000]">{user.role}</span>
                                 </p>
                             </div>
                         </div>
@@ -266,7 +267,7 @@ const RoleCockpit: React.FC<RoleCockpitProps> = ({ user, isWednesday = false, on
             </main>
 
             {/* Bottom Navigation Dock */}
-            <nav className="sticky bottom-0 backdrop-blur-md bg-slate-900/70 border-t border-slate-800">
+            <nav className="sticky bottom-0 backdrop-blur-md bg-white/90 border-t border-[#E0E0E0]">
                 <div className="max-w-md mx-auto px-4 py-2 flex justify-around">
                     {navItems.map((item) => (
                         <button
@@ -275,8 +276,8 @@ const RoleCockpit: React.FC<RoleCockpitProps> = ({ user, isWednesday = false, on
                             className={`
                 flex flex-col items-center gap-1 px-4 py-2 rounded-xl transition-all
                 ${activeView === item.view
-                                    ? 'text-amber-400 bg-amber-500/10'
-                                    : 'text-slate-400 hover:text-white'
+                                    ? 'text-[#E60000] bg-red-50'
+                                    : 'text-[#616161] hover:text-black'
                                 }
               `}
                         >

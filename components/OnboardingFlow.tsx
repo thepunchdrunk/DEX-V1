@@ -9,7 +9,7 @@ interface OnboardingFlowProps {
 const Day1View: React.FC<{ onAdvance: () => void; loading: boolean }> = ({ onAdvance, loading }) => (
   <div className="animate-fade-in text-center max-w-lg mx-auto">
     <ShieldCheck className="w-16 h-16 text-blue-500 mx-auto mb-6" />
-    <h2 className="text-3xl font-bold text-white mb-2">Zero-Touch Admin</h2>
+    <h2 className="text-3xl font-bold text-white mb-2">Automated Setup</h2>
     <p className="text-slate-400 mb-8">Verifying your digital identity and access privileges.</p>
 
     <div className="space-y-3 text-left bg-slate-800/50 p-6 rounded-xl border border-slate-700 mb-8">
@@ -38,7 +38,7 @@ const Day2View: React.FC<{ onAdvance: () => void }> = ({ onAdvance }) => (
     <div className="w-16 h-16 bg-gradient-to-tr from-purple-500 to-blue-500 rounded-2xl mx-auto mb-6 flex items-center justify-center rotate-3 shadow-lg">
       <span className="text-2xl font-bold text-white">C</span>
     </div>
-    <h2 className="text-3xl font-bold text-white mb-2">Cultural OS</h2>
+    <h2 className="text-3xl font-bold text-white mb-2">Company Culture</h2>
     <p className="text-slate-400 mb-8">Calibrating your decision matrix to company values.</p>
 
     <div className="bg-slate-800 p-6 rounded-xl border border-slate-700 text-left mb-8 relative overflow-hidden group hover:border-blue-500/50 transition-colors">
@@ -61,7 +61,7 @@ const Day2View: React.FC<{ onAdvance: () => void }> = ({ onAdvance }) => (
 const Day3View: React.FC<{ onAdvance: () => void; loading: boolean }> = ({ onAdvance, loading }) => (
   <div className="animate-fade-in text-center max-w-2xl mx-auto">
     <Map className="w-16 h-16 text-emerald-500 mx-auto mb-6" />
-    <h2 className="text-3xl font-bold text-white mb-2">Global Footprint</h2>
+    <h2 className="text-3xl font-bold text-white mb-2">Organization Map</h2>
     <p className="text-slate-400 mb-8">Mapping your role to the downstream supply chain.</p>
 
     <div className="h-64 bg-slate-900 rounded-xl border border-slate-700 relative mb-8 overflow-hidden flex items-center justify-center">
@@ -94,7 +94,7 @@ const Day3View: React.FC<{ onAdvance: () => void; loading: boolean }> = ({ onAdv
 const Day4View: React.FC<{ onAdvance: () => void; loading: boolean }> = ({ onAdvance, loading }) => (
   <div className="animate-fade-in text-center max-w-lg mx-auto">
     <Users className="w-16 h-16 text-amber-500 mx-auto mb-6" />
-    <h2 className="text-3xl font-bold text-white mb-2">Network Mapper</h2>
+    <h2 className="text-3xl font-bold text-white mb-2">Team Connections</h2>
     <p className="text-slate-400 mb-8">AI has identified your "Critical 5" partners based on job function.</p>
 
     <div className="grid gap-3 mb-8">
@@ -142,7 +142,7 @@ const Day5View: React.FC<{ onAdvance: () => void; loading: boolean }> = ({ onAdv
     <p className="text-slate-300 text-lg mb-12">
       You have graduated from the sandbox.
       <br />
-      <span className="text-amber-400 font-semibold">Gold Context Layer</span> unlocked.
+      <span className="text-amber-400 font-semibold">Full Dashboard Access</span> unlocked.
     </p>
 
     <button
@@ -150,7 +150,7 @@ const Day5View: React.FC<{ onAdvance: () => void; loading: boolean }> = ({ onAdv
       disabled={loading}
       className="group relative px-8 py-4 bg-amber-500 hover:bg-amber-400 text-slate-900 rounded-full font-bold text-lg transition-all hover:scale-105 shadow-[0_0_30px_rgba(245,158,11,0.4)] flex items-center gap-3 mx-auto"
     >
-      <span>Enter Role Cockpit</span>
+      <span>Enter Daily Dashboard</span>
       <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
     </button>
   </div>
@@ -215,7 +215,7 @@ const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ onComplete }) => {
         {day < 5 && (
           <div className="mt-12 flex justify-center gap-2 text-xs text-slate-600 uppercase tracking-widest">
             <Lock className="w-3 h-3" />
-            <span>Role Features Locked until Day 05</span>
+            <span>Role Features Locked until Day 5</span>
           </div>
         )}
       </div>

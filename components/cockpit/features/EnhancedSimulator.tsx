@@ -134,19 +134,19 @@ const EnhancedSimulator: React.FC<EnhancedSimulatorProps> = ({ className = '' })
 
     const getTypeColor = (type: SimulatorScenario['type']) => {
         switch (type) {
-            case 'SAFETY_HAZARD': return 'from-red-400 to-orange-500';
-            case 'FIND_THE_BUG': return 'from-violet-400 to-purple-500';
-            case 'EMAIL_DOJO': return 'from-blue-400 to-cyan-500';
-            case 'DECISION_MATRIX': return 'from-emerald-400 to-teal-500';
-            case 'STAKEHOLDER_MANAGE': return 'from-amber-400 to-orange-500';
+            case 'SAFETY_HAZARD': return 'bg-[#D32F2F]';
+            case 'FIND_THE_BUG': return 'bg-purple-600';
+            case 'EMAIL_DOJO': return 'bg-blue-600';
+            case 'DECISION_MATRIX': return 'bg-[#4CAF50]';
+            case 'STAKEHOLDER_MANAGE': return 'bg-[#E65100]';
         }
     };
 
     const getDifficultyColor = (difficulty: SimulatorScenario['difficulty']) => {
         switch (difficulty) {
-            case 'EASY': return 'text-emerald-400 bg-emerald-500/20';
-            case 'MEDIUM': return 'text-amber-400 bg-amber-500/20';
-            case 'HARD': return 'text-red-400 bg-red-500/20';
+            case 'EASY': return 'text-[#4CAF50] bg-[#E8F5E9]';
+            case 'MEDIUM': return 'text-[#E65100] bg-[#FFF3E0]';
+            case 'HARD': return 'text-[#D32F2F] bg-[#FFEBEE]';
         }
     };
 
@@ -204,12 +204,12 @@ const EnhancedSimulator: React.FC<EnhancedSimulatorProps> = ({ className = '' })
             <div className={`space-y-6 ${className}`}>
                 {/* Header */}
                 <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 to-orange-600 flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-xl bg-[#E65100] flex items-center justify-center">
                         <Gamepad2 className="w-5 h-5 text-white" />
                     </div>
                     <div>
-                        <h2 className="text-xl font-bold text-white">Wednesday Simulator</h2>
-                        <p className="text-sm text-slate-400">Practice real-world scenarios to validate your skills</p>
+                        <h2 className="text-xl font-bold text-black">Wednesday Simulator</h2>
+                        <p className="text-sm text-[#616161]">Practice real-world scenarios to validate your skills</p>
                     </div>
                 </div>
 
@@ -220,24 +220,24 @@ const EnhancedSimulator: React.FC<EnhancedSimulatorProps> = ({ className = '' })
                         return (
                             <div
                                 key={scenario.id}
-                                className="p-5 rounded-2xl bg-slate-800/50 border border-slate-700/50 hover:border-slate-600 transition-all cursor-pointer group"
+                                className="p-5 rounded-2xl bg-white border border-[#E0E0E0] hover:border-[#E60000]/50 transition-all cursor-pointer group shadow-sm"
                                 onClick={() => startSimulator(scenario)}
                             >
                                 <div className="flex items-start gap-4">
-                                    <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${getTypeColor(scenario.type)} flex items-center justify-center flex-shrink-0`}>
+                                    <div className={`w-12 h-12 rounded-xl ${getTypeColor(scenario.type)} flex items-center justify-center flex-shrink-0`}>
                                         <IconComponent className="w-6 h-6 text-white" />
                                     </div>
                                     <div className="flex-1">
                                         <div className="flex items-center gap-2 mb-1">
-                                            <h3 className="font-bold text-white group-hover:text-amber-400 transition-colors">
+                                            <h3 className="font-bold text-black group-hover:text-[#E60000] transition-colors">
                                                 {scenario.title}
                                             </h3>
                                             <span className={`px-2 py-0.5 rounded-full text-xs ${getDifficultyColor(scenario.difficulty)}`}>
                                                 {scenario.difficulty}
                                             </span>
                                         </div>
-                                        <p className="text-sm text-slate-400 mb-3">{scenario.description}</p>
-                                        <div className="flex items-center gap-4 text-xs text-slate-500">
+                                        <p className="text-sm text-[#616161] mb-3">{scenario.description}</p>
+                                        <div className="flex items-center gap-4 text-xs text-[#9E9E9E]">
                                             <span className="flex items-center gap-1">
                                                 <Clock className="w-3.5 h-3.5" />
                                                 {scenario.timeLimit}s
@@ -248,7 +248,7 @@ const EnhancedSimulator: React.FC<EnhancedSimulatorProps> = ({ className = '' })
                                             </span>
                                         </div>
                                     </div>
-                                    <ChevronRight className="w-5 h-5 text-slate-600 group-hover:text-amber-400 transition-colors" />
+                                    <ChevronRight className="w-5 h-5 text-[#9E9E9E] group-hover:text-[#E60000] transition-colors" />
                                 </div>
                             </div>
                         );
@@ -256,12 +256,12 @@ const EnhancedSimulator: React.FC<EnhancedSimulatorProps> = ({ className = '' })
                 </div>
 
                 {/* Stats */}
-                <div className="p-4 rounded-2xl bg-gradient-to-r from-amber-500/10 to-orange-500/10 border border-amber-500/20">
+                <div className="p-4 rounded-2xl bg-[#FFF3E0] border border-[#FFE0B2]">
                     <div className="flex items-center gap-3">
-                        <Award className="w-5 h-5 text-amber-400" />
+                        <Award className="w-5 h-5 text-[#E65100]" />
                         <div>
-                            <p className="font-medium text-white">Complete simulators to validate skills</p>
-                            <p className="text-sm text-slate-400">Passing scores refresh your Skill Tree nodes</p>
+                            <p className="font-medium text-black">Complete simulators to validate skills</p>
+                            <p className="text-sm text-[#616161]">Passing scores refresh your Skill Tree nodes</p>
                         </div>
                     </div>
                 </div>
@@ -277,37 +277,37 @@ const EnhancedSimulator: React.FC<EnhancedSimulatorProps> = ({ className = '' })
             {/* Header */}
             <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                    <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${getTypeColor(currentScenario.type)} flex items-center justify-center`}>
+                    <div className={`w-10 h-10 rounded-xl ${getTypeColor(currentScenario.type)} flex items-center justify-center`}>
                         <IconComponent className="w-5 h-5 text-white" />
                     </div>
                     <div>
-                        <h2 className="text-xl font-bold text-white">{currentScenario.title}</h2>
-                        <p className="text-sm text-slate-400">{currentScenario.description}</p>
+                        <h2 className="text-xl font-bold text-black">{currentScenario.title}</h2>
+                        <p className="text-sm text-[#616161]">{currentScenario.description}</p>
                     </div>
                 </div>
 
                 {/* Timer */}
-                <div className={`px-4 py-2 rounded-xl font-mono text-lg font-bold ${timeLeft <= 10 ? 'bg-red-500/20 text-red-400 animate-pulse' : 'bg-slate-800 text-white'
+                <div className={`px-4 py-2 rounded-xl font-mono text-lg font-bold ${timeLeft <= 10 ? 'bg-[#FFEBEE] text-[#D32F2F] animate-pulse' : 'bg-[#FAFAFA] text-black border border-[#E0E0E0]'
                     }`}>
                     {Math.floor(timeLeft / 60)}:{(timeLeft % 60).toString().padStart(2, '0')}
                 </div>
             </div>
 
             {/* Scenario Content */}
-            <div className="p-5 rounded-2xl bg-slate-800/50 border border-slate-700/50">
-                <p className="text-slate-300 mb-4">{currentScenario.content.scenario}</p>
+            <div className="p-5 rounded-2xl bg-white border border-[#E0E0E0] shadow-sm">
+                <p className="text-black mb-4">{currentScenario.content.scenario}</p>
 
                 {/* Code Snippet */}
                 {currentScenario.content.codeSnippet && (
-                    <pre className="p-4 rounded-xl bg-slate-900 border border-slate-700 text-sm text-emerald-400 font-mono overflow-x-auto mb-4">
+                    <pre className="p-4 rounded-xl bg-gray-900 border border-gray-700 text-sm text-green-400 font-mono overflow-x-auto mb-4">
                         {currentScenario.content.codeSnippet}
                     </pre>
                 )}
 
                 {/* Email Content */}
                 {currentScenario.content.emailContent && (
-                    <div className="p-4 rounded-xl bg-slate-900 border border-slate-700 mb-4">
-                        <pre className="text-sm text-slate-300 whitespace-pre-wrap font-sans">
+                    <div className="p-4 rounded-xl bg-[#FAFAFA] border border-[#E0E0E0] mb-4">
+                        <pre className="text-sm text-black whitespace-pre-wrap font-sans">
                             {currentScenario.content.emailContent}
                         </pre>
                     </div>
@@ -316,7 +316,7 @@ const EnhancedSimulator: React.FC<EnhancedSimulatorProps> = ({ className = '' })
 
             {/* Options */}
             <div className="space-y-3">
-                <h3 className="text-sm font-medium text-slate-400">
+                <h3 className="text-sm font-medium text-[#616161]">
                     {currentScenario.type === 'SAFETY_HAZARD' ? 'Select all hazards:' : 'Choose the best answer:'}
                 </h3>
                 {currentScenario.content.options?.map((option) => {
@@ -330,26 +330,26 @@ const EnhancedSimulator: React.FC<EnhancedSimulatorProps> = ({ className = '' })
                             onClick={() => toggleAnswer(option.id)}
                             disabled={isSubmitted}
                             className={`w-full p-4 rounded-xl border text-left transition-all ${showResult
-                                    ? isCorrect
-                                        ? 'bg-emerald-500/10 border-emerald-500/50'
-                                        : isSelected
-                                            ? 'bg-red-500/10 border-red-500/50'
-                                            : 'bg-slate-800/50 border-slate-700/50'
+                                ? isCorrect
+                                    ? 'bg-emerald-500/10 border-emerald-500/50'
                                     : isSelected
-                                        ? 'bg-amber-500/10 border-amber-500/50'
-                                        : 'bg-slate-800/50 border-slate-700/50 hover:border-slate-600'
+                                        ? 'bg-red-500/10 border-red-500/50'
+                                        : 'bg-slate-800/50 border-slate-700/50'
+                                : isSelected
+                                    ? 'bg-amber-500/10 border-amber-500/50'
+                                    : 'bg-slate-800/50 border-slate-700/50 hover:border-slate-600'
                                 }`}
                         >
                             <div className="flex items-start gap-3">
                                 <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${showResult
-                                        ? isCorrect
-                                            ? 'border-emerald-500 bg-emerald-500'
-                                            : isSelected
-                                                ? 'border-red-500 bg-red-500'
-                                                : 'border-slate-600'
+                                    ? isCorrect
+                                        ? 'border-emerald-500 bg-emerald-500'
                                         : isSelected
-                                            ? 'border-amber-500 bg-amber-500'
+                                            ? 'border-red-500 bg-red-500'
                                             : 'border-slate-600'
+                                    : isSelected
+                                        ? 'border-amber-500 bg-amber-500'
+                                        : 'border-slate-600'
                                     }`}>
                                     {showResult && isCorrect && <Check className="w-4 h-4 text-white" />}
                                     {showResult && !isCorrect && isSelected && <X className="w-4 h-4 text-white" />}
@@ -377,20 +377,20 @@ const EnhancedSimulator: React.FC<EnhancedSimulatorProps> = ({ className = '' })
                     <button
                         onClick={submitAnswers}
                         disabled={selectedAnswers.length === 0}
-                        className="flex-1 py-3 rounded-xl bg-amber-500 hover:bg-amber-400 disabled:bg-slate-700 disabled:text-slate-500 text-white font-bold transition-all"
+                        className="flex-1 py-3 rounded-xl bg-[#E60000] hover:bg-[#D32F2F] disabled:bg-[#E0E0E0] disabled:text-[#9E9E9E] text-white font-bold transition-all"
                     >
                         Submit Answer
                     </button>
                 ) : (
                     <>
-                        <div className={`flex-1 py-3 rounded-xl text-center font-bold ${score !== null && score >= 70 ? 'bg-emerald-500/20 text-emerald-400' : 'bg-red-500/20 text-red-400'
+                        <div className={`flex-1 py-3 rounded-xl text-center font-bold ${score !== null && score >= 70 ? 'bg-[#E8F5E9] text-[#4CAF50]' : 'bg-[#FFEBEE] text-[#D32F2F]'
                             }`}>
                             Score: {score}%
                             {score !== null && score >= 70 ? ' — Skills Validated!' : ' — Try Again'}
                         </div>
                         <button
                             onClick={resetSimulator}
-                            className="px-4 py-3 rounded-xl bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 transition-all flex items-center gap-2"
+                            className="px-4 py-3 rounded-xl bg-white text-[#616161] hover:text-black hover:bg-gray-50 transition-all flex items-center gap-2 border border-[#E0E0E0]"
                         >
                             <RotateCcw className="w-4 h-4" />
                             New Challenge

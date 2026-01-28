@@ -1,6 +1,6 @@
 // ============================================================================
-// LIVING OS — CARD SELECTION ENGINE
-// Role-Based Cockpit | Nightly Pipeline Logic
+// WORKPLACE HUB — CARD SELECTION ENGINE
+// Daily Dashboard | Nightly Pipeline Logic
 // ============================================================================
 
 import {

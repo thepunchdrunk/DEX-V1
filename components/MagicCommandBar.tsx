@@ -39,7 +39,7 @@ const MagicCommandBar: React.FC<MagicCommandBarProps> = ({ userContext }) => {
         <input
           type="text"
           className="w-full bg-slate-800/80 backdrop-blur-xl border border-slate-600 rounded-full py-4 pl-12 pr-12 text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all shadow-lg hover:shadow-blue-500/10"
-          placeholder="Ask Living OS (e.g., 'Request access to prod logs' or 'How is my team doing?')"
+          placeholder="Ask Workplace Hub (e.g., 'Request access to prod logs' or 'How is my team doing?')"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
         />

@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import { TeamMember, BurnoutSignal } from '../../../types';
 import { MOCK_TEAM } from '../../../constants';
+import NewHireOnboarding from './NewHireOnboarding';
 
 interface ManagerHubProps {
     showSafeMode?: boolean;
@@ -107,224 +108,191 @@ const TeamCommandCenter: React.FC<ManagerHubProps> = ({ showSafeMode = true }) =
 
     const getPriorityColor = (priority: 'HIGH' | 'MEDIUM' | 'LOW') => {
         switch (priority) {
-            case 'HIGH': return 'border-red-500/50 bg-red-500/5';
-            case 'MEDIUM': return 'border-amber-500/50 bg-amber-500/5';
-            case 'LOW': return 'border-blue-500/50 bg-blue-500/5';
+            case 'HIGH': return 'border-[#D32F2F]/50 bg-[#FFEBEE]';
+            case 'MEDIUM': return 'border-[#E65100]/50 bg-[#FFF3E0]';
+            case 'LOW': return 'border-blue-500/50 bg-blue-50';
         }
     };
 
     const getPriorityBadge = (priority: 'HIGH' | 'MEDIUM' | 'LOW') => {
         switch (priority) {
-            case 'HIGH': return 'bg-red-500/20 text-red-400';
-            case 'MEDIUM': return 'bg-amber-500/20 text-amber-400';
-            case 'LOW': return 'bg-blue-500/20 text-blue-400';
+            case 'HIGH': return 'bg-[#FFEBEE] text-[#D32F2F]';
+            case 'MEDIUM': return 'bg-[#FFF3E0] text-[#E65100]';
+            case 'LOW': return 'bg-blue-50 text-blue-600';
         }
     };
 
     const getPulseColor = (value: number) => {
-        if (value >= 75) return 'text-emerald-400';
-        if (value >= 50) return 'text-amber-400';
-        return 'text-red-400';
+        if (value >= 75) return 'text-[#4CAF50]';
+        if (value >= 50) return 'text-[#E65100]';
+        return 'text-[#D32F2F]';
     };
 
     const getPulseBarColor = (value: number) => {
-        if (value >= 75) return 'bg-emerald-500';
-        if (value >= 50) return 'bg-amber-500';
-        return 'bg-red-500';
+        if (value >= 75) return 'bg-[#4CAF50]';
+        if (value >= 50) return 'bg-[#E65100]';
+        return 'bg-[#D32F2F]';
     };
 
     return (
-        <div className="space-y-6">
-            {/* Header */}
-            <div className="flex items-center justify-between">
+        <div className="space-y-5">
+            {/* Header with Team Pulse Stats */}
+            <div className="flex items-center justify-between flex-wrap gap-4">
                 <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-xl bg-[#E60000] flex items-center justify-center">
                         <Activity className="w-5 h-5 text-white" />
                     </div>
                     <div>
-                        <h2 className="text-xl font-bold text-white">Team Command Center</h2>
-                        <p className="text-sm text-slate-400">
+                        <h2 className="text-xl font-bold text-black">Team Command Center</h2>
+                        <p className="text-sm text-[#616161]">
                             {visibleMembers.length} team members
                             {safeModeCount > 0 && showSafeMode && (
-                                <span className="ml-2 text-slate-500">• {safeModeCount} in Safe Mode</span>
+                                <span className="ml-2 text-[#9E9E9E]">• {safeModeCount} in Safe Mode</span>
                             )}
                         </p>
+                    </div>
+                </div>
+
+                {/* Inline Team Pulse Stats */}
+                <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white border border-[#E0E0E0]">
+                        <Heart className="w-4 h-4 text-[#E60000]" />
+                        <span className="text-xs text-[#616161]">Energy</span>
+                        <span className={`text-sm font-bold ${getPulseColor(teamPulse.energy)}`}>{teamPulse.energy}%</span>
+                    </div>
+                    <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white border border-[#E0E0E0]">
+                        <Target className="w-4 h-4 text-purple-600" />
+                        <span className="text-xs text-[#616161]">Alignment</span>
+                        <span className={`text-sm font-bold ${getPulseColor(teamPulse.alignment)}`}>{teamPulse.alignment}%</span>
+                    </div>
+                    <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white border border-[#E0E0E0]">
+                        <TrendingUp className="w-4 h-4 text-[#4CAF50]" />
+                        <span className="text-xs text-[#616161]">Velocity</span>
+                        <span className={`text-sm font-bold ${getPulseColor(teamPulse.velocity)}`}>
+                            {teamPulse.velocity}%
+                            <span className="text-[#4CAF50] text-xs ml-1">{teamPulse.velocityTrend}</span>
+                        </span>
                     </div>
                 </div>
             </div>
 
             {/* Safe Mode Notice */}
             {safeModeCount > 0 && showSafeMode && (
-                <div className="flex items-center gap-3 p-3 rounded-xl bg-slate-800/50 border border-slate-700">
-                    <Shield className="w-5 h-5 text-blue-400" />
+                <div className="flex items-center gap-3 p-3 rounded-xl bg-blue-50 border border-blue-200">
+                    <Shield className="w-5 h-5 text-blue-600" />
                     <div className="flex-1">
-                        <p className="text-sm text-slate-300">
+                        <p className="text-sm text-black">
                             {safeModeCount} team member{safeModeCount > 1 ? 's have' : ' has'} Safe Mode enabled
                         </p>
-                        <p className="text-xs text-slate-500">
+                        <p className="text-xs text-[#616161]">
                             Their detailed activity is private. You only see validated capabilities.
                         </p>
                     </div>
                 </div>
             )}
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                {/* Left Column: Action Queue */}
-                <div className="lg:col-span-2 space-y-4">
-                    <div className="flex items-center gap-2">
-                        <AlertTriangle className="w-5 h-5 text-amber-400" />
-                        <h3 className="font-bold text-white">Action Queue</h3>
-                        <span className="text-xs px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400">
-                            {actionQueue.length} pending
-                        </span>
-                    </div>
-
-                    {actionQueue.length === 0 ? (
-                        <div className="p-6 rounded-2xl bg-slate-800/30 border border-slate-700/50 text-center">
-                            <CheckCircle2 className="w-10 h-10 text-emerald-400 mx-auto mb-3" />
-                            <p className="text-slate-300 font-medium">All clear!</p>
-                            <p className="text-xs text-slate-500">No urgent interventions needed.</p>
+            {/* Main Dashboard Grid - 3 Column Layout */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
+                {/* Left: Action Queue (Takes 7 columns) */}
+                <div className="lg:col-span-7">
+                    <div className="bg-white rounded-2xl border border-[#E0E0E0] shadow-sm overflow-hidden h-full">
+                        <div className="flex items-center justify-between p-4 border-b border-[#E0E0E0] bg-[#FAFAFA]">
+                            <div className="flex items-center gap-2">
+                                <AlertTriangle className="w-5 h-5 text-[#E65100]" />
+                                <h3 className="font-bold text-black">Action Queue</h3>
+                                <span className="text-xs px-2 py-0.5 rounded-full bg-[#FFF3E0] text-[#E65100]">
+                                    {actionQueue.length} pending
+                                </span>
+                            </div>
                         </div>
-                    ) : (
-                        <div className="space-y-3">
-                            {actionQueue.map((item) => (
-                                <div
-                                    key={item.id}
-                                    className={`p-4 rounded-2xl border transition-all ${actionTaken[item.id]
-                                            ? 'bg-emerald-500/10 border-emerald-500/30 opacity-60'
-                                            : getPriorityColor(item.priority)
-                                        }`}
-                                >
-                                    <div className="flex items-start justify-between mb-3">
-                                        <div className="flex items-center gap-3">
-                                            {item.member && (
-                                                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-sm font-bold text-white">
-                                                    {item.member.name.split(' ').map(n => n[0]).join('')}
-                                                </div>
-                                            )}
-                                            {!item.member && (
-                                                <div className="w-10 h-10 rounded-full bg-amber-500/20 flex items-center justify-center">
-                                                    <Users className="w-5 h-5 text-amber-400" />
-                                                </div>
-                                            )}
-                                            <div>
-                                                <p className="font-medium text-white">{item.title}</p>
-                                                <p className="text-xs text-slate-400">{item.context}</p>
-                                            </div>
-                                        </div>
-                                        <span className={`text-xs px-2 py-1 rounded-full font-medium ${getPriorityBadge(item.priority)}`}>
-                                            {item.priority}
-                                        </span>
-                                    </div>
 
-                                    {actionTaken[item.id] ? (
-                                        <div className="flex items-center gap-2 text-emerald-400 text-sm">
-                                            <CheckCircle2 className="w-4 h-4" />
-                                            <span>Action taken: {actionTaken[item.id]}</span>
-                                        </div>
-                                    ) : (
-                                        <div className="flex flex-wrap gap-2">
-                                            {item.suggestedActions.map((action) => (
-                                                <button
-                                                    key={action.action}
-                                                    onClick={() => handleAction(item.id, action.label)}
-                                                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-sm font-medium transition-all border border-slate-700 hover:border-slate-600"
-                                                >
-                                                    {action.icon}
-                                                    {action.label}
-                                                </button>
-                                            ))}
-                                        </div>
-                                    )}
+                        <div className="p-4 max-h-[400px] overflow-y-auto">
+                            {actionQueue.length === 0 ? (
+                                <div className="p-6 rounded-2xl bg-[#E8F5E9] border border-[#4CAF50]/30 text-center">
+                                    <CheckCircle2 className="w-10 h-10 text-[#4CAF50] mx-auto mb-3" />
+                                    <p className="text-black font-medium">All clear!</p>
+                                    <p className="text-xs text-[#616161]">No urgent interventions needed.</p>
                                 </div>
-                            ))}
+                            ) : (
+                                <div className="space-y-3">
+                                    {actionQueue.map((item) => (
+                                        <div
+                                            key={item.id}
+                                            className={`p-4 rounded-xl border transition-all ${actionTaken[item.id]
+                                                ? 'bg-emerald-500/10 border-emerald-500/30 opacity-60'
+                                                : getPriorityColor(item.priority)
+                                                }`}
+                                        >
+                                            <div className="flex items-start justify-between mb-3">
+                                                <div className="flex items-center gap-3">
+                                                    {item.member && (
+                                                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-sm font-bold text-white">
+                                                            {item.member.name.split(' ').map(n => n[0]).join('')}
+                                                        </div>
+                                                    )}
+                                                    {!item.member && (
+                                                        <div className="w-10 h-10 rounded-full bg-[#FFF3E0] flex items-center justify-center">
+                                                            <Users className="w-5 h-5 text-[#E65100]" />
+                                                        </div>
+                                                    )}
+                                                    <div>
+                                                        <p className="font-medium text-black">{item.title}</p>
+                                                        <p className="text-xs text-[#616161]">{item.context}</p>
+                                                    </div>
+                                                </div>
+                                                <span className={`text-xs px-2 py-1 rounded-full font-medium ${getPriorityBadge(item.priority)}`}>
+                                                    {item.priority}
+                                                </span>
+                                            </div>
+
+                                            {actionTaken[item.id] ? (
+                                                <div className="flex items-center gap-2 text-emerald-400 text-sm">
+                                                    <CheckCircle2 className="w-4 h-4" />
+                                                    <span>Action taken: {actionTaken[item.id]}</span>
+                                                </div>
+                                            ) : (
+                                                <div className="flex flex-wrap gap-2">
+                                                    {item.suggestedActions.map((action) => (
+                                                        <button
+                                                            key={action.action}
+                                                            onClick={() => handleAction(item.id, action.label)}
+                                                            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white hover:bg-gray-50 text-[#616161] hover:text-black text-sm font-medium transition-all border border-[#E0E0E0] hover:border-[#E60000]/50 shadow-sm"
+                                                        >
+                                                            {action.icon}
+                                                            {action.label}
+                                                        </button>
+                                                    ))}
+                                                </div>
+                                            )}
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
                         </div>
-                    )}
+                    </div>
                 </div>
 
-                {/* Right Column: Team Pulse + Wins */}
-                <div className="space-y-6">
-                    {/* Team Pulse */}
-                    <div className="p-5 rounded-2xl bg-slate-800/50 border border-slate-700/50">
-                        <div className="flex items-center gap-2 mb-4">
-                            <Zap className="w-5 h-5 text-indigo-400" />
-                            <h3 className="font-bold text-white">Team Pulse</h3>
+                {/* Right Side: New Hires + Recent Wins (Takes 5 columns) */}
+                <div className="lg:col-span-5 space-y-5">
+                    {/* New Hire Onboarding - Compact */}
+                    <NewHireOnboarding className="max-h-[280px] overflow-hidden" />
+
+                    {/* Recent Wins - Compact */}
+                    <div className="p-4 rounded-2xl bg-[#FFF8E1] border border-[#FFE082]">
+                        <div className="flex items-center gap-2 mb-3">
+                            <Award className="w-5 h-5 text-[#F9A825]" />
+                            <h3 className="font-bold text-black text-sm">Recent Wins</h3>
                         </div>
-
-                        <div className="space-y-4">
-                            {/* Energy */}
-                            <div>
-                                <div className="flex items-center justify-between mb-1">
-                                    <span className="text-sm text-slate-400 flex items-center gap-1.5">
-                                        <Heart className="w-3.5 h-3.5" /> Energy
-                                    </span>
-                                    <span className={`text-sm font-bold ${getPulseColor(teamPulse.energy)}`}>
-                                        {teamPulse.energy}%
-                                    </span>
-                                </div>
-                                <div className="h-2 bg-slate-700 rounded-full overflow-hidden">
-                                    <div className={`h-full rounded-full ${getPulseBarColor(teamPulse.energy)}`} style={{ width: `${teamPulse.energy}%` }} />
-                                </div>
-                            </div>
-
-                            {/* Alignment */}
-                            <div>
-                                <div className="flex items-center justify-between mb-1">
-                                    <span className="text-sm text-slate-400 flex items-center gap-1.5">
-                                        <Target className="w-3.5 h-3.5" /> Alignment
-                                    </span>
-                                    <span className={`text-sm font-bold ${getPulseColor(teamPulse.alignment)}`}>
-                                        {teamPulse.alignment}%
-                                    </span>
-                                </div>
-                                <div className="h-2 bg-slate-700 rounded-full overflow-hidden">
-                                    <div className={`h-full rounded-full ${getPulseBarColor(teamPulse.alignment)}`} style={{ width: `${teamPulse.alignment}%` }} />
-                                </div>
-                            </div>
-
-                            {/* Velocity */}
-                            <div>
-                                <div className="flex items-center justify-between mb-1">
-                                    <span className="text-sm text-slate-400 flex items-center gap-1.5">
-                                        <TrendingUp className="w-3.5 h-3.5" /> Velocity
-                                    </span>
-                                    <span className={`text-sm font-bold ${getPulseColor(teamPulse.velocity)}`}>
-                                        {teamPulse.velocity}%
-                                        <span className="text-emerald-400 text-xs ml-1">{teamPulse.velocityTrend}</span>
-                                    </span>
-                                </div>
-                                <div className="h-2 bg-slate-700 rounded-full overflow-hidden">
-                                    <div className={`h-full rounded-full ${getPulseBarColor(teamPulse.velocity)}`} style={{ width: `${teamPulse.velocity}%` }} />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Recent Wins */}
-                    <div className="p-5 rounded-2xl bg-gradient-to-br from-amber-500/10 to-orange-500/10 border border-amber-500/20">
-                        <div className="flex items-center gap-2 mb-4">
-                            <Award className="w-5 h-5 text-amber-400" />
-                            <h3 className="font-bold text-white">Recent Wins</h3>
-                        </div>
-
-                        <div className="space-y-3">
+                        <div className="space-y-2">
                             {recentWins.map((win) => (
-                                <div key={win.id} className="p-3 rounded-xl bg-slate-800/50">
-                                    <div className="flex items-start justify-between mb-2">
-                                        <div>
-                                            <p className="text-sm font-medium text-white">{win.name}</p>
-                                            <p className="text-xs text-slate-400">{win.achievement}</p>
-                                        </div>
-                                        <span className="text-xs text-slate-500">{win.daysAgo}d ago</span>
+                                <div key={win.id} className="flex items-center justify-between p-2 rounded-lg bg-white border border-[#E0E0E0]">
+                                    <div className="flex-1 min-w-0">
+                                        <p className="text-sm font-medium text-black truncate">{win.name}</p>
+                                        <p className="text-xs text-[#616161] truncate">{win.achievement}</p>
                                     </div>
-                                    <div className="flex gap-2">
-                                        <button className="flex items-center gap-1 px-2 py-1 rounded-md bg-amber-500/20 text-amber-400 text-xs font-medium hover:bg-amber-500/30 transition-colors">
-                                            <Sparkles className="w-3 h-3" /> Send Kudos
-                                        </button>
-                                        <button className="flex items-center gap-1 px-2 py-1 rounded-md bg-slate-700 text-slate-300 text-xs font-medium hover:bg-slate-600 transition-colors">
-                                            <Send className="w-3 h-3" /> Share
-                                        </button>
-                                    </div>
+                                    <button className="flex-shrink-0 flex items-center gap-1 px-2 py-1 rounded-md bg-[#FFF3E0] text-[#F57C00] text-xs font-medium hover:bg-[#FFE0B2] transition-colors ml-2">
+                                        <Sparkles className="w-3 h-3" /> Kudos
+                                    </button>
                                 </div>
                             ))}
                         </div>
@@ -333,7 +301,7 @@ const TeamCommandCenter: React.FC<ManagerHubProps> = ({ showSafeMode = true }) =
             </div>
 
             {/* Privacy Footer */}
-            <div className="flex items-center justify-center gap-2 text-xs text-slate-500">
+            <div className="flex items-center justify-center gap-2 text-xs text-[#9E9E9E]">
                 <Shield className="w-3.5 h-3.5" />
                 <span>Showing signals, not surveillance. Actions are logged for transparency.</span>
             </div>

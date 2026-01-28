@@ -79,7 +79,7 @@ const Daily3Feed: React.FC<Daily3FeedProps> = ({
                     slot: 'SIMULATOR' as CardSlot,
                     title: MOCK_SIMULATOR.title,
                     description: MOCK_SIMULATOR.description,
-                    source: 'Living OS',
+                    source: 'Workplace Hub',
                     sourceType: 'SYSTEM' as const,
                     timestamp: new Date().toISOString(),
                     priority: 'MEDIUM' as const,
@@ -116,35 +116,35 @@ const Daily3Feed: React.FC<Daily3FeedProps> = ({
         switch (slot) {
             case 'CONTEXT_ANCHOR':
                 return {
-                    bg: 'bg-gradient-to-br from-blue-500/20 to-blue-600/10',
-                    border: 'border-blue-500/40 hover:border-blue-400/60',
-                    text: 'text-blue-400',
-                    glow: 'shadow-blue-500/10',
-                    badge: 'bg-blue-500/30 text-blue-300',
+                    bg: 'bg-blue-50',
+                    border: 'border-blue-200 hover:border-blue-300',
+                    text: 'text-blue-600',
+                    glow: 'shadow-blue-100',
+                    badge: 'bg-blue-100 text-blue-600',
                 };
             case 'DOMAIN_EDGE':
                 return {
-                    bg: 'bg-gradient-to-br from-purple-500/20 to-purple-600/10',
-                    border: 'border-purple-500/40 hover:border-purple-400/60',
-                    text: 'text-purple-400',
-                    glow: 'shadow-purple-500/10',
-                    badge: 'bg-purple-500/30 text-purple-300',
+                    bg: 'bg-purple-50',
+                    border: 'border-purple-200 hover:border-purple-300',
+                    text: 'text-purple-600',
+                    glow: 'shadow-purple-100',
+                    badge: 'bg-purple-100 text-purple-600',
                 };
             case 'MICRO_SKILL':
                 return {
-                    bg: 'bg-gradient-to-br from-emerald-500/20 to-emerald-600/10',
-                    border: 'border-emerald-500/40 hover:border-emerald-400/60',
-                    text: 'text-emerald-400',
-                    glow: 'shadow-emerald-500/10',
-                    badge: 'bg-emerald-500/30 text-emerald-300',
+                    bg: 'bg-emerald-50',
+                    border: 'border-emerald-200 hover:border-emerald-300',
+                    text: 'text-emerald-600',
+                    glow: 'shadow-emerald-100',
+                    badge: 'bg-emerald-100 text-emerald-600',
                 };
             case 'SIMULATOR':
                 return {
-                    bg: 'bg-gradient-to-br from-amber-500/20 to-amber-600/10',
-                    border: 'border-amber-500/40 hover:border-amber-400/60',
-                    text: 'text-amber-400',
-                    glow: 'shadow-amber-500/10',
-                    badge: 'bg-amber-500/30 text-amber-300',
+                    bg: 'bg-red-50',
+                    border: 'border-red-200 hover:border-red-300',
+                    text: 'text-[#E60000]',
+                    glow: 'shadow-red-100',
+                    badge: 'bg-red-100 text-[#E60000]',
                 };
         }
     };
@@ -152,11 +152,11 @@ const Daily3Feed: React.FC<Daily3FeedProps> = ({
     const getSlotLabel = (slot: CardSlot) => {
         switch (slot) {
             case 'CONTEXT_ANCHOR':
-                return 'Context Anchor';
+                return 'Key Update';
             case 'DOMAIN_EDGE':
-                return 'Domain Edge';
+                return 'Market Insight';
             case 'MICRO_SKILL':
-                return 'Micro-Skill';
+                return 'Productivity Tip';
             case 'SIMULATOR':
                 return 'Simulator';
         }
@@ -203,15 +203,15 @@ const Daily3Feed: React.FC<Daily3FeedProps> = ({
             <div className="flex items-center justify-between">
                 <div>
                     <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center">
+                        <div className="w-10 h-10 rounded-xl bg-[#E60000] flex items-center justify-center">
                             <Sparkles className="w-5 h-5 text-white" />
                         </div>
                         <div>
-                            <h1 className="text-2xl font-bold text-white">{greeting.title}</h1>
-                            <p className="text-slate-400 text-sm">{greeting.subtitle}</p>
+                            <h1 className="text-2xl font-bold text-black">{greeting.title}</h1>
+                            <p className="text-[#616161] text-sm">{greeting.subtitle}</p>
                         </div>
                     </div>
-                    <p className="text-slate-500 text-sm mt-2">
+                    <p className="text-[#9E9E9E] text-sm mt-2">
                         {new Date().toLocaleDateString('en-US', {
                             weekday: 'long',
                             month: 'long',
@@ -219,7 +219,7 @@ const Daily3Feed: React.FC<Daily3FeedProps> = ({
                         })}
                     </p>
                 </div>
-                <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-800/50 border border-slate-700/50 text-xs text-slate-400">
+                <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#FAFAFA] border border-[#E0E0E0] text-xs text-[#616161]">
                     <Clock className="w-3.5 h-3.5" />
                     <span>Refreshes at midnight</span>
                 </div>
@@ -258,13 +258,13 @@ const Daily3Feed: React.FC<Daily3FeedProps> = ({
                                             <span className={`text-sm font-semibold ${colors.text}`}>
                                                 {getSlotLabel(card.slot)}
                                             </span>
-                                            <p className="text-xs text-slate-500">
+                                            <p className="text-xs text-[#9E9E9E]">
                                                 {getSlotDescription(card.slot)}
                                             </p>
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-2">
-                                        <span className="text-xs text-slate-600 font-mono">
+                                        <span className="text-xs text-[#9E9E9E] font-mono">
                                             {index + 1}/3
                                         </span>
                                         {/* Why this appeared button */}
@@ -276,7 +276,7 @@ const Daily3Feed: React.FC<Daily3FeedProps> = ({
                                                 p-1.5 rounded-lg transition-all
                                                 ${expandedExplainer === card.id
                                                     ? `${colors.badge}`
-                                                    : 'hover:bg-slate-700/50 text-slate-500 hover:text-slate-300'}
+                                                    : 'hover:bg-gray-100 text-[#9E9E9E] hover:text-[#616161]'}
                                             `}
                                             title="Why this appeared"
                                         >
@@ -287,14 +287,14 @@ const Daily3Feed: React.FC<Daily3FeedProps> = ({
 
                                 {/* Explainer Panel */}
                                 {expandedExplainer === card.id && (
-                                    <div className="mb-4 p-3 rounded-xl bg-slate-900/50 border border-slate-700/50 animate-fadeIn">
+                                    <div className="mb-4 p-3 rounded-xl bg-[#FAFAFA] border border-[#E0E0E0] animate-fadeIn">
                                         <div className="flex items-start gap-2">
                                             <HelpCircle className={`w-4 h-4 ${colors.text} flex-shrink-0 mt-0.5`} />
                                             <div>
-                                                <p className="text-xs font-medium text-slate-300 mb-1">
+                                                <p className="text-xs font-medium text-black mb-1">
                                                     Why this appeared
                                                 </p>
-                                                <p className="text-xs text-slate-400 leading-relaxed">
+                                                <p className="text-xs text-[#616161] leading-relaxed">
                                                     {getExplainer(card)}
                                                 </p>
                                             </div>
@@ -303,16 +303,16 @@ const Daily3Feed: React.FC<Daily3FeedProps> = ({
                                 )}
 
                                 {/* Content */}
-                                <h3 className="text-lg font-semibold text-white mb-2 leading-tight">
+                                <h3 className="text-lg font-semibold text-black mb-2 leading-tight">
                                     {card.title}
                                 </h3>
-                                <p className="text-slate-400 text-sm mb-4 leading-relaxed">
+                                <p className="text-[#616161] text-sm mb-4 leading-relaxed">
                                     {card.description}
                                 </p>
 
                                 {/* Metadata Row */}
                                 <div className="flex items-center justify-between text-xs mb-4">
-                                    <span className="text-slate-500 flex items-center gap-1">
+                                    <span className="text-[#9E9E9E] flex items-center gap-1">
                                         {card.source}
                                         {card.sourceType === 'EXTERNAL' && (
                                             <ExternalLink className="w-3 h-3" />
@@ -321,8 +321,8 @@ const Daily3Feed: React.FC<Daily3FeedProps> = ({
                                     {/* KPI Change indicator for Context Anchor */}
                                     {card.slot === 'CONTEXT_ANCHOR' && 'kpiChange' in card && (
                                         <span className={`flex items-center gap-1 font-medium ${(card as ContextAnchorCard).kpiChange! >= 0
-                                                ? 'text-emerald-400'
-                                                : 'text-red-400'
+                                            ? 'text-[#4CAF50]'
+                                            : 'text-[#E60000]'
                                             }`}>
                                             {(card as ContextAnchorCard).kpiChange! >= 0 ? (
                                                 <TrendingUp className="w-3.5 h-3.5" />
@@ -358,7 +358,7 @@ const Daily3Feed: React.FC<Daily3FeedProps> = ({
                                     {!isCompleted && (
                                         <button
                                             onClick={() => handleMarkComplete(card.id)}
-                                            className="p-2.5 rounded-xl bg-slate-700/50 hover:bg-slate-600/50 text-slate-400 hover:text-white transition-all"
+                                            className="p-2.5 rounded-xl bg-gray-100 hover:bg-gray-200 text-[#616161] hover:text-black transition-all"
                                             title="Mark as viewed"
                                         >
                                             <Check className="w-4 h-4" />
@@ -369,8 +369,8 @@ const Daily3Feed: React.FC<Daily3FeedProps> = ({
                                         className={`
                                             p-2.5 rounded-xl transition-all
                                             ${card.flagged
-                                                ? 'bg-red-500/20 text-red-400'
-                                                : 'bg-slate-700/50 hover:bg-slate-600/50 text-slate-400 hover:text-white'}
+                                                ? 'bg-red-100 text-[#E60000]'
+                                                : 'bg-gray-100 hover:bg-gray-200 text-[#616161] hover:text-black'}
                                         `}
                                         title="Report issue"
                                     >
@@ -380,7 +380,7 @@ const Daily3Feed: React.FC<Daily3FeedProps> = ({
 
                                 {/* Completed overlay */}
                                 {isCompleted && (
-                                    <div className="absolute top-3 right-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-400 text-xs">
+                                    <div className="absolute top-3 right-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#E8F5E9] text-[#4CAF50] text-xs">
                                         <Check className="w-3.5 h-3.5" />
                                         Viewed
                                     </div>
@@ -394,12 +394,12 @@ const Daily3Feed: React.FC<Daily3FeedProps> = ({
             {/* Completion Status */}
             <div className="text-center py-4">
                 {completedCards.length === displayCards.length ? (
-                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-sm">
+                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#E8F5E9] border border-[#4CAF50]/30 text-[#4CAF50] text-sm">
                         <Check className="w-4 h-4" />
                         All done! New cards arrive at midnight.
                     </div>
                 ) : (
-                    <div className="text-slate-500 text-sm">
+                    <div className="text-[#9E9E9E] text-sm">
                         {completedCards.length}/{displayCards.length} cards reviewed
                     </div>
                 )}
@@ -407,18 +407,18 @@ const Daily3Feed: React.FC<Daily3FeedProps> = ({
 
             {/* Flag Modal */}
             {showFlagModal && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-                    <div className="bg-slate-800 rounded-2xl border border-slate-700 max-w-sm w-full p-6 animate-fadeIn">
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
+                    <div className="bg-white rounded-2xl border border-[#E0E0E0] max-w-sm w-full p-6 animate-fadeIn shadow-xl">
                         <div className="flex items-center justify-between mb-4">
-                            <h3 className="text-lg font-semibold text-white">Report Issue</h3>
+                            <h3 className="text-lg font-semibold text-black">Report Issue</h3>
                             <button
                                 onClick={() => setShowFlagModal(null)}
-                                className="p-1 rounded-lg hover:bg-slate-700 text-slate-400"
+                                className="p-1 rounded-lg hover:bg-gray-100 text-[#616161]"
                             >
                                 <X className="w-5 h-5" />
                             </button>
                         </div>
-                        <p className="text-slate-400 text-sm mb-4">
+                        <p className="text-[#616161] text-sm mb-4">
                             Why is this card not helpful? Your feedback improves recommendations.
                         </p>
                         <div className="space-y-2">
@@ -430,14 +430,14 @@ const Daily3Feed: React.FC<Daily3FeedProps> = ({
                                 <button
                                     key={option.value}
                                     onClick={() => handleFlagSubmit(showFlagModal, option.value as any)}
-                                    className="w-full flex items-center gap-3 p-3 rounded-xl bg-slate-700/50 hover:bg-slate-700 text-slate-300 hover:text-white transition-all text-sm"
+                                    className="w-full flex items-center gap-3 p-3 rounded-xl bg-[#FAFAFA] hover:bg-gray-100 text-[#616161] hover:text-black transition-all text-sm border border-[#E0E0E0]"
                                 >
-                                    <option.icon className="w-4 h-4 text-slate-400" />
+                                    <option.icon className="w-4 h-4 text-[#9E9E9E]" />
                                     {option.label}
                                 </button>
                             ))}
                         </div>
-                        <p className="text-xs text-slate-500 mt-4 text-center">
+                        <p className="text-xs text-[#9E9E9E] mt-4 text-center">
                             3 reports will quarantine this content for review
                         </p>
                     </div>
@@ -446,29 +446,29 @@ const Daily3Feed: React.FC<Daily3FeedProps> = ({
 
             {/* Simulator Modal */}
             {showSimulator && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-                    <div className="bg-slate-800 rounded-2xl border border-amber-500/30 max-w-2xl w-full max-h-[80vh] overflow-auto animate-fadeIn">
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
+                    <div className="bg-white rounded-2xl border border-[#E60000]/30 max-w-2xl w-full max-h-[80vh] overflow-auto animate-fadeIn shadow-xl">
                         <div className="p-6">
                             <div className="flex items-center gap-3 mb-4">
-                                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center">
+                                <div className="w-12 h-12 rounded-xl bg-[#E60000] flex items-center justify-center">
                                     <Gamepad2 className="w-6 h-6 text-white" />
                                 </div>
                                 <div>
-                                    <h2 className="text-xl font-bold text-white">
+                                    <h2 className="text-xl font-bold text-black">
                                         {MOCK_SIMULATOR.title}
                                     </h2>
-                                    <p className="text-sm text-slate-400">
+                                    <p className="text-sm text-[#616161]">
                                         {MOCK_SIMULATOR.durationMinutes} minute challenge
                                     </p>
                                 </div>
                             </div>
 
-                            <p className="text-slate-300 mb-6">{MOCK_SIMULATOR.description}</p>
+                            <p className="text-[#616161] mb-6">{MOCK_SIMULATOR.description}</p>
 
                             {/* Code Block for Find the Bug */}
                             {MOCK_SIMULATOR.type === 'FIND_THE_BUG' && (
-                                <div className="bg-slate-900 rounded-xl p-4 mb-6 border border-slate-700">
-                                    <pre className="text-sm text-slate-300 overflow-x-auto font-mono">
+                                <div className="bg-[#1e1e1e] rounded-xl p-4 mb-6 border border-[#333]">
+                                    <pre className="text-sm text-gray-300 overflow-x-auto font-mono">
                                         <code>{(MOCK_SIMULATOR.content as any).code}</code>
                                     </pre>
                                 </div>
@@ -480,13 +480,13 @@ const Daily3Feed: React.FC<Daily3FeedProps> = ({
                                         setShowSimulator(false);
                                         handleMarkComplete('simulator-card');
                                     }}
-                                    className="flex-1 py-3 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-white font-semibold rounded-xl transition-all"
+                                    className="flex-1 py-3 bg-[#E60000] hover:bg-[#CC0000] text-white font-semibold rounded-xl transition-all"
                                 >
                                     Submit Answer
                                 </button>
                                 <button
                                     onClick={() => setShowSimulator(false)}
-                                    className="px-6 py-3 bg-slate-700 hover:bg-slate-600 text-slate-300 font-semibold rounded-xl transition-all"
+                                    className="px-6 py-3 bg-[#FAFAFA] hover:bg-gray-100 text-[#616161] font-semibold rounded-xl transition-all border border-[#E0E0E0]"
                                 >
                                     Close
                                 </button>

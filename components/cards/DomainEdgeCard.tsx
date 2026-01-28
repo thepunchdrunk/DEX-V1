@@ -79,7 +79,7 @@ const DomainEdgeCard: React.FC<DomainEdgeCardProps> = ({ className = '' }) => {
                     <Globe className="w-5 h-5 text-white" />
                 </div>
                 <div>
-                    <h3 className="font-bold text-white">Domain Edge</h3>
+                    <h3 className="font-bold text-white">Market Insight</h3>
                     <p className="text-xs text-slate-400">External signals relevant to your role</p>
                 </div>
             </div>

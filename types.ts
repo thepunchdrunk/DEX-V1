@@ -1,5 +1,5 @@
 // ============================================================================
-// LIVING OS — ORIGINAL SPECIFICATION TYPE DEFINITIONS
+// WORKPLACE HUB — ORIGINAL SPECIFICATION TYPE DEFINITIONS
 // "Zero-Search" Intelligent Employee Experience Platform
 // ============================================================================
 
@@ -54,7 +54,7 @@ export interface OnboardingTask {
 }
 
 // ----------------------------------------------------------------------------
-// DAY 1: ZERO-TOUCH ADMIN
+// DAY 1: AUTOMATED SETUP
 // ----------------------------------------------------------------------------
 export type SystemCheckStatus = 'PENDING' | 'CHECKING' | 'PASS' | 'FAIL';
 
@@ -78,7 +78,7 @@ export interface DigitalProfile {
 }
 
 // ----------------------------------------------------------------------------
-// DAY 2: CULTURAL OS
+// DAY 2: COMPANY CULTURE
 // ----------------------------------------------------------------------------
 export interface MicroScenario {
   id: string;
@@ -119,7 +119,7 @@ export interface LearningModule {
 }
 
 // ----------------------------------------------------------------------------
-// DAY 4: NETWORK MAPPER
+// DAY 4: TEAM CONNECTIONS
 // ----------------------------------------------------------------------------
 export interface CriticalPartner {
   id: string;
@@ -153,7 +153,7 @@ export interface GraduationStats {
 }
 
 // ----------------------------------------------------------------------------
-// ROLE-BASED COCKPIT: DAILY 3 CARDS
+// DAILY DASHBOARD: DAILY 3 CARDS
 // ----------------------------------------------------------------------------
 export type CardSlot = 'CONTEXT_ANCHOR' | 'DOMAIN_EDGE' | 'MICRO_SKILL' | 'SIMULATOR';
 export type CardPriority = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
@@ -192,9 +192,10 @@ export interface DailyCard {
     sources: string[];
     lastUpdated: string;
   };
+  roleCategories?: string[]; // Added for role filtering
 }
 
-// Card 1: Context Anchor (Internal KPIs, Strategic Updates)
+// Card 1: Key Update (Internal KPIs, Strategic Updates)
 export interface ContextAnchorCard extends DailyCard {
   slot: 'CONTEXT_ANCHOR';
   kpiType?: 'DEPARTMENT' | 'PROJECT' | 'COMPANY';
@@ -202,7 +203,7 @@ export interface ContextAnchorCard extends DailyCard {
   kpiChange?: number; // Percentage change
 }
 
-// Card 2: Domain Edge (External Market Trends)
+// Card 2: Market Insight (External Market Trends)
 export interface DomainEdgeCard extends DailyCard {
   slot: 'DOMAIN_EDGE';
   industry: string;
@@ -210,7 +211,7 @@ export interface DomainEdgeCard extends DailyCard {
   trendType: 'TECHNOLOGY' | 'MARKET' | 'REGULATION' | 'COMPETITOR';
 }
 
-// Card 3: Micro-Skill (Behavioral Tips)
+// Card 3: Productivity Tip (Behavioral Tips)
 export interface MicroSkillCard extends DailyCard {
   slot: 'MICRO_SKILL';
   frictionSource: string; // e.g., "Jira", "Excel"
@@ -296,7 +297,7 @@ export interface MarketGapCard {
 }
 
 // ----------------------------------------------------------------------------
-// ADVANCED COCKPIT FEATURES
+// ADVANCED DASHBOARD FEATURES
 // ----------------------------------------------------------------------------
 
 // Weekly Behavioral Rhythm
@@ -434,7 +435,7 @@ export interface SkillHeatmapCell {
 }
 
 // ----------------------------------------------------------------------------
-// MAGIC SEARCH (ACTION EXECUTION)
+// QUICK ACTIONS
 // ----------------------------------------------------------------------------
 export interface MagicSearchResult {
   query: string;
@@ -619,7 +620,7 @@ export interface PrivacySettings {
 }
 
 // ============================================================================
-// DAY 2: ENHANCED CULTURAL OS
+// DAY 2: ENHANCED COMPANY CULTURE
 // ============================================================================
 export type RoleCategory = 'DESK' | 'FRONTLINE' | 'REMOTE' | 'HYBRID';
 
@@ -691,6 +692,7 @@ export interface CoffeeChatSuggestion {
   suggestedTopics: string[];
   scheduled: boolean;
   scheduledAt?: string;
+  roleCategories?: string[];
 }
 
 // ============================================================================
@@ -725,7 +727,7 @@ export interface FirstTaskSimulation {
   description: string;
   mode: SimulatorMode;
   steps: SimulationStep[];
-  artifactType: 'TICKET' | 'DOCUMENT' | 'CODE_PR' | 'LOG_ENTRY' | 'CRM_ENTRY';
+  artifactType: 'TICKET' | 'DOCUMENT' | 'CODE_PR' | 'LOG_ENTRY' | 'CRM_ENTRY' | 'CRM_RECORD' | 'SAFETY_LOG' | 'APPROVAL';
   artifactId?: string;
   artifactPreview?: string;
   completedAt?: string;
@@ -795,6 +797,7 @@ export interface Critical5Contact {
   introTemplate: string;
   introSent: boolean;
   introSentAt?: string;
+  roleCategories?: string[];
 }
 
 export interface StakeholderNode {

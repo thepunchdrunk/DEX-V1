@@ -49,22 +49,22 @@ const DecisionAssist: React.FC<DecisionAssistProps> = ({
     const getUrgencyColor = (urgency: DecisionScenario['urgency']) => {
         switch (urgency) {
             case 'HIGH':
-                return 'text-red-400 bg-red-500/20 border-red-500/30';
+                return 'text-[#D32F2F] bg-[#FFEBEE] border-[#D32F2F]/30';
             case 'MEDIUM':
-                return 'text-amber-400 bg-amber-500/20 border-amber-500/30';
+                return 'text-[#E65100] bg-[#FFF3E0] border-[#E65100]/30';
             case 'LOW':
-                return 'text-emerald-400 bg-emerald-500/20 border-emerald-500/30';
+                return 'text-[#4CAF50] bg-[#E8F5E9] border-[#4CAF50]/30';
         }
     };
 
     const getCategoryLabel = (category: DecisionChecklistItem['category']) => {
         switch (category) {
             case 'PREPARATION':
-                return { label: 'Prep', color: 'text-blue-400' };
+                return { label: 'Prep', color: 'text-blue-600' };
             case 'EXECUTION':
-                return { label: 'Execute', color: 'text-amber-400' };
+                return { label: 'Execute', color: 'text-[#E65100]' };
             case 'FOLLOW_UP':
-                return { label: 'Follow-up', color: 'text-emerald-400' };
+                return { label: 'Follow-up', color: 'text-[#4CAF50]' };
         }
     };
 
@@ -89,12 +89,12 @@ const DecisionAssist: React.FC<DecisionAssistProps> = ({
             <div className={`space-y-6 ${className}`}>
                 {/* Header */}
                 <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-400 to-purple-600 flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-xl bg-purple-600 flex items-center justify-center">
                         <Target className="w-5 h-5 text-white" />
                     </div>
                     <div>
-                        <h2 className="text-xl font-bold text-white">Decision Assist</h2>
-                        <p className="text-sm text-slate-400">Prepare for high-stakes scenarios</p>
+                        <h2 className="text-xl font-bold text-black">Decision Assist</h2>
+                        <p className="text-sm text-[#616161]">Prepare for high-stakes scenarios</p>
                     </div>
                 </div>
 
@@ -104,28 +104,28 @@ const DecisionAssist: React.FC<DecisionAssistProps> = ({
                         <button
                             key={scenario.id}
                             onClick={() => handleSelectScenario(scenario)}
-                            className="w-full p-4 rounded-xl bg-slate-800/50 border border-slate-700/50 hover:border-indigo-500/50 hover:bg-indigo-500/5 transition-all text-left group"
+                            className="w-full p-4 rounded-xl bg-white border border-[#E0E0E0] hover:border-[#E60000]/50 hover:shadow-md transition-all text-left group"
                         >
                             <div className="flex items-start gap-3">
                                 <span className="text-2xl">{getTypeIcon(scenario.type)}</span>
                                 <div className="flex-1">
                                     <div className="flex items-center gap-2 mb-1">
-                                        <h3 className="font-medium text-white group-hover:text-indigo-400 transition-colors">
+                                        <h3 className="font-medium text-black group-hover:text-[#E60000] transition-colors">
                                             {scenario.title}
                                         </h3>
                                         <span className={`px-2 py-0.5 rounded-full text-xs ${getUrgencyColor(scenario.urgency)}`}>
                                             {scenario.urgency}
                                         </span>
                                     </div>
-                                    <p className="text-sm text-slate-400">{scenario.description}</p>
+                                    <p className="text-sm text-[#616161]">{scenario.description}</p>
                                     {scenario.triggeredBy && (
-                                        <p className="text-xs text-slate-500 mt-2 flex items-center gap-1">
+                                        <p className="text-xs text-[#9E9E9E] mt-2 flex items-center gap-1">
                                             <AlertCircle className="w-3 h-3" />
                                             {scenario.triggeredBy}
                                         </p>
                                     )}
                                 </div>
-                                <ChevronRight className="w-5 h-5 text-slate-600 group-hover:text-indigo-400" />
+                                <ChevronRight className="w-5 h-5 text-[#9E9E9E] group-hover:text-[#E60000]" />
                             </div>
                         </button>
                     ))}
@@ -141,23 +141,23 @@ const DecisionAssist: React.FC<DecisionAssistProps> = ({
             {!propScenario && (
                 <button
                     onClick={() => setShowScenarioList(true)}
-                    className="text-sm text-slate-400 hover:text-white flex items-center gap-1"
+                    className="text-sm text-[#616161] hover:text-black flex items-center gap-1"
                 >
                     ← Back to scenarios
                 </button>
             )}
 
             {/* Header */}
-            <div className="bg-gradient-to-br from-indigo-500/10 to-purple-500/10 backdrop-blur-md rounded-2xl border border-indigo-500/30 overflow-hidden">
-                <div className="p-5 border-b border-indigo-500/20">
+            <div className="bg-white rounded-2xl border border-[#E0E0E0] overflow-hidden shadow-sm">
+                <div className="p-5 border-b border-[#E0E0E0]">
                     <div className="flex items-start justify-between">
                         <div className="flex items-center gap-3">
-                            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-400 to-purple-500 flex items-center justify-center">
+                            <div className="w-12 h-12 rounded-xl bg-purple-600 flex items-center justify-center">
                                 <Target className="w-6 h-6 text-white" />
                             </div>
                             <div>
-                                <h3 className="text-lg font-bold text-white">{selectedScenario.title}</h3>
-                                <p className="text-sm text-slate-400">{selectedScenario.description}</p>
+                                <h3 className="text-lg font-bold text-black">{selectedScenario.title}</h3>
+                                <p className="text-sm text-[#616161]">{selectedScenario.description}</p>
                             </div>
                         </div>
                         <span className={`px-2.5 py-1 rounded-full text-xs font-medium border ${getUrgencyColor(selectedScenario.urgency)}`}>
@@ -167,13 +167,13 @@ const DecisionAssist: React.FC<DecisionAssistProps> = ({
 
                     {/* Progress Bar */}
                     <div className="mt-4">
-                        <div className="flex items-center justify-between text-xs text-slate-400 mb-1.5">
+                        <div className="flex items-center justify-between text-xs text-[#616161] mb-1.5">
                             <span>Preparation Progress</span>
                             <span className="font-medium">{completedCount}/{checklist.length}</span>
                         </div>
-                        <div className="h-2 bg-slate-700 rounded-full overflow-hidden">
+                        <div className="h-2 bg-[#E0E0E0] rounded-full overflow-hidden">
                             <div
-                                className="h-full bg-gradient-to-r from-indigo-400 to-purple-500 transition-all duration-500"
+                                className="h-full bg-purple-600 transition-all duration-500"
                                 style={{ width: `${progressPercent}%` }}
                             />
                         </div>
@@ -181,7 +181,7 @@ const DecisionAssist: React.FC<DecisionAssistProps> = ({
                 </div>
 
                 {/* Tabs */}
-                <div className="flex border-b border-slate-700/50">
+                <div className="flex border-b border-[#E0E0E0]">
                     {[
                         { id: 'checklist', label: 'Checklist', icon: CheckCircle2 },
                         { id: 'framing', label: 'Framing Tools', icon: Lightbulb },
@@ -191,8 +191,8 @@ const DecisionAssist: React.FC<DecisionAssistProps> = ({
                             key={tab.id}
                             onClick={() => setActiveTab(tab.id as any)}
                             className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-medium transition-all ${activeTab === tab.id
-                                ? 'text-indigo-400 border-b-2 border-indigo-400 bg-indigo-500/5'
-                                : 'text-slate-400 hover:text-slate-300'
+                                ? 'text-[#E60000] border-b-2 border-[#E60000] bg-[#FFF0F0]'
+                                : 'text-[#616161] hover:text-black'
                                 }`}
                         >
                             <tab.icon className="w-4 h-4" />
@@ -212,17 +212,17 @@ const DecisionAssist: React.FC<DecisionAssistProps> = ({
                                         key={item.id}
                                         onClick={() => toggleChecklistItem(item.id)}
                                         className={`w-full flex items-start gap-3 p-3 rounded-xl transition-all text-left ${item.completed
-                                            ? 'bg-emerald-500/10 border border-emerald-500/20'
-                                            : 'bg-slate-700/30 hover:bg-slate-700/50 border border-transparent'
+                                            ? 'bg-[#E8F5E9] border border-[#4CAF50]/20'
+                                            : 'bg-[#FAFAFA] hover:bg-gray-100 border border-transparent'
                                             }`}
                                     >
                                         {item.completed ? (
-                                            <CheckCircle2 className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
+                                            <CheckCircle2 className="w-5 h-5 text-[#4CAF50] flex-shrink-0 mt-0.5" />
                                         ) : (
-                                            <Circle className="w-5 h-5 text-slate-500 flex-shrink-0 mt-0.5" />
+                                            <Circle className="w-5 h-5 text-[#9E9E9E] flex-shrink-0 mt-0.5" />
                                         )}
                                         <div className="flex-1">
-                                            <p className={`text-sm ${item.completed ? 'text-slate-400 line-through' : 'text-slate-200'}`}>
+                                            <p className={`text-sm ${item.completed ? 'text-[#9E9E9E] line-through' : 'text-black'}`}>
                                                 {item.text}
                                             </p>
                                             <span className={`text-xs ${categoryStyle.color} mt-1`}>
@@ -240,12 +240,12 @@ const DecisionAssist: React.FC<DecisionAssistProps> = ({
                             {selectedScenario.framingTools.map((tool, index) => (
                                 <div
                                     key={index}
-                                    className="flex items-start gap-3 p-3 rounded-xl bg-slate-700/30 border border-slate-700/50"
+                                    className="flex items-start gap-3 p-3 rounded-xl bg-[#FAFAFA] border border-[#E0E0E0]"
                                 >
-                                    <div className="w-6 h-6 rounded-lg bg-amber-500/20 flex items-center justify-center flex-shrink-0">
-                                        <Lightbulb className="w-3.5 h-3.5 text-amber-400" />
+                                    <div className="w-6 h-6 rounded-lg bg-[#FFF3E0] flex items-center justify-center flex-shrink-0">
+                                        <Lightbulb className="w-3.5 h-3.5 text-[#E65100]" />
                                     </div>
-                                    <p className="text-sm text-slate-300 leading-relaxed">{tool}</p>
+                                    <p className="text-sm text-black leading-relaxed">{tool}</p>
                                 </div>
                             ))}
                         </div>
@@ -256,9 +256,9 @@ const DecisionAssist: React.FC<DecisionAssistProps> = ({
                             {selectedScenario.preparationPrompts.map((prompt, index) => (
                                 <div
                                     key={index}
-                                    className="p-4 rounded-xl bg-gradient-to-r from-indigo-500/10 to-purple-500/10 border border-indigo-500/20"
+                                    className="p-4 rounded-xl bg-purple-50 border border-purple-200"
                                 >
-                                    <p className="text-sm text-slate-300 leading-relaxed italic">
+                                    <p className="text-sm text-black leading-relaxed italic">
                                         "{prompt}"
                                     </p>
                                 </div>
@@ -268,8 +268,8 @@ const DecisionAssist: React.FC<DecisionAssistProps> = ({
                 </div>
 
                 {/* Footer */}
-                <div className="p-4 border-t border-slate-700/50 bg-slate-800/30">
-                    <button className="w-full py-2.5 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-400 hover:to-purple-400 text-white font-medium text-sm transition-all flex items-center justify-center gap-2">
+                <div className="p-4 border-t border-[#E0E0E0] bg-[#FAFAFA]">
+                    <button className="w-full py-2.5 rounded-xl bg-[#E60000] hover:bg-[#D32F2F] text-white font-medium text-sm transition-all flex items-center justify-center gap-2">
                         I'm Prepared
                         <ChevronRight className="w-4 h-4" />
                     </button>

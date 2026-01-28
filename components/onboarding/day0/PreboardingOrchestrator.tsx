@@ -90,7 +90,7 @@ const PreboardingOrchestrator: React.FC<PreboardingOrchestratorProps> = ({
         });
     }, [items]);
 
-    const handleRefresh = () => {
+    const refreshStatus = () => {
         setIsRefreshing(true);
         // Simulate refresh - progress some pending items
         setTimeout(() => {
@@ -127,11 +127,11 @@ const PreboardingOrchestrator: React.FC<PreboardingOrchestratorProps> = ({
 
     const getStatusColor = (status: PreboardingItem['status']) => {
         switch (status) {
-            case 'READY': return 'text-green-400 bg-green-500/20';
-            case 'IN_PROGRESS': return 'text-blue-400 bg-blue-500/20';
-            case 'PENDING': return 'text-slate-400 bg-slate-500/20';
-            case 'BLOCKED': return 'text-red-400 bg-red-500/20';
-            case 'ESCALATED': return 'text-amber-400 bg-amber-500/20';
+            case 'READY': return 'text-[#4CAF50] bg-[#E8F5E9]';
+            case 'IN_PROGRESS': return 'text-[#E60000] bg-red-50';
+            case 'PENDING': return 'text-[#9E9E9E] bg-[#F5F5F5]';
+            case 'BLOCKED': return 'text-[#D32F2F] bg-[#FFEBEE]';
+            case 'ESCALATED': return 'text-[#FF9800] bg-[#FFF3E0]';
         }
     };
 
@@ -148,13 +148,13 @@ const PreboardingOrchestrator: React.FC<PreboardingOrchestratorProps> = ({
         <div className="p-8 max-w-5xl mx-auto">
             {/* Header */}
             <div className="mb-8">
-                <p className="text-blue-400 text-sm font-bold uppercase tracking-wider mb-2">
+                <p className="text-[#E60000] text-sm font-bold uppercase tracking-wider mb-2">
                     Day 0 — Preboarding
                 </p>
-                <h1 className="text-3xl font-bold text-white mb-2">
+                <h1 className="text-3xl font-bold text-black mb-2">
                     Welcome, {employeeName}!
                 </h1>
-                <p className="text-slate-400">
+                <p className="text-[#616161]">
                     We're getting everything ready for your Day 1. Here's what's happening behind the scenes.
                 </p>
             </div>
@@ -162,17 +162,17 @@ const PreboardingOrchestrator: React.FC<PreboardingOrchestratorProps> = ({
             {/* Countdown & Readiness Score */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                 {/* Countdown */}
-                <div className="bg-slate-800/50 backdrop-blur-md rounded-2xl border border-slate-700/50 p-6">
+                <div className="bg-white rounded-2xl border border-[#E0E0E0] p-6 shadow-sm">
                     <div className="flex items-center gap-4">
-                        <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center">
-                            <Calendar className="w-8 h-8 text-white" />
+                        <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-red-50 to-red-100 flex items-center justify-center border border-red-100">
+                            <Calendar className="w-8 h-8 text-[#E60000]" />
                         </div>
                         <div>
-                            <p className="text-sm text-slate-400">Your First Day</p>
-                            <p className="text-3xl font-bold text-white">
+                            <p className="text-sm text-[#757575]">Your First Day</p>
+                            <p className="text-3xl font-bold text-black">
                                 {daysUntilStart > 0 ? `${daysUntilStart} days` : 'Today!'}
                             </p>
-                            <p className="text-sm text-slate-500">
+                            <p className="text-sm text-[#9E9E9E]">
                                 {new Date(startDate).toLocaleDateString('en-US', {
                                     weekday: 'long',
                                     month: 'long',
@@ -184,33 +184,33 @@ const PreboardingOrchestrator: React.FC<PreboardingOrchestratorProps> = ({
                 </div>
 
                 {/* Readiness Score */}
-                <div className="bg-slate-800/50 backdrop-blur-md rounded-2xl border border-slate-700/50 p-6">
+                <div className="bg-white rounded-2xl border border-[#E0E0E0] p-6 shadow-sm">
                     <div className="flex items-center justify-between mb-4">
                         <div>
-                            <p className="text-sm text-slate-400">Day 1 Readiness Score</p>
-                            <p className={`text-3xl font-bold ${readinessScore.overallScore >= 80 ? 'text-green-400' :
-                                readinessScore.overallScore >= 50 ? 'text-amber-400' : 'text-red-400'
+                            <p className="text-sm text-[#757575]">Day 1 Readiness Score</p>
+                            <p className={`text-3xl font-bold ${readinessScore.overallScore >= 80 ? 'text-[#4CAF50]' :
+                                readinessScore.overallScore >= 50 ? 'text-[#FF9800]' : 'text-[#D32F2F]'
                                 }`}>
                                 {readinessScore.overallScore}%
                             </p>
                         </div>
                         <button
-                            onClick={handleRefresh}
+                            onClick={refreshStatus}
                             disabled={isRefreshing}
-                            className="p-2 bg-slate-700 hover:bg-slate-600 rounded-lg transition-all disabled:opacity-50"
+                            className="p-2 bg-[#FAFAFA] hover:bg-[#F5F5F5] border border-[#E0E0E0] rounded-lg transition-all disabled:opacity-50"
                         >
-                            <RefreshCw className={`w-5 h-5 text-slate-300 ${isRefreshing ? 'animate-spin' : ''}`} />
+                            <RefreshCw className={`w-5 h-5 text-[#757575] ${isRefreshing ? 'animate-spin' : ''}`} />
                         </button>
                     </div>
-                    <div className="h-2 bg-slate-700 rounded-full overflow-hidden mb-2">
+                    <div className="h-2 bg-[#F5F5F5] rounded-full overflow-hidden mb-2">
                         <div
-                            className={`h-full transition-all duration-500 ${readinessScore.overallScore >= 80 ? 'bg-green-500' :
-                                readinessScore.overallScore >= 50 ? 'bg-amber-500' : 'bg-red-500'
+                            className={`h-full transition-all duration-500 ${readinessScore.overallScore >= 80 ? 'bg-[#4CAF50]' :
+                                readinessScore.overallScore >= 50 ? 'bg-[#FF9800]' : 'bg-[#D32F2F]'
                                 }`}
                             style={{ width: `${readinessScore.overallScore}%` }}
                         />
                     </div>
-                    <p className="text-xs text-slate-500">
+                    <p className="text-xs text-[#9E9E9E]">
                         {readinessScore.criticalItemsReady}/{readinessScore.criticalItemsTotal} critical items ready
                     </p>
                 </div>
@@ -221,10 +221,10 @@ const PreboardingOrchestrator: React.FC<PreboardingOrchestratorProps> = ({
                 <button
                     onClick={() => setActiveCategory(null)}
                     className={`
-                        px-4 py-2 rounded-xl font-medium text-sm whitespace-nowrap transition-all
+                        px-4 py-2 rounded-xl font-medium text-sm whitespace-nowrap transition-all shadow-sm
                         ${activeCategory === null
-                            ? 'bg-blue-500 text-white'
-                            : 'bg-slate-800 text-slate-400 hover:bg-slate-700'}
+                            ? 'bg-[#E60000] text-white shadow-md'
+                            : 'bg-white text-[#757575] border border-[#E0E0E0] hover:bg-[#FAFAFA]'}
                     `}
                 >
                     All Items
@@ -238,17 +238,19 @@ const PreboardingOrchestrator: React.FC<PreboardingOrchestratorProps> = ({
                             key={cat}
                             onClick={() => setActiveCategory(cat)}
                             className={`
-                                px-4 py-2 rounded-xl font-medium text-sm whitespace-nowrap transition-all flex items-center gap-2
+                                px-4 py-2 rounded-xl font-medium text-sm whitespace-nowrap transition-all flex items-center gap-2 shadow-sm
                                 ${activeCategory === cat
-                                    ? 'bg-blue-500 text-white'
-                                    : 'bg-slate-800 text-slate-400 hover:bg-slate-700'}
+                                    ? 'bg-[#E60000] text-white shadow-md'
+                                    : 'bg-white text-[#757575] border border-[#E0E0E0] hover:bg-[#FAFAFA]'}
                             `}
                         >
                             {getCategoryIcon(cat)}
                             <span>{categoryLabels[cat]}</span>
                             <span className={`
                                 px-2 py-0.5 rounded-full text-xs
-                                ${catReady === catItems.length ? 'bg-green-500/20 text-green-400' : 'bg-slate-700 text-slate-400'}
+                                ${catReady === catItems.length
+                                    ? (activeCategory === cat ? 'bg-white/20 text-white' : 'bg-[#E8F5E9] text-[#4CAF50]')
+                                    : (activeCategory === cat ? 'bg-white/20 text-white' : 'bg-[#F5F5F5] text-[#9E9E9E]')}
                             `}>
                                 {catReady}/{catItems.length}
                             </span>
@@ -258,12 +260,12 @@ const PreboardingOrchestrator: React.FC<PreboardingOrchestratorProps> = ({
             </div>
 
             {/* Item List */}
-            <div className="bg-slate-800/50 backdrop-blur-md rounded-2xl border border-slate-700/50 overflow-hidden mb-8">
-                <div className="divide-y divide-slate-700/50">
+            <div className="bg-white rounded-2xl border border-[#E0E0E0] overflow-hidden mb-8 shadow-sm">
+                <div className="divide-y divide-[#E0E0E0]">
                     {items
                         .filter(item => activeCategory === null || item.category === activeCategory)
                         .map(item => (
-                            <div key={item.id} className="p-4 flex items-center gap-4">
+                            <div key={item.id} className="p-4 flex items-center gap-4 hover:bg-[#FAFAFA] transition-colors">
                                 {/* Icon */}
                                 <div className={`
                                     w-12 h-12 rounded-xl flex items-center justify-center text-2xl
@@ -274,14 +276,14 @@ const PreboardingOrchestrator: React.FC<PreboardingOrchestratorProps> = ({
 
                                 {/* Content */}
                                 <div className="flex-1 min-w-0">
-                                    <p className="font-medium text-white">{item.label}</p>
-                                    <p className="text-sm text-slate-400">{item.description}</p>
+                                    <p className="font-medium text-black">{item.label}</p>
+                                    <p className="text-sm text-[#757575]">{item.description}</p>
                                     <div className="flex items-center gap-2 mt-1">
-                                        <span className="text-xs text-slate-500">
+                                        <span className="text-xs text-[#9E9E9E]">
                                             Responsible: {item.responsibleTeam}
                                         </span>
                                         {item.estimatedCompletion && item.status !== 'READY' && (
-                                            <span className="text-xs text-slate-500">
+                                            <span className="text-xs text-[#9E9E9E]">
                                                 • ETA: {new Date(item.estimatedCompletion).toLocaleDateString()}
                                             </span>
                                         )}
@@ -291,35 +293,35 @@ const PreboardingOrchestrator: React.FC<PreboardingOrchestratorProps> = ({
                                 {/* Status */}
                                 <div className="flex items-center gap-2">
                                     {item.status === 'READY' && (
-                                        <span className="flex items-center gap-1 px-3 py-1.5 bg-green-500/20 text-green-400 text-sm rounded-lg">
+                                        <span className="flex items-center gap-1 px-3 py-1.5 bg-[#E8F5E9] text-[#4CAF50] text-sm rounded-lg border border-green-100">
                                             <Check className="w-4 h-4" /> Ready
                                         </span>
                                     )}
                                     {item.status === 'IN_PROGRESS' && (
-                                        <span className="flex items-center gap-1 px-3 py-1.5 bg-blue-500/20 text-blue-400 text-sm rounded-lg">
+                                        <span className="flex items-center gap-1 px-3 py-1.5 bg-red-50 text-[#E60000] text-sm rounded-lg border border-red-100">
                                             <Clock className="w-4 h-4" /> In Progress
                                         </span>
                                     )}
                                     {item.status === 'PENDING' && (
-                                        <span className="flex items-center gap-1 px-3 py-1.5 bg-slate-500/20 text-slate-400 text-sm rounded-lg">
+                                        <span className="flex items-center gap-1 px-3 py-1.5 bg-[#F5F5F5] text-[#9E9E9E] text-sm rounded-lg border border-[#E0E0E0]">
                                             <Clock className="w-4 h-4" /> Pending
                                         </span>
                                     )}
                                     {item.status === 'BLOCKED' && (
                                         <>
-                                            <span className="flex items-center gap-1 px-3 py-1.5 bg-red-500/20 text-red-400 text-sm rounded-lg">
+                                            <span className="flex items-center gap-1 px-3 py-1.5 bg-[#FFEBEE] text-[#D32F2F] text-sm rounded-lg border border-red-100">
                                                 <AlertCircle className="w-4 h-4" /> Blocked
                                             </span>
                                             <button
                                                 onClick={() => handleEscalate(item.id)}
-                                                className="px-3 py-1.5 bg-amber-500 hover:bg-amber-400 text-white text-sm font-medium rounded-lg transition-all"
+                                                className="px-3 py-1.5 bg-[#FF9800] hover:bg-[#F57C00] text-white text-sm font-medium rounded-lg transition-all shadow-sm"
                                             >
                                                 Escalate
                                             </button>
                                         </>
                                     )}
                                     {item.status === 'ESCALATED' && (
-                                        <span className="flex items-center gap-1 px-3 py-1.5 bg-amber-500/20 text-amber-400 text-sm rounded-lg">
+                                        <span className="flex items-center gap-1 px-3 py-1.5 bg-[#FFF3E0] text-[#FF9800] text-sm rounded-lg border border-orange-100">
                                             <AlertTriangle className="w-4 h-4" /> Escalated to {item.escalatedTo}
                                         </span>
                                     )}
@@ -330,20 +332,20 @@ const PreboardingOrchestrator: React.FC<PreboardingOrchestratorProps> = ({
             </div>
 
             {/* Communications Timeline */}
-            <div className="bg-slate-800/50 backdrop-blur-md rounded-2xl border border-slate-700/50 p-6 mb-8">
-                <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-                    <Mail className="w-5 h-5 text-blue-400" />
+            <div className="bg-white rounded-2xl border border-[#E0E0E0] p-6 mb-8 shadow-sm">
+                <h3 className="text-lg font-semibold text-black mb-4 flex items-center gap-2">
+                    <Mail className="w-5 h-5 text-[#E60000]" />
                     Communications
                 </h3>
                 <div className="space-y-4">
                     {communications.map(comm => (
                         <div key={comm.id} className="flex items-start gap-4">
                             <div className={`
-                                w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0
-                                ${comm.type === 'WELCOME' ? 'bg-purple-500/20 text-purple-400' : ''}
-                                ${comm.type === 'LOGISTICS' ? 'bg-blue-500/20 text-blue-400' : ''}
-                                ${comm.type === 'REMINDER' ? 'bg-amber-500/20 text-amber-400' : ''}
-                                ${comm.type === 'ESCALATION' ? 'bg-red-500/20 text-red-400' : ''}
+                                w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 border
+                                ${comm.type === 'WELCOME' ? 'bg-purple-50 text-purple-600 border-purple-100' : ''}
+                                ${comm.type === 'LOGISTICS' ? 'bg-blue-50 text-blue-600 border-blue-100' : ''}
+                                ${comm.type === 'REMINDER' ? 'bg-orange-50 text-orange-600 border-orange-100' : ''}
+                                ${comm.type === 'ESCALATION' ? 'bg-red-50 text-red-600 border-red-100' : ''}
                             `}>
                                 {comm.type === 'WELCOME' && <Sparkles className="w-5 h-5" />}
                                 {comm.type === 'LOGISTICS' && <Building2 className="w-5 h-5" />}
@@ -351,8 +353,8 @@ const PreboardingOrchestrator: React.FC<PreboardingOrchestratorProps> = ({
                                 {comm.type === 'ESCALATION' && <AlertTriangle className="w-5 h-5" />}
                             </div>
                             <div className="flex-1">
-                                <p className="text-sm text-white">{comm.content}</p>
-                                <p className="text-xs text-slate-500 mt-1">
+                                <p className="text-sm text-black">{comm.content}</p>
+                                <p className="text-xs text-[#9E9E9E] mt-1">
                                     {new Date(comm.sentAt).toLocaleDateString('en-US', {
                                         weekday: 'short',
                                         month: 'short',
@@ -363,7 +365,7 @@ const PreboardingOrchestrator: React.FC<PreboardingOrchestratorProps> = ({
                                 </p>
                             </div>
                             {comm.read && (
-                                <Check className="w-4 h-4 text-green-400 flex-shrink-0" />
+                                <Check className="w-4 h-4 text-[#4CAF50] flex-shrink-0" />
                             )}
                         </div>
                     ))}
@@ -371,18 +373,18 @@ const PreboardingOrchestrator: React.FC<PreboardingOrchestratorProps> = ({
             </div>
 
             {/* Help Section */}
-            <div className="bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-2xl border border-blue-500/30 p-6">
+            <div className="bg-[#E3F2FD] rounded-2xl border border-[#BBDEFB] p-6">
                 <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-blue-500/20 flex items-center justify-center">
-                        <Shield className="w-6 h-6 text-blue-400" />
+                    <div className="w-12 h-12 rounded-xl bg-white border border-[#BBDEFB] flex items-center justify-center">
+                        <Shield className="w-6 h-6 text-[#1E88E5]" />
                     </div>
                     <div className="flex-1">
-                        <h4 className="font-medium text-white">Need Help?</h4>
-                        <p className="text-sm text-slate-400">
+                        <h4 className="font-medium text-[#0D47A1]">Need Help?</h4>
+                        <p className="text-sm text-[#546E7A]">
                             If any items are blocked or you have questions, reach out to HR Support.
                         </p>
                     </div>
-                    <button className="px-4 py-2 bg-blue-500 hover:bg-blue-400 text-white font-medium rounded-lg transition-all flex items-center gap-2">
+                    <button className="px-4 py-2 bg-[#1E88E5] hover:bg-[#1976D2] text-white font-medium rounded-lg transition-all flex items-center gap-2 shadow-sm">
                         <Send className="w-4 h-4" /> Contact HR
                     </button>
                 </div>

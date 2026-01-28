@@ -53,7 +53,7 @@ const Day5Graduation: React.FC<Day5GraduationProps> = ({ user, onGraduate }) => 
     // Completion status mock data
     const completionStatuses: CompletionStatus[] = [
         { day: 1, dayTitle: 'Life & Work Setup', category: 'Setup', itemsCompleted: 7, itemsTotal: 7, incompleteItems: [] },
-        { day: 2, dayTitle: 'Cultural OS', category: 'Culture', itemsCompleted: 5, itemsTotal: 5, incompleteItems: [] },
+        { day: 2, dayTitle: 'Company Culture', category: 'Culture', itemsCompleted: 5, itemsTotal: 5, incompleteItems: [] },
         { day: 3, dayTitle: 'Tools & Workflow', category: 'Skills', itemsCompleted: 4, itemsTotal: 4, incompleteItems: [] },
         { day: 4, dayTitle: 'Network Mapping', category: 'Relationships', itemsCompleted: 5, itemsTotal: 5, incompleteItems: [] },
         {
@@ -82,7 +82,7 @@ const Day5Graduation: React.FC<Day5GraduationProps> = ({ user, onGraduate }) => 
         }
     }, [phase, onGraduate]);
 
-    const handleRequestSignoff = () => {
+    const requestSignoff = () => {
         setSignoffRequested(true);
         // Simulate manager approval after 2 seconds
         setTimeout(() => {
@@ -128,11 +128,11 @@ const Day5Graduation: React.FC<Day5GraduationProps> = ({ user, onGraduate }) => 
     const renderOverviewPhase = () => (
         <div className="space-y-6">
             <div className="text-center mb-8">
-                <div className="w-20 h-20 rounded-full bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center mx-auto mb-4">
-                    <Trophy className="w-10 h-10 text-white" />
+                <div className="w-20 h-20 rounded-full bg-gradient-to-br from-red-50 to-red-100 flex items-center justify-center mx-auto mb-4 border border-red-200">
+                    <Trophy className="w-10 h-10 text-[#E60000]" />
                 </div>
-                <h2 className="text-2xl font-bold text-white mb-2">Your Onboarding Journey</h2>
-                <p className="text-slate-400">A quick overview of everything you've accomplished.</p>
+                <h2 className="text-2xl font-bold text-black mb-2">Your Onboarding Journey</h2>
+                <p className="text-[#616161]">A quick overview of everything you've accomplished.</p>
             </div>
 
             {/* Completion Dashboard */}
@@ -141,13 +141,13 @@ const Day5Graduation: React.FC<Day5GraduationProps> = ({ user, onGraduate }) => 
                     <div
                         key={status.day}
                         className={`
-                            bg-slate-800/50 rounded-xl border p-4 text-center
-                            ${status.itemsCompleted === status.itemsTotal ? 'border-green-500/30' : 'border-slate-700/50'}
+                            bg-white rounded-xl border p-4 text-center shadow-sm
+                            ${status.itemsCompleted === status.itemsTotal ? 'border-[#4CAF50]' : 'border-[#E0E0E0]'}
                         `}
                     >
                         <div className={`
                             w-10 h-10 rounded-full mx-auto mb-2 flex items-center justify-center
-                            ${status.itemsCompleted === status.itemsTotal ? 'bg-green-500/20 text-green-400' : 'bg-slate-700 text-slate-400'}
+                            ${status.itemsCompleted === status.itemsTotal ? 'bg-[#E8F5E9] text-[#4CAF50]' : 'bg-[#F5F5F5] text-[#9E9E9E]'}
                         `}>
                             {status.itemsCompleted === status.itemsTotal ? (
                                 <Check className="w-5 h-5" />
@@ -155,9 +155,9 @@ const Day5Graduation: React.FC<Day5GraduationProps> = ({ user, onGraduate }) => 
                                 <span className="text-sm font-bold">{status.day}</span>
                             )}
                         </div>
-                        <p className="text-sm font-medium text-white mb-1">Day {status.day}</p>
-                        <p className="text-xs text-slate-400">{status.dayTitle}</p>
-                        <div className="mt-2 text-xs text-slate-500">
+                        <p className="text-sm font-medium text-black mb-1">Day {status.day}</p>
+                        <p className="text-xs text-[#757575]">{status.dayTitle}</p>
+                        <div className="mt-2 text-xs text-[#9E9E9E]">
                             {status.itemsCompleted}/{status.itemsTotal} complete
                         </div>
                     </div>
@@ -165,46 +165,46 @@ const Day5Graduation: React.FC<Day5GraduationProps> = ({ user, onGraduate }) => 
             </div>
 
             {/* What's Next */}
-            <div className="bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-xl border border-blue-500/30 p-6">
-                <h3 className="font-semibold text-white mb-4 flex items-center gap-2">
-                    <Rocket className="w-5 h-5 text-blue-400" />
+            <div className="bg-[#FFF8E1] rounded-xl border border-[#FFECB3] p-6">
+                <h3 className="font-semibold text-black mb-4 flex items-center gap-2">
+                    <Rocket className="w-5 h-5 text-[#FF6F00]" />
                     Final Steps to Graduate
                 </h3>
                 <div className="space-y-3">
                     <div className="flex items-center gap-3">
                         <div className={`
-                            w-8 h-8 rounded-full flex items-center justify-center
-                            ${managerSignoff.signedOff ? 'bg-green-500' : 'bg-slate-700'}
+                            w-8 h-8 rounded-full flex items-center justify-center border
+                            ${managerSignoff.signedOff ? 'bg-[#4CAF50] border-[#4CAF50]' : 'bg-white border-[#BDBDBD]'}
                         `}>
-                            {managerSignoff.signedOff ? <Check className="w-4 h-4 text-white" /> : <span className="text-white text-sm">1</span>}
+                            {managerSignoff.signedOff ? <Check className="w-4 h-4 text-white" /> : <span className="text-[#757575] text-sm">1</span>}
                         </div>
-                        <span className={managerSignoff.signedOff ? 'text-green-400' : 'text-white'}>
+                        <span className={managerSignoff.signedOff ? 'text-[#388E3C] font-medium' : 'text-black'}>
                             Manager Sign-off
                         </span>
                     </div>
                     <div className="flex items-center gap-3">
                         <div className={`
-                            w-8 h-8 rounded-full flex items-center justify-center
-                            ${feedback.submittedAt ? 'bg-green-500' : 'bg-slate-700'}
+                            w-8 h-8 rounded-full flex items-center justify-center border
+                            ${feedback.submittedAt ? 'bg-[#4CAF50] border-[#4CAF50]' : 'bg-white border-[#BDBDBD]'}
                         `}>
-                            {feedback.submittedAt ? <Check className="w-4 h-4 text-white" /> : <span className="text-white text-sm">2</span>}
+                            {feedback.submittedAt ? <Check className="w-4 h-4 text-white" /> : <span className="text-[#757575] text-sm">2</span>}
                         </div>
-                        <span className={feedback.submittedAt ? 'text-green-400' : 'text-white'}>
+                        <span className={feedback.submittedAt ? 'text-[#388E3C] font-medium' : 'text-black'}>
                             Submit Onboarding Feedback
                         </span>
                     </div>
                     <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center">
-                            <span className="text-white text-sm">3</span>
+                        <div className="w-8 h-8 rounded-full bg-white border border-[#BDBDBD] flex items-center justify-center">
+                            <span className="text-[#757575] text-sm">3</span>
                         </div>
-                        <span className="text-white">Graduate & Transition to Daily Cockpit</span>
+                        <span className="text-black">Graduate & Transition to Daily Dashboard</span>
                     </div>
                 </div>
             </div>
 
             <button
                 onClick={() => setPhase('SIGNOFF')}
-                className="w-full py-4 bg-blue-500 hover:bg-blue-400 text-white font-semibold rounded-xl transition-all flex items-center justify-center gap-2"
+                className="w-full py-4 bg-[#E60000] hover:bg-[#C62828] text-white font-semibold rounded-xl transition-all flex items-center justify-center gap-2 shadow-sm hover:shadow-md"
             >
                 Begin Final Steps <ChevronRight className="w-5 h-5" />
             </button>
@@ -213,67 +213,67 @@ const Day5Graduation: React.FC<Day5GraduationProps> = ({ user, onGraduate }) => 
 
     const renderSignoffPhase = () => (
         <div className="space-y-6">
-            <h3 className="text-xl font-semibold text-white flex items-center gap-2">
-                <FileText className="w-6 h-6 text-blue-400" />
+            <h3 className="text-xl font-semibold text-black flex items-center gap-2">
+                <FileText className="w-6 h-6 text-[#E60000]" />
                 Manager Sign-off
             </h3>
 
             {/* Manager Message */}
             {managerSignoff.welcomeMessage && (
-                <div className="bg-slate-800/50 rounded-xl border border-slate-700/50 p-6">
+                <div className="bg-white rounded-xl border border-[#E0E0E0] p-6 shadow-sm">
                     <div className="flex items-start gap-4">
-                        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white font-bold">
+                        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-gray-700 to-black flex items-center justify-center text-white font-bold">
                             {managerSignoff.managerName.split(' ').map(n => n[0]).join('')}
                         </div>
                         <div>
-                            <p className="text-sm text-slate-400 mb-1">Message from {managerSignoff.managerName}</p>
-                            <p className="text-white">{managerSignoff.welcomeMessage}</p>
+                            <p className="text-sm text-[#757575] mb-1">Message from {managerSignoff.managerName}</p>
+                            <p className="text-black">{managerSignoff.welcomeMessage}</p>
                         </div>
                     </div>
                 </div>
             )}
 
             {/* Goals Overview */}
-            <div className="bg-slate-800/50 rounded-xl border border-slate-700/50 p-6">
-                <h4 className="font-medium text-white mb-4 flex items-center gap-2">
-                    <Target className="w-5 h-5 text-amber-400" />
+            <div className="bg-white rounded-xl border border-[#E0E0E0] p-6 shadow-sm">
+                <h4 className="font-medium text-black mb-4 flex items-center gap-2">
+                    <Target className="w-5 h-5 text-[#E60000]" />
                     First Week Goals
                 </h4>
                 <div className="space-y-3">
                     {managerSignoff.firstWeekGoals.map((goal) => (
-                        <div key={goal.id} className="flex items-start gap-3 p-3 bg-slate-900/50 rounded-lg">
-                            <div className="w-8 h-8 rounded-lg bg-amber-500/20 flex items-center justify-center flex-shrink-0">
+                        <div key={goal.id} className="flex items-start gap-3 p-3 bg-[#FAFAFA] rounded-lg border border-[#F5F5F5]">
+                            <div className="w-8 h-8 rounded-lg bg-white border border-[#E0E0E0] flex items-center justify-center flex-shrink-0 text-lg">
                                 {goal.category === 'LEARNING' && '📚'}
                                 {goal.category === 'DELIVERY' && '✅'}
                                 {goal.category === 'RELATIONSHIP' && '🤝'}
                                 {goal.category === 'PROCESS' && '⚙️'}
                             </div>
                             <div>
-                                <p className="text-sm font-medium text-white">{goal.title}</p>
-                                <p className="text-xs text-slate-400">{goal.description}</p>
+                                <p className="text-sm font-medium text-black">{goal.title}</p>
+                                <p className="text-xs text-[#616161]">{goal.description}</p>
                             </div>
                         </div>
                     ))}
                 </div>
             </div>
 
-            <div className="bg-slate-800/50 rounded-xl border border-slate-700/50 p-6">
-                <h4 className="font-medium text-white mb-4 flex items-center gap-2">
-                    <Calendar className="w-5 h-5 text-purple-400" />
+            <div className="bg-white rounded-xl border border-[#E0E0E0] p-6 shadow-sm">
+                <h4 className="font-medium text-black mb-4 flex items-center gap-2">
+                    <Calendar className="w-5 h-5 text-[#E60000]" />
                     First Month Goals
                 </h4>
                 <div className="space-y-3">
                     {managerSignoff.firstMonthGoals.map((goal) => (
-                        <div key={goal.id} className="flex items-start gap-3 p-3 bg-slate-900/50 rounded-lg">
-                            <div className="w-8 h-8 rounded-lg bg-purple-500/20 flex items-center justify-center flex-shrink-0">
+                        <div key={goal.id} className="flex items-start gap-3 p-3 bg-[#FAFAFA] rounded-lg border border-[#F5F5F5]">
+                            <div className="w-8 h-8 rounded-lg bg-white border border-[#E0E0E0] flex items-center justify-center flex-shrink-0 text-lg">
                                 {goal.category === 'LEARNING' && '📚'}
                                 {goal.category === 'DELIVERY' && '✅'}
                                 {goal.category === 'RELATIONSHIP' && '🤝'}
                                 {goal.category === 'PROCESS' && '⚙️'}
                             </div>
                             <div>
-                                <p className="text-sm font-medium text-white">{goal.title}</p>
-                                <p className="text-xs text-slate-400">{goal.description}</p>
+                                <p className="text-sm font-medium text-black">{goal.title}</p>
+                                <p className="text-xs text-[#616161]">{goal.description}</p>
                             </div>
                         </div>
                     ))}
@@ -282,40 +282,40 @@ const Day5Graduation: React.FC<Day5GraduationProps> = ({ user, onGraduate }) => 
 
             {/* Sign-off Status */}
             {!managerSignoff.signedOff ? (
-                <div className="bg-amber-500/10 border border-amber-500/30 rounded-xl p-6">
+                <div className="bg-[#FFF3E0] border border-[#FFB74D] rounded-xl p-6">
                     <div className="flex items-center gap-4">
                         {signoffRequested ? (
                             <>
-                                <Clock className="w-8 h-8 text-amber-400 animate-pulse" />
+                                <Clock className="w-8 h-8 text-[#FF9800] animate-pulse" />
                                 <div>
-                                    <p className="font-medium text-amber-400">Awaiting Manager Sign-off</p>
-                                    <p className="text-sm text-slate-400">Notification sent to {managerSignoff.managerName}</p>
+                                    <p className="font-medium text-[#F57C00]">Awaiting Manager Sign-off</p>
+                                    <p className="text-sm text-[#795548]">Notification sent to {managerSignoff.managerName}</p>
                                 </div>
                             </>
                         ) : (
                             <>
-                                <AlertCircle className="w-8 h-8 text-amber-400" />
+                                <AlertCircle className="w-8 h-8 text-[#FF9800]" />
                                 <div className="flex-1">
-                                    <p className="font-medium text-white">Manager sign-off required</p>
-                                    <p className="text-sm text-slate-400">Your manager will confirm you're ready to proceed</p>
+                                    <p className="font-medium text-[#E65100]">Manager sign-off required</p>
+                                    <p className="text-sm text-[#795548]">Your manager will confirm you're ready to proceed</p>
                                 </div>
                                 <button
-                                    onClick={handleRequestSignoff}
-                                    className="px-4 py-2 bg-amber-500 hover:bg-amber-400 text-white font-medium rounded-lg transition-all flex items-center gap-2"
+                                    onClick={requestSignoff}
+                                    className="px-4 py-2 bg-[#FF9800] hover:bg-[#F57C00] text-white font-medium rounded-lg transition-all flex items-center gap-2 shadow-sm"
                                 >
-                                    <Send className="w-4 h-4" /> Request Sign-off
+                                    <Send className="w-4 h-4" /> Complete Onboarding
                                 </button>
                             </>
                         )}
                     </div>
                 </div>
             ) : (
-                <div className="bg-green-500/10 border border-green-500/30 rounded-xl p-6">
+                <div className="bg-[#E8F5E9] border border-[#66BB6A] rounded-xl p-6">
                     <div className="flex items-center gap-4">
-                        <Check className="w-8 h-8 text-green-400" />
+                        <Check className="w-8 h-8 text-[#2E7D32]" />
                         <div>
-                            <p className="font-medium text-green-400">Signed Off!</p>
-                            <p className="text-sm text-slate-400">
+                            <p className="font-medium text-[#2E7D32]">Signed Off!</p>
+                            <p className="text-sm text-[#388E3C]">
                                 {managerSignoff.managerName} signed off on {new Date(managerSignoff.signedOffAt!).toLocaleString()}
                             </p>
                         </div>
@@ -327,10 +327,10 @@ const Day5Graduation: React.FC<Day5GraduationProps> = ({ user, onGraduate }) => 
                 onClick={() => setPhase('FEEDBACK')}
                 disabled={!managerSignoff.signedOff}
                 className={`
-                    w-full py-4 font-semibold rounded-xl transition-all flex items-center justify-center gap-2
+                    w-full py-4 font-semibold rounded-xl transition-all flex items-center justify-center gap-2 shadow-sm
                     ${managerSignoff.signedOff
-                        ? 'bg-blue-500 hover:bg-blue-400 text-white'
-                        : 'bg-slate-700 text-slate-400 cursor-not-allowed'}
+                        ? 'bg-[#E60000] hover:bg-[#C62828] text-white'
+                        : 'bg-[#F5F5F5] text-[#9E9E9E] cursor-not-allowed border border-[#E0E0E0]'}
                 `}
             >
                 Continue to Feedback <ChevronRight className="w-5 h-5" />
@@ -340,27 +340,27 @@ const Day5Graduation: React.FC<Day5GraduationProps> = ({ user, onGraduate }) => 
 
     const renderFeedbackPhase = () => (
         <div className="space-y-6">
-            <h3 className="text-xl font-semibold text-white flex items-center gap-2">
-                <MessageSquare className="w-6 h-6 text-purple-400" />
+            <h3 className="text-xl font-semibold text-black flex items-center gap-2">
+                <MessageSquare className="w-6 h-6 text-[#E60000]" />
                 Onboarding Feedback
             </h3>
-            <p className="text-slate-400">
+            <p className="text-[#616161]">
                 Help us improve the experience for future new hires.
             </p>
 
             {/* Overall Satisfaction */}
-            <div className="bg-slate-800/50 rounded-xl border border-slate-700/50 p-6">
-                <h4 className="font-medium text-white mb-4">How satisfied are you with your onboarding experience?</h4>
+            <div className="bg-white rounded-xl border border-[#E0E0E0] p-6 shadow-sm">
+                <h4 className="font-medium text-black mb-4">How satisfied are you with your onboarding experience?</h4>
                 <div className="flex items-center justify-center gap-4">
                     {[1, 2, 3, 4, 5].map((rating) => (
                         <button
                             key={rating}
                             onClick={() => setFeedback(prev => ({ ...prev, overallSatisfaction: rating as 1 | 2 | 3 | 4 | 5 }))}
                             className={`
-                                w-12 h-12 rounded-xl flex items-center justify-center text-xl transition-all
+                                w-12 h-12 rounded-xl flex items-center justify-center text-xl transition-all border
                                 ${feedback.overallSatisfaction === rating
-                                    ? 'bg-blue-500 scale-110'
-                                    : 'bg-slate-700 hover:bg-slate-600'}
+                                    ? 'bg-red-50 border-red-200 scale-110 shadow-sm'
+                                    : 'bg-white border-[#E0E0E0] hover:bg-[#F5F5F5]'}
                             `}
                         >
                             {rating === 1 && '😔'}
@@ -374,45 +374,45 @@ const Day5Graduation: React.FC<Day5GraduationProps> = ({ user, onGraduate }) => 
             </div>
 
             {/* Confidence Level */}
-            <div className="bg-slate-800/50 rounded-xl border border-slate-700/50 p-6">
-                <h4 className="font-medium text-white mb-4">How confident do you feel starting your role?</h4>
+            <div className="bg-white rounded-xl border border-[#E0E0E0] p-6 shadow-sm">
+                <h4 className="font-medium text-black mb-4">How confident do you feel starting your role?</h4>
                 <div className="flex items-center justify-center gap-4">
                     {[1, 2, 3, 4, 5].map((rating) => (
                         <button
                             key={rating}
                             onClick={() => setFeedback(prev => ({ ...prev, confidenceLevel: rating as 1 | 2 | 3 | 4 | 5 }))}
                             className={`
-                                w-12 h-12 rounded-xl flex items-center justify-center transition-all
+                                w-12 h-12 rounded-xl flex items-center justify-center transition-all border
                                 ${feedback.confidenceLevel === rating
-                                    ? 'bg-purple-500 scale-110'
-                                    : 'bg-slate-700 hover:bg-slate-600'}
+                                    ? 'bg-red-50 border-red-200 scale-110 shadow-sm'
+                                    : 'bg-white border-[#E0E0E0] hover:bg-[#F5F5F5]'}
                             `}
                         >
-                            {rating === 1 && <Star className="w-6 h-6 text-slate-400" />}
-                            {rating === 2 && <Star className="w-6 h-6 text-slate-300" />}
-                            {rating === 3 && <Star className="w-6 h-6 text-amber-400" />}
-                            {rating === 4 && <Star className="w-6 h-6 text-amber-400 fill-amber-400" />}
-                            {rating === 5 && <Sparkles className="w-6 h-6 text-amber-400" />}
+                            {rating === 1 && <Star className="w-6 h-6 text-[#9E9E9E]" />}
+                            {rating === 2 && <Star className="w-6 h-6 text-[#757575]" />}
+                            {rating === 3 && <Star className="w-6 h-6 text-[#E60000]" />}
+                            {rating === 4 && <Star className="w-6 h-6 text-[#E60000] fill-[#E60000]" />}
+                            {rating === 5 && <Sparkles className="w-6 h-6 text-[#E60000]" />}
                         </button>
                     ))}
                 </div>
             </div>
 
             {/* Friction Points */}
-            <div className="bg-slate-800/50 rounded-xl border border-slate-700/50 p-6">
-                <h4 className="font-medium text-white mb-4">Any friction points or challenges? (Optional)</h4>
+            <div className="bg-white rounded-xl border border-[#E0E0E0] p-6 shadow-sm">
+                <h4 className="font-medium text-black mb-4">Any friction points or challenges? (Optional)</h4>
                 <div className="flex gap-2 mb-3">
                     <input
                         type="text"
                         value={frictionInput}
                         onChange={(e) => setFrictionInput(e.target.value)}
                         placeholder="e.g., System access took too long"
-                        className="flex-1 px-4 py-2 bg-slate-900/50 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-blue-500"
+                        className="flex-1 px-4 py-2 bg-[#FAFAFA] border border-[#E0E0E0] rounded-lg text-black placeholder-[#9E9E9E] focus:outline-none focus:border-[#E60000] focus:ring-1 focus:ring-[#E60000]"
                         onKeyPress={(e) => e.key === 'Enter' && handleAddFriction()}
                     />
                     <button
                         onClick={handleAddFriction}
-                        className="px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-lg transition-all"
+                        className="px-4 py-2 bg-[#FAFAFA] border border-[#E0E0E0] hover:bg-[#F5F5F5] text-black rounded-lg transition-all"
                     >
                         Add
                     </button>
@@ -420,7 +420,7 @@ const Day5Graduation: React.FC<Day5GraduationProps> = ({ user, onGraduate }) => 
                 {feedback.frictionPoints && feedback.frictionPoints.length > 0 && (
                     <div className="flex flex-wrap gap-2">
                         {feedback.frictionPoints.map((point, i) => (
-                            <span key={i} className="px-3 py-1 bg-red-500/20 text-red-400 text-sm rounded-full">
+                            <span key={i} className="px-3 py-1 bg-red-50 text-red-600 border border-red-100 text-sm rounded-full">
                                 {point}
                             </span>
                         ))}
@@ -429,20 +429,20 @@ const Day5Graduation: React.FC<Day5GraduationProps> = ({ user, onGraduate }) => 
             </div>
 
             {/* Highlights */}
-            <div className="bg-slate-800/50 rounded-xl border border-slate-700/50 p-6">
-                <h4 className="font-medium text-white mb-4">What worked well? (Optional)</h4>
+            <div className="bg-white rounded-xl border border-[#E0E0E0] p-6 shadow-sm">
+                <h4 className="font-medium text-black mb-4">What worked well? (Optional)</h4>
                 <div className="flex gap-2 mb-3">
                     <input
                         type="text"
                         value={highlightInput}
                         onChange={(e) => setHighlightInput(e.target.value)}
                         placeholder="e.g., The buddy system was really helpful"
-                        className="flex-1 px-4 py-2 bg-slate-900/50 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-blue-500"
+                        className="flex-1 px-4 py-2 bg-[#FAFAFA] border border-[#E0E0E0] rounded-lg text-black placeholder-[#9E9E9E] focus:outline-none focus:border-[#E60000] focus:ring-1 focus:ring-[#E60000]"
                         onKeyPress={(e) => e.key === 'Enter' && handleAddHighlight()}
                     />
                     <button
                         onClick={handleAddHighlight}
-                        className="px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-lg transition-all"
+                        className="px-4 py-2 bg-[#FAFAFA] border border-[#E0E0E0] hover:bg-[#F5F5F5] text-black rounded-lg transition-all"
                     >
                         Add
                     </button>
@@ -450,7 +450,7 @@ const Day5Graduation: React.FC<Day5GraduationProps> = ({ user, onGraduate }) => 
                 {feedback.highlights && feedback.highlights.length > 0 && (
                     <div className="flex flex-wrap gap-2">
                         {feedback.highlights.map((highlight, i) => (
-                            <span key={i} className="px-3 py-1 bg-green-500/20 text-green-400 text-sm rounded-full">
+                            <span key={i} className="px-3 py-1 bg-green-50 text-green-600 border border-green-100 text-sm rounded-full">
                                 {highlight}
                             </span>
                         ))}
@@ -462,10 +462,10 @@ const Day5Graduation: React.FC<Day5GraduationProps> = ({ user, onGraduate }) => 
                 onClick={handleSubmitFeedback}
                 disabled={!canSubmitFeedback}
                 className={`
-                    w-full py-4 font-semibold rounded-xl transition-all flex items-center justify-center gap-2
+                    w-full py-4 font-semibold rounded-xl transition-all flex items-center justify-center gap-2 shadow-sm
                     ${canSubmitFeedback
-                        ? 'bg-blue-500 hover:bg-blue-400 text-white'
-                        : 'bg-slate-700 text-slate-400 cursor-not-allowed'}
+                        ? 'bg-[#E60000] hover:bg-[#C62828] text-white'
+                        : 'bg-[#F5F5F5] text-[#9E9E9E] cursor-not-allowed border border-[#E0E0E0]'}
                 `}
             >
                 <Send className="w-5 h-5" /> Submit Feedback
@@ -476,17 +476,17 @@ const Day5Graduation: React.FC<Day5GraduationProps> = ({ user, onGraduate }) => 
     const renderGraduationPhase = () => (
         <div className="text-center py-8 space-y-8">
             <div className="relative">
-                <div className="w-32 h-32 rounded-full bg-gradient-to-br from-amber-500 via-orange-500 to-red-500 flex items-center justify-center mx-auto animate-pulse">
-                    <Trophy className="w-16 h-16 text-white" />
+                <div className="w-32 h-32 rounded-full bg-gradient-to-br from-red-50 to-red-100 flex items-center justify-center mx-auto border border-red-200">
+                    <Trophy className="w-16 h-16 text-[#E60000]" />
                 </div>
-                <div className="absolute -top-2 -right-2 w-12 h-12 rounded-full bg-yellow-500 flex items-center justify-center animate-bounce">
+                <div className="absolute -top-2 -right-2 w-12 h-12 rounded-full bg-[#E60000] flex items-center justify-center animate-bounce shadow-lg">
                     <PartyPopper className="w-6 h-6 text-white" />
                 </div>
             </div>
 
             <div>
-                <h2 className="text-3xl font-bold text-white mb-2">Congratulations, {user.name}!</h2>
-                <p className="text-xl text-slate-400">You've completed your onboarding journey.</p>
+                <h2 className="text-3xl font-bold text-black mb-2">Congratulations, {user.name}!</h2>
+                <p className="text-xl text-[#757575]">You've completed your onboarding journey.</p>
             </div>
 
             {/* Badges Earned */}
@@ -499,84 +499,74 @@ const Day5Graduation: React.FC<Day5GraduationProps> = ({ user, onGraduate }) => 
                 ].map((badge, i) => (
                     <div
                         key={i}
-                        className="flex flex-col items-center p-4 bg-slate-800/50 rounded-xl border border-slate-700/50"
+                        className="flex flex-col items-center p-4 bg-white border border-[#E0E0E0] rounded-xl shadow-sm"
                     >
                         <span className="text-3xl mb-2">{badge.icon}</span>
-                        <span className="text-sm text-slate-400">{badge.label}</span>
+                        <span className="text-sm text-[#616161]">{badge.label}</span>
                     </div>
                 ))}
             </div>
 
             {/* What's Next Teaser */}
-            <div className="bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-xl border border-blue-500/30 p-6 max-w-lg mx-auto">
-                <h3 className="font-semibold text-white mb-4 flex items-center justify-center gap-2">
-                    <Rocket className="w-5 h-5 text-blue-400" />
-                    Your Daily Cockpit Awaits
+            <div className="bg-[#FFF8E1] rounded-xl border border-[#FFECB3] p-6 max-w-lg mx-auto shadow-sm">
+                <h3 className="font-semibold text-black mb-4 flex items-center justify-center gap-2">
+                    <Rocket className="w-5 h-5 text-[#FF6F00]" />
+                    Your Daily Dashboard Awaits
                 </h3>
-                <p className="text-slate-400 text-sm mb-4">
+                <p className="text-[#616161] text-sm mb-4">
                     Starting tomorrow, you'll have a personalized daily experience with context cards,
                     smart nudges, and everything you need to thrive in your role.
                 </p>
                 <div className="flex items-center justify-center gap-4 text-sm">
-                    <span className="px-3 py-1 bg-slate-800 rounded-full text-slate-300">📊 Daily Cards</span>
-                    <span className="px-3 py-1 bg-slate-800 rounded-full text-slate-300">🔔 Smart Nudges</span>
-                    <span className="px-3 py-1 bg-slate-800 rounded-full text-slate-300">📈 Growth Tracking</span>
+                    <span className="px-3 py-1 bg-white border border-[#E0E0E0] rounded-full text-[#757575]">📊 Daily Cards</span>
+                    <span className="px-3 py-1 bg-white border border-[#E0E0E0] rounded-full text-[#757575]">🔔 Smart Nudges</span>
+                    <span className="px-3 py-1 bg-white border border-[#E0E0E0] rounded-full text-[#757575]">📈 Growth Tracking</span>
                 </div>
             </div>
 
             <button
                 onClick={() => setPhase('TRANSITION')}
-                className="px-8 py-4 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-white font-bold text-lg rounded-xl transition-all flex items-center justify-center gap-3 mx-auto"
+                className="px-8 py-4 bg-[#E60000] hover:bg-[#C62828] text-white font-bold text-lg rounded-xl transition-all flex items-center justify-center gap-3 mx-auto shadow-md hover:shadow-lg"
             >
                 <Sparkles className="w-6 h-6" />
-                Enter Your Daily Cockpit
+                Enter Daily Dashboard
                 <ChevronRight className="w-6 h-6" />
             </button>
         </div>
     );
 
     const renderTransitionPhase = () => (
-        <div className="text-center py-16 space-y-8" style={{
-            background: `linear-gradient(135deg, 
-                rgba(59, 130, 246, ${0.1 * (1 - themeTransitionProgress / 100)}) 0%, 
-                rgba(245, 158, 11, ${0.1 * themeTransitionProgress / 100}) 100%)`
-        }}>
+        <div className="text-center py-16 space-y-8 bg-white rounded-xl">
             <div className="relative">
                 <div
-                    className="w-24 h-24 rounded-full mx-auto flex items-center justify-center transition-all duration-500"
-                    style={{
-                        background: `linear-gradient(135deg, 
-                            rgba(59, 130, 246, ${1 - themeTransitionProgress / 100}) 0%, 
-                            rgba(245, 158, 11, ${themeTransitionProgress / 100}) 100%)`
-                    }}
+                    className="w-24 h-24 rounded-full mx-auto flex items-center justify-center transition-all duration-500 bg-red-50"
                 >
-                    <Sparkles className="w-12 h-12 text-white animate-spin" />
+                    <Sparkles className="w-12 h-12 text-[#E60000] animate-spin" />
                 </div>
             </div>
 
             <div>
-                <h2 className="text-2xl font-bold text-white mb-2">
+                <h2 className="text-2xl font-bold text-black mb-2">
                     {themeTransitionProgress < 50 ? 'Transitioning...' : 'Welcome to your new experience!'}
                 </h2>
-                <p className="text-slate-400">
+                <p className="text-[#757575]">
                     {themeTransitionProgress < 50
-                        ? 'Switching from Onboarding Blue to Performance Gold'
-                        : 'Your daily cockpit is ready'}
+                        ? 'Finalizing your profile setup...'
+                        : 'Your daily dashboard is ready'}
                 </p>
             </div>
 
             {/* Progress Bar */}
             <div className="max-w-sm mx-auto">
-                <div className="h-2 bg-slate-700 rounded-full overflow-hidden">
+                <div className="h-2 bg-[#E0E0E0] rounded-full overflow-hidden">
                     <div
-                        className="h-full transition-all duration-100"
+                        className="h-full transition-all duration-100 bg-[#E60000]"
                         style={{
                             width: `${themeTransitionProgress}%`,
-                            background: `linear-gradient(90deg, #3B82F6, #F59E0B)`
                         }}
                     />
                 </div>
-                <p className="text-sm text-slate-500 mt-2">{themeTransitionProgress}%</p>
+                <p className="text-sm text-[#9E9E9E] mt-2">{themeTransitionProgress}%</p>
             </div>
         </div>
     );
@@ -585,13 +575,13 @@ const Day5Graduation: React.FC<Day5GraduationProps> = ({ user, onGraduate }) => 
         <div className="p-8 max-w-4xl mx-auto">
             {/* Header */}
             <div className="mb-8">
-                <p className="text-amber-400 text-sm font-bold uppercase tracking-wider mb-2">
+                <p className="text-[#E60000] text-sm font-bold uppercase tracking-wider mb-2">
                     Day 5 of 5
                 </p>
-                <h1 className="text-3xl font-bold text-white mb-2">
-                    Graduation Day
+                <h1 className="text-3xl font-bold text-black mb-2">
+                    Completion Day
                 </h1>
-                <p className="text-slate-400">
+                <p className="text-[#616161]">
                     You've made it! Time to celebrate and transition to your daily experience.
                 </p>
             </div>
@@ -603,7 +593,7 @@ const Day5Graduation: React.FC<Day5GraduationProps> = ({ user, onGraduate }) => 
                         { id: 'OVERVIEW', label: 'Overview', icon: '📊' },
                         { id: 'SIGNOFF', label: 'Sign-off', icon: '✍️' },
                         { id: 'FEEDBACK', label: 'Feedback', icon: '💬' },
-                        { id: 'GRADUATION', label: 'Graduate', icon: '🎓' },
+                        { id: 'GRADUATION', label: 'Complete', icon: '🎓' },
                     ].map((p, i) => {
                         const isActive = phase === p.id;
                         const isPast =
@@ -615,16 +605,16 @@ const Day5Graduation: React.FC<Day5GraduationProps> = ({ user, onGraduate }) => 
                             <React.Fragment key={p.id}>
                                 <div
                                     className={`
-                                        flex items-center gap-2 px-4 py-2 rounded-xl transition-all
-                                        ${isActive ? 'bg-amber-500/20 border border-amber-500/50 text-white' : ''}
-                                        ${isPast ? 'bg-green-500/20 border border-green-500/50 text-green-400' : ''}
-                                        ${!isActive && !isPast ? 'bg-slate-800/50 text-slate-500' : ''}
+                                        flex items-center gap-2 px-4 py-2 rounded-xl transition-all border
+                                        ${isActive ? 'bg-red-50 border-red-200 text-[#E60000]' : ''}
+                                        ${isPast ? 'bg-green-50 border-green-200 text-[#4CAF50]' : ''}
+                                        ${!isActive && !isPast ? 'bg-white border-[#E0E0E0] text-[#9E9E9E]' : ''}
                                     `}
                                 >
                                     {isPast ? <Check className="w-4 h-4" /> : <span>{p.icon}</span>}
                                     <span className="font-medium">{p.label}</span>
                                 </div>
-                                {i < 3 && <ChevronRight className="w-5 h-5 text-slate-600" />}
+                                {i < 3 && <ChevronRight className="w-5 h-5 text-[#BDBDBD]" />}
                             </React.Fragment>
                         );
                     })}
@@ -632,7 +622,7 @@ const Day5Graduation: React.FC<Day5GraduationProps> = ({ user, onGraduate }) => 
             )}
 
             {/* Phase Content */}
-            <div className="bg-slate-800/50 backdrop-blur-md rounded-2xl border border-slate-700/50 p-6">
+            <div className="bg-white rounded-2xl border border-[#E0E0E0] p-6 shadow-sm">
                 {phase === 'OVERVIEW' && renderOverviewPhase()}
                 {phase === 'SIGNOFF' && renderSignoffPhase()}
                 {phase === 'FEEDBACK' && renderFeedbackPhase()}
