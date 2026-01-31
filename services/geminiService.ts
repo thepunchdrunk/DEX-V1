@@ -1,5 +1,5 @@
 // ============================================================================
-// WORKPLACE HUB v2 — GEMINI AI SERVICE
+// DEX v2 — GEMINI AI SERVICE
 // Contextual Performance Engine — Master System Prompt v2 Implementation
 // ============================================================================
 
@@ -194,7 +194,7 @@ function getFallbackDaily3(cognitiveLoad: CognitiveLoadState): DailyCard[] {
 // MASTER SYSTEM PROMPT v2
 // ============================================================================
 const MASTER_SYSTEM_PROMPT = `
-You are the intelligence layer of an enterprise platform called **Workplace Hub**.
+You are the intelligence layer of an enterprise platform called **DEX**.
 
 Your role is to function as a **Contextual Performance Engine** that continuously reduces employee uncertainty and increases clarity, capability, and forward momentum at work.
 
@@ -464,7 +464,7 @@ Return a JSON array of 3 cards.
           freshness: 90,
           completeness: 85,
           behavioralReliability: 80,
-          sources: ["Workplace Hub AI"],
+          sources: ["DEX AI"],
           lastUpdated: new Date().toISOString(),
         },
         cognitiveLoadAware: card.type !== "CRITICAL",

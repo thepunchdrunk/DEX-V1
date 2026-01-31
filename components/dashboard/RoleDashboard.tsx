@@ -23,23 +23,23 @@ import ManagerHub from './manager/ManagerHub';
 import AnalyticsDashboard from '../analytics/AnalyticsDashboard';
 import InsightsHub from './InsightsHub';
 
-type CockpitView = 'DAILY' | 'SKILLS' | 'INSIGHTS' | 'ANALYTICS' | 'MANAGER' | 'SETTINGS';
+type DashboardView = 'DAILY' | 'SKILLS' | 'INSIGHTS' | 'ANALYTICS' | 'MANAGER' | 'SETTINGS';
 
-interface RoleCockpitProps {
+interface RoleDashboardProps {
     user: UserProfile;
     isWednesday?: boolean;
     onUpdateUser: (updates: Partial<UserProfile>) => void;
 }
 
-const RoleCockpit: React.FC<RoleCockpitProps> = ({ user, isWednesday = false, onUpdateUser }) => {
-    const [activeView, setActiveView] = useState<CockpitView>('DAILY');
+const RoleDashboard: React.FC<RoleDashboardProps> = ({ user, isWednesday = false, onUpdateUser }) => {
+    const [activeView, setActiveView] = useState<DashboardView>('DAILY');
     const [isOnline, setIsOnline] = useState(true);
     const [showSearch, setShowSearch] = useState(false);
     const [cards, setCards] = useState<DailyCard[]>(
         MOCK_DAILY_CARDS.filter(c => !c.roleCategories || (user.roleCategory && c.roleCategories.includes(user.roleCategory)))
     );
 
-    const navItems: { view: CockpitView; icon: React.ReactNode; label: string }[] = [
+    const navItems: { view: DashboardView; icon: React.ReactNode; label: string }[] = [
         { view: 'DAILY', icon: <Sparkles className="w-5 h-5" />, label: 'Top 3' },
         { view: 'SKILLS', icon: <TreePine className="w-5 h-5" />, label: 'Skills' },
         { view: 'INSIGHTS', icon: <Compass className="w-5 h-5" />, label: 'Trends' },
@@ -78,7 +78,7 @@ const RoleCockpit: React.FC<RoleCockpitProps> = ({ user, isWednesday = false, on
                             <Sparkles className="h-4 w-4 text-white" />
                         </div>
                         <span className="text-sm font-bold tracking-wider text-black">
-                            WORKPLACE HUB
+                            DEX
                         </span>
                         <span className="text-xs text-[#E60000] font-mono">DASHBOARD</span>
                     </div>
@@ -292,4 +292,4 @@ const RoleCockpit: React.FC<RoleCockpitProps> = ({ user, isWednesday = false, on
     );
 };
 
-export default RoleCockpit;
+export default RoleDashboard;

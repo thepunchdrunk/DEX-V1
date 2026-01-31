@@ -47,7 +47,7 @@ const recentWins = [
     { id: 'win-2', name: 'Jamie Rodriguez', achievement: 'Improved test coverage to 90%', type: 'QUALITY', daysAgo: 3 },
 ];
 
-// --- Analytics Data (Migrated from ManagerCockpit) ---
+// --- Analytics Data (Migrated from ManagerDashboard) ---
 
 const teamSkillGaps = [
     { skill: 'AI-Assisted Testing', demandScore: 92, teamCoverage: 15, gap: 77, priority: 'CRITICAL' },

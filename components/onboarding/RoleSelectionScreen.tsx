@@ -75,7 +75,7 @@ const RoleSelectionScreen: React.FC<RoleSelectionScreenProps> = ({ onSelectRole 
             <div className="relative z-10 max-w-4xl w-full">
                 <div className="text-center mb-12">
                     <h1 className="text-4xl md:text-5xl font-bold text-black mb-4">
-                        Welcome to Workplace Hub
+                        Welcome to DEX
                     </h1>
                     <p className="text-xl text-[#616161]">
                         Select your role to personalize your onboarding journey.

@@ -1,4 +1,4 @@
-// Advanced Cockpit Features
+// Advanced Dashboard Features
 export { default as DecisionAssist } from './DecisionAssist';
 export { default as FocusGuard } from './FocusGuard';
 export { default as CareerHorizon } from './CareerHorizon';

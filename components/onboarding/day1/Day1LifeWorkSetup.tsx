@@ -528,7 +528,7 @@ const Day1LifeWorkSetup: React.FC<Day1LifeWorkSetupProps> = ({
         <div className="space-y-6">
             <h3 className="text-lg font-semibold text-black mb-4">Privacy Settings</h3>
             <p className="text-[#616161] text-sm mb-6">
-                Control how your data is used within Workplace Hub. We believe in transparency.
+                Control how your data is used within DEX. We believe in transparency.
             </p>
 
             {/* Data Collection Notice */}

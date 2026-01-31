@@ -23,10 +23,3 @@ export { default as KnowledgeCard } from './knowledge/KnowledgeCard';
 
 // Graph
 export { default as ContextGraph } from './graph/ContextGraph';
-
-// Legacy components (for backwards compatibility)
-export { default as SkillGraph } from './SkillGraph';
-export { default as DailyCockpit } from './DailyCockpit';
-export { default as MagicCommandBar } from './MagicCommandBar';
-export { default as OnboardingFlow } from './OnboardingFlow';
-export { default as ManagerHub } from './ManagerHub';

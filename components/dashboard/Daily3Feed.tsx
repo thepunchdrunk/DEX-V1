@@ -79,7 +79,7 @@ const Daily3Feed: React.FC<Daily3FeedProps> = ({
                     slot: 'SIMULATOR' as CardSlot,
                     title: MOCK_SIMULATOR.title,
                     description: MOCK_SIMULATOR.description,
-                    source: 'Workplace Hub',
+                    source: 'DEX',
                     sourceType: 'SYSTEM' as const,
                     timestamp: new Date().toISOString(),
                     priority: 'MEDIUM' as const,

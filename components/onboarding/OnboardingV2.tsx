@@ -39,7 +39,7 @@ const OnboardingV2: React.FC<OnboardingV2Props> = ({
         {
             id: 0,
             title: `Welcome, ${userName}!`,
-            subtitle: 'Workplace Hub v2',
+            subtitle: 'DEX v2',
             description:
                 "I'm your Contextual Performance Engine — continuously reducing uncertainty and increasing clarity, capability, and momentum at work.",
             icon: <Sparkles className="w-10 h-10" />,

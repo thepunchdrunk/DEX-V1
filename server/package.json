@@ -1,7 +1,7 @@
 {
-    "name": "living-os-server",
+    "name": "dex-server",
     "version": "1.0.0",
-    "description": "Backend proxy for Workplace Hub",
+    "description": "Backend proxy for DEX",
     "main": "index.js",
     "type": "commonjs",
     "scripts": {

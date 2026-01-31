@@ -19,9 +19,8 @@ import NetworkMapper from './NetworkMapper';
 import GraduationCeremony from './GraduationCeremony';
 
 // Import Enhanced Day Components
-import PreboardingOrchestrator from './day0/PreboardingOrchestrator';
 import Day1LifeWorkSetup from './day1/Day1LifeWorkSetup';
-import Day2CulturalOS from './day2/Day2CulturalOS';
+import Day2Culture from './day2/Day2Culture';
 import Day3ToolsWorkflow from './day3/Day3ToolsWorkflow';
 import Day4NetworkCollaboration from './day4/Day4NetworkCollaboration';
 import Day5Graduation from './day5/Day5Graduation';
@@ -37,7 +36,7 @@ const OnboardingShell: React.FC<OnboardingShellProps> = ({
     onDayComplete,
     onGraduate,
 }) => {
-    // All roles start at Day 1 (Setup & Essentials). Day 0 (Preboarding) is removed.
+    // All roles start at Day 1
     const initialDay = (user.onboardingDay > 0) ? user.onboardingDay : 1;
     const [currentDay, setCurrentDay] = useState<OnboardingDay>(initialDay as OnboardingDay);
 
@@ -45,7 +44,6 @@ const OnboardingShell: React.FC<OnboardingShellProps> = ({
     const useEnhancedComponents = true;
 
     const days: { day: OnboardingDay; title: string; description: string }[] = [
-        { day: 0, title: 'Preboarding', description: 'Get ready before Day 1' },
         { day: 1, title: 'Setup & Essentials', description: 'Everything to function comfortably' },
         { day: 2, title: 'Company Culture', description: 'Learn our unwritten rules' },
         { day: 3, title: 'Tools & Workflow', description: 'How you get work done' },
@@ -69,68 +67,37 @@ const OnboardingShell: React.FC<OnboardingShellProps> = ({
 
     const renderDayContent = () => {
         switch (currentDay) {
-            case 0:
-                return (
-                    <PreboardingOrchestrator
-                        user={user}
-                        onComplete={() => handleDayComplete(0)}
-                    />
-                );
             case 1:
-                return useEnhancedComponents ? (
+                return (
                     <Day1LifeWorkSetup
-                        user={user}
-                        onComplete={() => handleDayComplete(1)}
-                    />
-                ) : (
-                    <GreenLightDashboard
                         user={user}
                         onComplete={() => handleDayComplete(1)}
                     />
                 );
             case 2:
-                return useEnhancedComponents ? (
-                    <Day2CulturalOS
+                return (
+                    <Day2Culture
                         roleCategory={user.roleCategory || 'DESK'}
-                        onComplete={() => handleDayComplete(2)}
-                    />
-                ) : (
-                    <CulturalOS
                         onComplete={() => handleDayComplete(2)}
                     />
                 );
             case 3:
-                return useEnhancedComponents ? (
+                return (
                     <Day3ToolsWorkflow
-                        user={user}
-                        onComplete={() => handleDayComplete(3)}
-                    />
-                ) : (
-                    <LearningFoundations
                         user={user}
                         onComplete={() => handleDayComplete(3)}
                     />
                 );
             case 4:
-                return useEnhancedComponents ? (
+                return (
                     <Day4NetworkCollaboration
-                        user={user}
-                        onComplete={() => handleDayComplete(4)}
-                    />
-                ) : (
-                    <NetworkMapper
                         user={user}
                         onComplete={() => handleDayComplete(4)}
                     />
                 );
             case 5:
-                return useEnhancedComponents ? (
+                return (
                     <Day5Graduation
-                        user={user}
-                        onGraduate={onGraduate}
-                    />
-                ) : (
-                    <GraduationCeremony
                         user={user}
                         onGraduate={onGraduate}
                     />
@@ -152,7 +119,7 @@ const OnboardingShell: React.FC<OnboardingShellProps> = ({
                         <div className="h-8 w-8 rounded-lg bg-[#E60000] flex items-center justify-center">
                             <Sparkles className="h-4 w-4 text-white" />
                         </div>
-                        <span className="text-lg font-bold text-black">Workplace Hub</span>
+                        <span className="text-lg font-bold text-black">DEX</span>
                     </div>
                     <p className="text-[#757575]">Onboarding Period</p>
                 </div>
@@ -208,7 +175,6 @@ const OnboardingShell: React.FC<OnboardingShellProps> = ({
                 {/* Navigation List */}
                 <nav className="space-y-2 flex-1">
                     {days
-                        .filter(item => item.day !== 0) // Hide Day 0 for everyone
                         .map((item) => {
                             const status = getDayStatus(item.day);
                             const isActive = status === 'active';

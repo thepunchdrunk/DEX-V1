@@ -10,8 +10,7 @@ import {
 
 // Import components
 import OnboardingShell from './components/onboarding/OnboardingShell';
-import RoleCockpit from './components/cockpit/RoleCockpit';
-import ManagerCockpit from './components/cockpit/ManagerCockpit';
+import RoleDashboard from './components/dashboard/RoleDashboard';
 import RoleSelectionScreen from './components/onboarding/RoleSelectionScreen';
 import ErrorBoundary from './components/ErrorBoundary';
 
@@ -115,11 +114,11 @@ const App: React.FC = () => {
     );
   }
 
-  // Unified Role-Based Cockpit (Day 6+)
-  // Both Employees and Managers use RoleCockpit, but Managers get an extra "My Team" tab
+  // Unified Role-Based Dashboard (Day 6+)
+  // Both Employees and Managers use RoleDashboard, but Managers get an extra "My Team" tab
   return (
     <ErrorBoundary>
-      <RoleCockpit
+      <RoleDashboard
         user={user}
         isWednesday={isWednesday}
         onUpdateUser={(updates) => setUser((prev) => ({ ...prev, ...updates }))}

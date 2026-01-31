@@ -1,8 +1,7 @@
 # DEX: Digital Employee Experience
-# Workplace Hub
 ## Enterprise Context Engine
 
-**Workplace Hub** is a "Zero-Search" employee experience platform that proactively delivers context, tools, and insights to employees based on their role, tenure, and daily rhythm.
+**DEX** is a "Zero-Search" employee experience platform that proactively delivers context, tools, and insights to employees based on their role, tenure, and daily rhythm.
 
 ## Core Pillars
 1. **Automated Setup (Day 1)**: Automated provisioning of hardware, identity, and access.

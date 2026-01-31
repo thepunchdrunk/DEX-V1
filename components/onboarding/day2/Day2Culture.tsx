@@ -38,14 +38,14 @@ import {
     UNWRITTEN_RULES,
 } from '../../../constants';
 
-interface Day2CulturalOSProps {
+interface Day2CultureProps {
     roleCategory?: RoleCategory;
     onComplete: () => void;
 }
 
 type Phase = 'SCENARIOS' | 'COMMUNICATION' | 'MEETINGS' | 'DECISIONS' | 'ETHICS' | 'BOT' | 'COFFEE' | 'DONE';
 
-const Day2CulturalOS: React.FC<Day2CulturalOSProps> = ({ roleCategory = 'DESK', onComplete }) => {
+const Day2Culture: React.FC<Day2CultureProps> = ({ roleCategory = 'DESK', onComplete }) => {
     const [phase, setPhase] = useState<Phase>('SCENARIOS');
     const [currentScenarioIndex, setCurrentScenarioIndex] = useState(0);
     const [selectedChoice, setSelectedChoice] = useState<string | null>(null);
@@ -689,4 +689,4 @@ const Day2CulturalOS: React.FC<Day2CulturalOSProps> = ({ roleCategory = 'DESK', 
     );
 };
 
-export default Day2CulturalOS;
+export default Day2Culture;

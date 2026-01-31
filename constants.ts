@@ -1,5 +1,5 @@
-// WORKPLACE HUB — MOCK DATA & CONSTANTS
-// "Workplace Hub" Employee Experience Platform
+// DEX — MOCK DATA & CONSTANTS
+// "DEX" Employee Experience Platform
 
 
 import {
@@ -401,7 +401,7 @@ export const MOCK_MICRO_SKILL: MicroSkillCard = {
   title: 'Jira Keyboard Shortcuts',
   description:
     'Try these shortcuts: "C" to create issue, "J/K" to navigate, "E" to edit.',
-  source: 'Workplace Hub',
+  source: 'DEX',
   sourceType: 'SYSTEM',
   timestamp: new Date().toISOString(),
   priority: 'LOW',
@@ -1595,7 +1595,7 @@ export const FIRST_TASK_SIMULATION_MANAGER: FirstTaskSimulation = {
   steps: [
     {
       id: 'step-1',
-      instruction: 'Open the "Action Queue" in Manager Cockpit',
+      instruction: 'Open the "Action Queue" in Manager Dashboard',
       hint: 'Look for the "Pending Approvals" tab',
       completed: false,
     },
