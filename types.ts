@@ -193,6 +193,7 @@ export interface DailyCard {
     lastUpdated: string;
   };
   roleCategories?: string[]; // Added for role filtering
+  targetRoles?: string[]; // Specific job titles
 }
 
 // Card 1: Key Update (Internal KPIs, Strategic Updates)
@@ -418,6 +419,9 @@ export interface TeamMember {
   burnoutScore: number; // 0-100
   burnoutSignals: BurnoutSignal[];
   safeMode: boolean; // If true, hide from detailed view
+  managerId?: string;
+  project?: string;
+  currentLoad?: number;
 }
 
 export interface BurnoutSignal {
@@ -1073,3 +1077,39 @@ export interface SkillReinforcementSuggestion {
   estimatedMinutes: number;
 }
 
+
+// ----------------------------------------------------------------------------
+// DASHBOARD CUSTOMIZATION
+// ----------------------------------------------------------------------------
+
+export interface ImpactData {
+  velocity: {
+    personal: number;
+    market: number;
+    trend: 'accelerating' | 'stable' | 'decelerating';
+    context: string;
+  };
+  alignment: {
+    strategic: number;
+    maintenance: number;
+    target: number;
+    context: string;
+  };
+  trust: {
+    score: number;
+    level: string;
+    context: string;
+  };
+}
+
+export interface RoleExperience {
+  skillTree: SkillBranch[];
+  impactData: ImpactData;
+  meetingPatterns: MeetingPattern;
+  careerHorizon: {
+    title: string;
+    description: string;
+    nextRole: string;
+    readiness: number;
+  };
+}

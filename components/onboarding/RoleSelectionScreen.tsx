@@ -1,6 +1,7 @@
 import React from 'react';
-import { UserProfile, AppState } from '../../types';
-import { Briefcase, Globe, Layout, CheckCircle2, Unlock, Sparkles } from 'lucide-react';
+import { UserProfile } from '../../types';
+import { Briefcase, Globe, Layout, CheckCircle2, Unlock, Sparkles, ArrowRight } from 'lucide-react';
+import AuthLayout from '../layout/AuthLayout';
 
 interface RoleSelectionScreenProps {
     onSelectRole: (roleData: Partial<UserProfile>) => void;
@@ -15,9 +16,13 @@ const ROLES = [
         role: 'MANAGER',
         icon: Briefcase,
         description: 'Focuses on team growth, performance management, and technical delivery through people leadership.',
-        color: 'bg-blue-600',
+        color: 'text-blue-600',
+        bg: 'bg-blue-50',
+        borderColor: 'border-blue-100',
         personaTag: 'People Leader',
         highlightTask: 'Team Performance Review',
+        reportingTo: 'Sarah Chen (Director of Eng)',
+        personaId: 'tm-marcus',
     },
     {
         id: 'ops-supervisor',
@@ -27,9 +32,13 @@ const ROLES = [
         role: 'MANAGER',
         icon: Layout,
         description: 'Leads frontline teams in Zone 4, prioritizing safety, shift productivity, and floor coaching.',
-        color: 'bg-orange-600',
+        color: 'text-orange-600',
+        bg: 'bg-orange-50',
+        borderColor: 'border-orange-100',
         personaTag: 'People Leader',
         highlightTask: 'Safety Drill Coaching',
+        reportingTo: 'Sarah Chen (Director of Ops)',
+        personaId: 'tm-casey',
     },
     {
         id: 'sr-eng',
@@ -39,9 +48,13 @@ const ROLES = [
         role: 'EMPLOYEE',
         icon: Unlock,
         description: 'Leading technical implementation, architecture design, and high-quality code delivery.',
-        color: 'bg-cyan-600',
+        color: 'text-cyan-600',
+        bg: 'bg-cyan-50',
+        borderColor: 'border-cyan-100',
         personaTag: 'Technical Lead',
         highlightTask: 'System Architecture PR',
+        reportingTo: 'Sarah Chen (Director of Eng)',
+        personaId: 'tm-alex',
     },
     {
         id: 'remote-eng',
@@ -51,9 +64,13 @@ const ROLES = [
         role: 'EMPLOYEE',
         icon: Globe,
         description: 'Designs cloud infrastructure from anywhere, prioritizing async collaboration.',
-        color: 'bg-indigo-600',
+        color: 'text-indigo-600',
+        bg: 'bg-indigo-50',
+        borderColor: 'border-indigo-100',
         personaTag: 'Global IC',
         highlightTask: 'Deploy Cloud Stack',
+        reportingTo: 'Sarah Chen (Director of Eng)',
+        personaId: 'tm-jamie',
     },
     {
         id: 'customer-success',
@@ -63,70 +80,97 @@ const ROLES = [
         role: 'EMPLOYEE',
         icon: Sparkles,
         description: 'Manages client relationships and ensures customer satisfaction remotely.',
-        color: 'bg-rose-600',
+        color: 'text-rose-600',
+        bg: 'bg-rose-50',
+        borderColor: 'border-rose-100',
         personaTag: 'Client IC',
         highlightTask: 'Log Client Discovery',
+        reportingTo: 'Sarah Chen (Director of Sales)',
+        personaId: 'tm-taylor',
     },
 ] as const;
 
 const RoleSelectionScreen: React.FC<RoleSelectionScreenProps> = ({ onSelectRole }) => {
     return (
-        <div className="min-h-screen bg-[#FAFAFA] flex flex-col items-center justify-center p-8 relative overflow-hidden">
-            <div className="relative z-10 max-w-4xl w-full">
-                <div className="text-center mb-12">
-                    <h1 className="text-4xl md:text-5xl font-bold text-black mb-4">
-                        Welcome to DEX
-                    </h1>
-                    <p className="text-xl text-[#616161]">
-                        Select your role to personalize your onboarding journey.
-                    </p>
-                </div>
+        <AuthLayout
+            title="Welcome to DEX"
+            subtitle="Select a role to experience the Digital Employee Experience tailored to your journey."
+        >
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+                {ROLES.map((role) => (
+                    <button
+                        key={role.id}
+                        onClick={() => onSelectRole({
+                            jobTitle: role.title,
+                            department: role.department,
+                            roleCategory: role.roleCategory as any,
+                            role: role.role as any,
+                            manager: role.reportingTo,
+                            id: role.personaId, // Use persona ID
+                        })}
+                        className={`
+                            group relative flex items-start gap-5 p-6 rounded-2xl text-left transition-all duration-300
+                            bg-[var(--surface-card)] border border-[var(--border-light)]
+                            hover:border-[var(--brand-red)] hover:shadow-lg hover:-translate-y-1
+                            focus-visible:ring-2 focus-visible:ring-[var(--brand-red)] focus-visible:ring-offset-2
+                        `}
+                        aria-label={`Select role: ${role.title}`}
+                    >
+                        {/* Icon Container */}
+                        <div className={`
+                            p-4 rounded-xl transition-colors duration-300
+                            ${role.bg} ${role.color}
+                            group-hover:bg-[var(--brand-red)] group-hover:text-white
+                        `}>
+                            <role.icon className="w-8 h-8" strokeWidth={1.5} />
+                        </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {ROLES.map((role) => (
-                        <button
-                            key={role.id}
-                            onClick={() => onSelectRole({
-                                jobTitle: role.title,
-                                department: role.department,
-                                roleCategory: role.roleCategory as any,
-                                role: role.role as any,
-                            })}
-                            className="group relative bg-white hover:bg-[#F5F5F5] border border-[#E0E0E0] hover:border-[#E60000] rounded-2xl p-6 transition-all duration-300 text-left hover:-translate-y-1 hover:shadow-xl hover:shadow-red-900/5"
-                        >
-                            <div className="flex items-start gap-5">
-                                <div className={`p-4 rounded-xl ${role.color.replace('bg-', 'bg-opacity-10 text-')} transition-all group-hover:bg-opacity-20`}>
-                                    <role.icon className="w-8 h-8" />
-                                </div>
-                                <div className="flex-1">
-                                    <h3 className="text-xl font-bold text-black mb-2 group-hover:text-[#E60000] transition-colors">
-                                        {role.title}
-                                    </h3>
-                                    <p className="text-[#616161] text-sm leading-relaxed">
-                                        {role.description}
-                                    </p>
-                                    <div className="mt-4 flex flex-wrap items-center gap-2">
-                                        <span className={`px-2 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider text-white ${role.color}`}>
-                                            {role.personaTag}
-                                        </span>
-                                        <span className="px-2 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider bg-gray-100 text-[#757575] border border-[#E0E0E0]">
-                                            {role.department}
-                                        </span>
-                                        <div className="flex items-center gap-1.5 px-2 py-1 rounded-md text-[10px] font-medium text-[#E60000] bg-red-50 border border-red-100">
-                                            <Sparkles className="w-3 h-3" />
-                                            Key Task: {role.highlightTask}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="opacity-0 group-hover:opacity-100 transition-opacity absolute top-6 right-6">
-                                    <CheckCircle2 className="w-6 h-6 text-[#E60000]" />
-                                </div>
+                        {/* Content */}
+                        <div className="flex-1 space-y-3">
+                            <div>
+                                <h3 className="text-xl font-bold text-[var(--text-primary)] group-hover:text-[var(--brand-red)] transition-colors">
+                                    {role.title}
+                                </h3>
+                                <p className="text-[var(--text-secondary)] text-sm leading-relaxed mt-1">
+                                    {role.description}
+                                </p>
                             </div>
-                        </button>
-                    ))}
-                </div>
+
+                            {/* Metadata Tags */}
+                            <div className="flex flex-wrap items-center gap-2">
+                                <span className={`
+                                    px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider
+                                    bg-[var(--surface-base)] text-[var(--text-secondary)] border border-[var(--border-light)]
+                                `}>
+                                    {role.department}
+                                </span>
+
+                                <span className={`
+                                    px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider
+                                    border ${role.borderColor} ${role.bg} ${role.color}
+                                `}>
+                                    {role.personaTag}
+                                </span>
+                            </div>
+
+                            {/* Highlight Task */}
+                            <div className="flex items-center gap-1.5 text-xs font-medium text-[var(--text-secondary)] group-hover:text-[var(--brand-red)] transition-colors pt-2 border-t border-[var(--border-light)] border-dashed">
+                                <Sparkles className="w-3 h-3" />
+                                <span>Key Task: {role.highlightTask}</span>
+                            </div>
+                        </div>
+
+                        {/* Hover Action Indicator */}
+                        <div className="absolute top-6 right-6 opacity-0 group-hover:opacity-100 transition-all duration-300 transform group-hover:translate-x-1">
+                            <ArrowRight className="w-5 h-5 text-[var(--brand-red)]" />
+                        </div>
+
+                        {/* Selection Ring (Visual Polish) */}
+                        <div className="absolute inset-0 border-2 border-[var(--brand-red)] rounded-2xl opacity-0 group-hover:opacity-10 transition-opacity pointer-events-none" />
+                    </button>
+                ))}
             </div>
-        </div>
+        </AuthLayout>
     );
 };
 

@@ -11,32 +11,36 @@ import {
     Briefcase
 } from 'lucide-react';
 
+import { ImpactData } from '../../types';
+
 interface AnalyticsDashboardProps {
     className?: string;
+    data?: ImpactData;
 }
 
-// Impact Data: Value-based metrics
-const impactData = {
+// Fallback data if none provided
+const defaultImpactData: ImpactData = {
     velocity: {
-        personal: 85, // User's learning/output rate
-        market: 70,   // Rate of market change in their domain
+        personal: 85,
+        market: 70,
         trend: 'accelerating',
         context: 'You are learning faster than your role requires.'
     },
     alignment: {
-        strategic: 68, // % time on core goals
-        maintenance: 32, // % time on email/admin
+        strategic: 68,
+        maintenance: 32,
         target: 70,
         context: 'Good focus on strategic initiatives.'
     },
     trust: {
-        score: 94, // Reliability score
+        score: 94,
         level: 'HIGH_AUTONOMY',
         context: 'Excellent delivery reliability. Remote autonomy approved.'
     }
 };
 
-const ImpactDynamics: React.FC<AnalyticsDashboardProps> = ({ className = '' }) => {
+const ImpactDynamics: React.FC<AnalyticsDashboardProps> = ({ className = '', data }) => {
+    const impactData = data || defaultImpactData;
 
     return (
         <div className={`space-y-8 ${className}`}>

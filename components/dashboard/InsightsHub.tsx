@@ -13,11 +13,14 @@ import { MeetingIntelligence, PeerPractice, EnhancedSimulator, DecisionAssist, F
 
 type InsightsTab = 'MEETINGS' | 'PEERS' | 'SIMULATOR' | 'DECISIONS' | 'FOCUS' | 'CAREER';
 
+import { RoleExperience } from '../../types';
+
 interface InsightsHubProps {
     className?: string;
+    roleExperience?: RoleExperience;
 }
 
-const InsightsHub: React.FC<InsightsHubProps> = ({ className = '' }) => {
+const InsightsHub: React.FC<InsightsHubProps> = ({ className = '', roleExperience }) => {
     // State to track which "Active Tool" is open, if any
     const [activeTool, setActiveTool] = useState<InsightsTab | null>(null);
 
@@ -36,12 +39,12 @@ const InsightsHub: React.FC<InsightsHubProps> = ({ className = '' }) => {
                 </div>
 
                 <div className="bg-[#FAFAFA] rounded-2xl p-4 md:p-6 border border-[#E0E0E0] min-h-[600px] animate-fade-in-up">
-                    {activeTool === 'MEETINGS' && <MeetingIntelligence />}
+                    {activeTool === 'MEETINGS' && <MeetingIntelligence data={roleExperience?.meetingPatterns} />}
                     {activeTool === 'PEERS' && <PeerPractice />}
                     {activeTool === 'SIMULATOR' && <EnhancedSimulator />}
                     {activeTool === 'DECISIONS' && <DecisionAssist />}
                     {activeTool === 'FOCUS' && <FocusGuard />}
-                    {activeTool === 'CAREER' && <CareerHorizon />}
+                    {activeTool === 'CAREER' && <CareerHorizon data={roleExperience?.careerHorizon} />}
                 </div>
             </div>
         );
@@ -59,7 +62,12 @@ const InsightsHub: React.FC<InsightsHubProps> = ({ className = '' }) => {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <MeetingIntelligence viewMode="WIDGET" className="cursor-pointer" onClick={() => setActiveTool('MEETINGS')} />
+                    <MeetingIntelligence
+                        viewMode="WIDGET"
+                        className="cursor-pointer"
+                        onClick={() => setActiveTool('MEETINGS')}
+                        data={roleExperience?.meetingPatterns}
+                    />
                     <FocusGuard viewMode="WIDGET" className="cursor-pointer" onClick={() => setActiveTool('FOCUS')} />
                 </div>
             </section>

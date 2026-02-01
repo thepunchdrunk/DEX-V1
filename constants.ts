@@ -12,6 +12,8 @@ import {
   ContextAnchorCard,
   DomainEdgeCard,
   MicroSkillCard,
+  RoleExperience,
+  ImpactData,
   SimulatorChallenge,
   SkillBranch,
   TeamMember,
@@ -475,13 +477,192 @@ export const MOCK_LEADERSHIP_TIP: DailyCard = {
 };
 
 export const MOCK_DAILY_CARDS: DailyCard[] = [
-  MOCK_CONTEXT_ANCHOR,
-  MOCK_DOMAIN_EDGE,
-  MOCK_MICRO_SKILL,
-  MOCK_MANAGER_ALERT,
-  MOCK_FRONTLINE_SAFETY,
-  MOCK_REMOTE_SUCCESS,
+  // --- ENGINEERING MANAGER CARDS ---
+  {
+    id: 'em-1',
+    slot: 'CONTEXT_ANCHOR',
+    title: 'Q2 Hiring Roadmap',
+    description: 'Finance approved 2 new headcount for your squad.',
+    source: 'Workday',
+    sourceType: 'INTERNAL',
+    timestamp: new Date().toISOString(),
+    priority: 'HIGH',
+    actionLabel: 'Review JDs',
+    read: false,
+    flagged: false,
+    targetRoles: ['Engineering Manager'],
+    roleCategories: ['DESK'],
+  },
+  {
+    id: 'em-2',
+    slot: 'DOMAIN_EDGE',
+    title: 'DORA Metrics Trend',
+    description: 'Deployment frequency dropped 15% last sprint.',
+    source: 'Jira Insights',
+    sourceType: 'INTERNAL',
+    timestamp: new Date().toISOString(),
+    priority: 'MEDIUM',
+    read: false,
+    flagged: false,
+    targetRoles: ['Engineering Manager'],
+    roleCategories: ['DESK'],
+  },
+  {
+    id: 'em-3',
+    slot: 'MICRO_SKILL',
+    title: 'Effective 1:1s',
+    description: 'Tip: Focus on career growth, not just status updates.',
+    source: 'L&D Portal',
+    sourceType: 'INTERNAL',
+    timestamp: new Date().toISOString(),
+    priority: 'LOW',
+    read: false,
+    flagged: false,
+    targetRoles: ['Engineering Manager'],
+    roleCategories: ['DESK'],
+  },
+
+  // --- SENIOR SOFTWARE ENGINEER CARDS ---
+  {
+    id: 'se-1',
+    slot: 'CONTEXT_ANCHOR',
+    title: 'Architecture Review Board',
+    description: 'Your design for the new API Gateway is up for review.',
+    source: 'Confluence',
+    sourceType: 'INTERNAL',
+    timestamp: new Date().toISOString(),
+    priority: 'HIGH',
+    actionLabel: 'View Comments',
+    read: false,
+    flagged: false,
+    targetRoles: ['Senior Software Engineer'],
+    roleCategories: ['DESK'],
+  },
+  {
+    id: 'se-2',
+    slot: 'DOMAIN_EDGE',
+    title: 'React 19 Alpha Released',
+    description: 'Key changes to server components and hooks.',
+    source: 'TechRadar',
+    sourceType: 'EXTERNAL',
+    timestamp: new Date().toISOString(),
+    priority: 'MEDIUM',
+    read: false,
+    flagged: false,
+    targetRoles: ['Senior Software Engineer'],
+    roleCategories: ['DESK'],
+  },
+  {
+    id: 'se-3',
+    slot: 'MICRO_SKILL',
+    title: 'Code Review Etiquette',
+    description: 'Ask questions rather than making demands.',
+    source: 'Engineering Handbook',
+    sourceType: 'INTERNAL',
+    timestamp: new Date().toISOString(),
+    priority: 'LOW',
+    read: false,
+    flagged: false,
+    targetRoles: ['Senior Software Engineer'],
+    roleCategories: ['DESK'],
+  },
+
+  // --- OPS SUPERVISOR CARDS ---
+  {
+    id: 'os-1',
+    slot: 'CONTEXT_ANCHOR',
+    title: 'Shift Handoff Report',
+    description: 'Zone 4 reported a conveyor jam at 22:00.',
+    source: 'OpsLog',
+    sourceType: 'INTERNAL',
+    timestamp: new Date().toISOString(),
+    priority: 'CRITICAL',
+    actionLabel: 'View Incident',
+    read: false,
+    flagged: false,
+    targetRoles: ['Operations Supervisor'],
+    roleCategories: ['FRONTLINE'],
+  },
+  {
+    id: 'os-2',
+    slot: 'DOMAIN_EDGE',
+    title: 'PPE Compliance Update',
+    description: 'New safety glasses requirement effective Monday.',
+    source: 'Safety Dept',
+    sourceType: 'INTERNAL',
+    timestamp: new Date().toISOString(),
+    priority: 'HIGH',
+    read: false,
+    flagged: false,
+    targetRoles: ['Operations Supervisor'],
+    roleCategories: ['FRONTLINE'],
+  },
+  {
+    id: 'os-3',
+    slot: 'MICRO_SKILL',
+    title: 'Conflict De-escalation',
+    description: 'Techniques for managing heated floor discussions.',
+    source: 'Manager Training',
+    sourceType: 'INTERNAL',
+    timestamp: new Date().toISOString(),
+    priority: 'MEDIUM',
+    read: false,
+    flagged: false,
+    targetRoles: ['Operations Supervisor'],
+    roleCategories: ['FRONTLINE'],
+  },
+
+  // --- CLOUD ARCHITECT CARDS ---
+  {
+    id: 'ca-1',
+    slot: 'CONTEXT_ANCHOR',
+    title: 'AWS Spend Alert',
+    description: 'EC2 spend projected to exceed budget by 12%.',
+    source: 'AWS Cost Explorer',
+    sourceType: 'SYSTEM',
+    timestamp: new Date().toISOString(),
+    priority: 'HIGH',
+    actionLabel: 'Analyze Costs',
+    read: false,
+    flagged: false,
+    targetRoles: ['Cloud Architect'],
+    roleCategories: ['REMOTE'],
+  },
+  {
+    id: 'ca-2',
+    slot: 'DOMAIN_EDGE',
+    title: 'Terraform State Locking',
+    description: 'Best practices for managing remote state in S3/DynamoDB.',
+    source: 'HashiCorp Blog',
+    sourceType: 'EXTERNAL',
+    timestamp: new Date().toISOString(),
+    priority: 'MEDIUM',
+    read: false,
+    flagged: false,
+    targetRoles: ['Cloud Architect'],
+    roleCategories: ['REMOTE'],
+  },
+
+  // --- CUSTOMER SUCCESS CARDS ---
+  {
+    id: 'cs-1',
+    slot: 'CONTEXT_ANCHOR',
+    title: 'Renewal Risk: Acme Corp',
+    description: 'Usage dropped 40% in last 30 days.',
+    source: 'Salesforce',
+    sourceType: 'INTERNAL',
+    timestamp: new Date().toISOString(),
+    priority: 'CRITICAL',
+    actionLabel: 'Contact Champion',
+    read: false,
+    flagged: false,
+    targetRoles: ['Customer Success'],
+    roleCategories: ['REMOTE'],
+  },
+
+  // Fallback / General Cards
   MOCK_LEADERSHIP_TIP,
+  MOCK_REMOTE_SUCCESS,
 ];
 
 // ----------------------------------------------------------------------------
@@ -661,64 +842,395 @@ export const MOCK_MARKET_GAP: MarketGapCard = {
 };
 
 // ----------------------------------------------------------------------------
-// MANAGER HUB: TEAM DATA
+// ROLE EXPERIENCES REGISTRY
+// ----------------------------------------------------------------------------
+export const ROLE_EXPERIENCES: Record<string, RoleExperience> = {
+  'Engineering Manager': {
+    skillTree: [
+      {
+        id: 'skill-leadership',
+        name: 'Leadership',
+        category: 'SOFT',
+        mastery: 3,
+        health: 'THRIVING',
+        lastVerified: new Date().toISOString(),
+        daysSinceVerified: 0,
+        decayThreshold: 90,
+        children: [
+          { id: 'skill-hiring', name: 'Talent Acquisition', category: 'SOFT', mastery: 2, health: 'HEALTHY', lastVerified: new Date().toISOString(), daysSinceVerified: 0, decayThreshold: 90, children: [] },
+          { id: 'skill-coaching', name: 'Coaching/Mentorship', category: 'SOFT', mastery: 3, health: 'THRIVING', lastVerified: new Date().toISOString(), daysSinceVerified: 0, decayThreshold: 90, children: [] },
+        ]
+      },
+      {
+        id: 'skill-strategy',
+        name: 'System Design',
+        category: 'TECHNICAL',
+        mastery: 2,
+        health: 'HEALTHY',
+        lastVerified: new Date().toISOString(),
+        daysSinceVerified: 0,
+        decayThreshold: 90,
+        children: []
+      }
+    ],
+    impactData: {
+      velocity: { personal: 78, market: 70, trend: 'stable', context: 'Team delivery is steady against Q2 roadmap.' },
+      alignment: { strategic: 85, maintenance: 15, target: 80, context: 'Highly aligned with organizational hiring goals.' },
+      trust: { score: 92, level: 'STRATEGIC_LEAD', context: 'Stakeholder confidence remains high.' }
+    },
+    meetingPatterns: {
+      weeklyMeetingHours: 28,
+      totalHours: 28,
+      meetingsCount: 22,
+      oneOnOneCount: 12,
+      teamMeetingCount: 4,
+      backToBackDays: 3,
+      averageMeetingLength: 45,
+      averageDuration: 45,
+      actionOwnershipRate: 88,
+      alerts: [
+        { id: 'm-1', type: 'OVERLOAD', message: 'Heavy calendar load on Thursdays.', metric: '28h Meetings', severity: 'HIGH', suggestion: 'Decline non-critical syncs or move to async.' }
+      ]
+    },
+    careerHorizon: {
+      title: 'Senior Engineering Manager',
+      description: 'Expand scope to multiple squads and cross-functional leadership.',
+      nextRole: 'Director',
+      readiness: 65
+    }
+  },
+  'Senior Software Engineer': {
+    skillTree: [
+      {
+        id: 'skill-frontend',
+        name: 'Frontend Systems',
+        category: 'TECHNICAL',
+        mastery: 3,
+        health: 'THRIVING',
+        lastVerified: new Date().toISOString(),
+        daysSinceVerified: 0,
+        decayThreshold: 90,
+        children: [
+          { id: 'skill-react', name: 'React/Next.js', category: 'TECHNICAL', mastery: 3, health: 'THRIVING', lastVerified: new Date().toISOString(), daysSinceVerified: 0, decayThreshold: 90, children: [] },
+          { id: 'skill-perf', name: 'Performance Opt', category: 'TECHNICAL', mastery: 2, health: 'HEALTHY', lastVerified: new Date().toISOString(), daysSinceVerified: 0, decayThreshold: 90, children: [] },
+        ]
+      },
+      {
+        id: 'skill-devops',
+        name: 'CI/CD Pipelines',
+        category: 'TECHNICAL',
+        mastery: 2,
+        health: 'FADING',
+        lastVerified: new Date(Date.now() - 40 * 24 * 60 * 60 * 1000).toISOString(),
+        daysSinceVerified: 40,
+        decayThreshold: 90,
+        children: []
+      }
+    ],
+    impactData: {
+      velocity: { personal: 88, market: 75, trend: 'accelerating', context: 'High PR throughput. Contributing significantly to core libraries.' },
+      alignment: { strategic: 60, maintenance: 40, target: 70, context: 'Increase focus on architecture tasks vs bug fixes.' },
+      trust: { score: 95, level: 'DOMAIN_EXPERT', context: 'Requested as lead reviewer on 80% of cross-team projects.' }
+    },
+    meetingPatterns: {
+      weeklyMeetingHours: 12,
+      totalHours: 12,
+      meetingsCount: 8,
+      oneOnOneCount: 2,
+      teamMeetingCount: 3,
+      backToBackDays: 0,
+      averageMeetingLength: 60,
+      averageDuration: 60,
+      actionOwnershipRate: 92,
+      alerts: [
+        { id: 'se-1', type: 'BACK_TO_BACK', message: 'No major calendar blocks detected.', metric: 'Good focus airtime', severity: 'INFO', suggestion: 'Maintain current balance for deep work.' }
+      ]
+    },
+    careerHorizon: {
+      title: 'Staff Engineer',
+      description: 'Transitioning from feature lead to multi-project architecture.',
+      nextRole: 'Staff',
+      readiness: 45
+    }
+  },
+  'Operations Supervisor': {
+    skillTree: [
+      {
+        id: 'skill-safety',
+        name: 'Site Safety',
+        category: 'DOMAIN',
+        mastery: 3,
+        health: 'THRIVING',
+        lastVerified: new Date().toISOString(),
+        daysSinceVerified: 0,
+        decayThreshold: 90,
+        children: []
+      },
+      {
+        id: 'skill-lean',
+        name: 'Lean Manufacturing',
+        category: 'DOMAIN',
+        mastery: 2,
+        health: 'HEALTHY',
+        lastVerified: new Date().toISOString(),
+        daysSinceVerified: 0,
+        decayThreshold: 90,
+        children: []
+      }
+    ],
+    impactData: {
+      velocity: { personal: 90, market: 65, trend: 'stable', context: 'Shift efficiency is at an all-time high.' },
+      alignment: { strategic: 50, maintenance: 50, target: 60, context: 'Balancing admin tasks with floor supervision.' },
+      trust: { score: 88, level: 'OPERATIONAL_ANCHOR', context: 'Reliable handoffs across shifting schedules.' }
+    },
+    meetingPatterns: {
+      weeklyMeetingHours: 6,
+      totalHours: 6,
+      meetingsCount: 10,
+      oneOnOneCount: 2,
+      teamMeetingCount: 8,
+      backToBackDays: 0,
+      averageMeetingLength: 20,
+      averageDuration: 20,
+      actionOwnershipRate: 75,
+      alerts: [
+        { id: 'ops-1', type: 'NO_ACTION_OWNER', message: 'Quick syncs often miss next steps.', metric: '75% Ownership', severity: 'LOW', suggestion: 'Use a shared doc to track floor action items.' }
+      ]
+    },
+    careerHorizon: {
+      title: 'Warehouse Manager',
+      description: 'Managing end-to-end logistics and vendor relations.',
+      nextRole: 'Manager',
+      readiness: 30
+    }
+  },
+  'Cloud Architect': {
+    skillTree: [
+      {
+        id: 'skill-aws',
+        name: 'Cloud Infrastructure',
+        category: 'TECHNICAL',
+        mastery: 3,
+        health: 'THRIVING',
+        lastVerified: new Date().toISOString(),
+        daysSinceVerified: 0,
+        decayThreshold: 180,
+        children: [
+          { id: 'skill-terraform', name: 'Terraform/IaC', category: 'TECHNICAL', mastery: 3, health: 'THRIVING', lastVerified: new Date().toISOString(), daysSinceVerified: 0, decayThreshold: 90, children: [] },
+          { id: 'skill-k8s', name: 'Kubernetes', category: 'TECHNICAL', mastery: 2, health: 'HEALTHY', lastVerified: new Date().toISOString(), daysSinceVerified: 0, decayThreshold: 90, children: [] },
+        ]
+      },
+      {
+        id: 'skill-security',
+        name: 'Cloud Security',
+        category: 'DOMAIN',
+        mastery: 2,
+        health: 'HEALTHY',
+        lastVerified: new Date().toISOString(),
+        daysSinceVerified: 0,
+        decayThreshold: 90,
+        children: []
+      }
+    ],
+    impactData: {
+      velocity: { personal: 70, market: 85, trend: 'stable', context: 'Keeping pace with major platform releases.' },
+      alignment: { strategic: 95, maintenance: 5, target: 90, context: 'All focus is currently on the Q3 migration.' },
+      trust: { score: 98, level: 'ARCHITECT_ADVISOR', context: 'Your designs are used as global standards.' }
+    },
+    meetingPatterns: {
+      weeklyMeetingHours: 18,
+      totalHours: 18,
+      meetingsCount: 12,
+      oneOnOneCount: 3,
+      teamMeetingCount: 6,
+      backToBackDays: 1,
+      averageMeetingLength: 50,
+      averageDuration: 50,
+      actionOwnershipRate: 95,
+      alerts: []
+    },
+    careerHorizon: {
+      title: 'Principal Architect',
+      description: 'Strategic platform oversight across global business units.',
+      nextRole: 'Principal',
+      readiness: 55
+    }
+  },
+  'Customer Success': {
+    skillTree: [
+      {
+        id: 'skill-crm',
+        name: 'CRM Platforms',
+        category: 'TOOL',
+        mastery: 3,
+        health: 'THRIVING',
+        lastVerified: new Date().toISOString(),
+        daysSinceVerified: 0,
+        decayThreshold: 90,
+        children: []
+      },
+      {
+        id: 'skill-negotiation',
+        name: 'Client Negotiation',
+        category: 'SOFT',
+        mastery: 2,
+        health: 'HEALTHY',
+        lastVerified: new Date().toISOString(),
+        daysSinceVerified: 0,
+        decayThreshold: 90,
+        children: []
+      }
+    ],
+    impactData: {
+      velocity: { personal: 82, market: 60, trend: 'accelerating', context: 'High renewal rate exceeding Q1 expectations.' },
+      alignment: { strategic: 70, maintenance: 30, target: 80, context: 'Focus on upsell opportunities.' },
+      trust: { score: 90, level: 'RELATIONSHIP_MASTER', context: 'Net Promoter Score remains high among assigned accounts.' }
+    },
+    meetingPatterns: {
+      weeklyMeetingHours: 25,
+      totalHours: 25,
+      meetingsCount: 30,
+      oneOnOneCount: 20,
+      teamMeetingCount: 5,
+      backToBackDays: 4,
+      averageMeetingLength: 30,
+      averageDuration: 30,
+      actionOwnershipRate: 85,
+      alerts: [
+        { id: 'cs-1', type: 'OVERLOAD', message: 'Low focus time detected.', metric: '25h Customer Calls', severity: 'MEDIUM', suggestion: 'Consolidate small calls into larger account reviews.' }
+      ]
+    },
+    careerHorizon: {
+      title: 'Strategic Accounts Lead',
+      description: 'Managing enterprise-level global accounts.',
+      nextRole: 'Account Director',
+      readiness: 40
+    }
+  }
+};
+
+// ----------------------------------------------------------------------------
+// MANAGER HUB: REPORTING MANAGER (THE BOSS)
+// ----------------------------------------------------------------------------
+export const MOCK_MANAGER: UserProfile = {
+  id: 'manager-001',
+  name: 'Sarah Chen',
+  email: 'sarah.chen@company.com',
+  jobId: 'JOB-DIR-01',
+  jobTitle: 'Director of Engineering',
+  department: 'Engineering',
+  location: 'Headquarters',
+  startDate: '2020-03-15',
+  manager: 'VP Engineering', // Reports to VP
+  avatar: undefined,
+  onboardingDay: 5,
+  onboardingComplete: true,
+  dayProgress: {
+    0: { day: 0, completed: true, tasks: [] },
+    1: { day: 1, completed: true, tasks: [] },
+    2: { day: 2, completed: true, tasks: [] },
+    3: { day: 3, completed: true, tasks: [] },
+    4: { day: 4, completed: true, tasks: [] },
+    5: { day: 5, completed: true, tasks: [] },
+  },
+  safeMode: false,
+  roleCategory: 'DESK',
+  role: 'MANAGER',
+};
+
+// ----------------------------------------------------------------------------
+// MANAGER HUB: TEAM DATA (Direct Reports to Sarah Chen)
 // ----------------------------------------------------------------------------
 export const MOCK_TEAM: TeamMember[] = [
   {
-    id: 'tm-1',
+    id: 'tm-alex', // Persona for Senior Engineer
     name: 'Alex Thompson',
-    title: 'Senior QA Engineer',
-    skillScores: { 'Test Automation': 85, Python: 70, Communication: 80 },
-    burnoutScore: 25,
-    burnoutSignals: [],
-    safeMode: false,
-  },
-  {
-    id: 'tm-2',
-    name: 'Jamie Rodriguez',
-    title: 'QA Engineer',
-    skillScores: { 'Test Automation': 65, Python: 80, Communication: 75 },
-    burnoutScore: 45,
-    burnoutSignals: [
-      {
-        type: 'OVERTIME',
-        severity: 'MEDIUM',
-        metric: '12 hours OT last week',
-        detectedAt: new Date().toISOString(),
-      },
-    ],
-    safeMode: false,
-  },
-  {
-    id: 'tm-3',
-    name: 'Sam Chen',
-    title: 'QA Lead',
-    skillScores: { 'Test Automation': 90, Python: 85, Communication: 90 },
+    title: 'Senior Software Engineer',
+    skillScores: { 'React': 95, 'System Design': 90, 'Mentorship': 85 },
     burnoutScore: 15,
     burnoutSignals: [],
-    safeMode: true,
+    safeMode: false,
+    managerId: 'manager-001',
   },
   {
-    id: 'tm-4',
-    name: 'Casey Miller',
-    title: 'Junior QA',
-    skillScores: { 'Test Automation': 40, Python: 50, Communication: 70 },
-    burnoutScore: 72,
+    id: 'tm-marcus', // Persona for Eng Manager
+    name: 'Marcus Williams',
+    title: 'Engineering Manager',
+    skillScores: { 'People Management': 90, 'Delivery': 85, 'Hiring': 88 },
+    burnoutScore: 45,
     burnoutSignals: [
-      {
-        type: 'LATE_NIGHT_LOGIN',
-        severity: 'HIGH',
-        metric: '5 logins after 9pm',
-        detectedAt: new Date().toISOString(),
-      },
-      {
-        type: 'ERROR_RATE',
-        severity: 'MEDIUM',
-        metric: 'Test failures up 30%',
-        detectedAt: new Date().toISOString(),
-      },
+      { type: 'OVERTIME', severity: 'MEDIUM', metric: 'Lead Time High', detectedAt: new Date().toISOString() }
     ],
     safeMode: false,
+    managerId: 'manager-001',
+    project: 'Recruitment AI',
+    currentLoad: 88,
+  },
+  {
+    id: 'tm-casey', // Persona for Ops Supervisor
+    name: 'Casey Miller',
+    title: 'Operations Supervisor',
+    skillScores: { 'Safety Protocols': 95, 'Zone Management': 80, 'Scheduling': 85 },
+    burnoutScore: 72,
+    burnoutSignals: [
+      { type: 'LATE_NIGHT_LOGIN', severity: 'HIGH', metric: 'Online at 2 AM', detectedAt: new Date().toISOString() },
+    ],
+    safeMode: false,
+    managerId: 'manager-001',
+    project: 'Zone 4 Safety',
+    currentLoad: 92,
+  },
+  {
+    id: 'tm-jamie', // Persona for Cloud Architect
+    name: 'Jamie Rodriguez',
+    title: 'Cloud Architect',
+    skillScores: { 'AWS': 95, Terraform: 90, 'Cost Ops': 85 },
+    burnoutScore: 30,
+    burnoutSignals: [],
+    safeMode: false,
+    managerId: 'manager-001',
+  },
+  {
+    id: 'tm-taylor', // Persona for Customer Success
+    name: 'Taylor Kim',
+    title: 'Customer Success',
+    skillScores: { 'Client Relations': 92, 'Product Knowledge': 85, 'Churn Prevention': 88 },
+    burnoutScore: 20,
+    burnoutSignals: [],
+    safeMode: false,
+    managerId: 'manager-001',
+  },
+  {
+    id: 'tm-jordan',
+    name: 'Jordan Lee',
+    title: 'DevOps Engineer',
+    skillScores: { 'CI/CD': 94, Kubernetes: 85, Security: 80 },
+    burnoutScore: 60,
+    burnoutSignals: [],
+    safeMode: false,
+    managerId: 'manager-001',
+  },
+  {
+    id: 'tm-priya',
+    name: 'Priya Sharma',
+    title: 'Product Manager',
+    skillScores: { 'Roadmap Strategy': 90, 'User Research': 95, Agile: 85 },
+    burnoutScore: 10,
+    burnoutSignals: [],
+    safeMode: false,
+    managerId: 'manager-001',
+  },
+  {
+    id: 'tm-david',
+    name: 'David Park',
+    title: 'Security Lead',
+    skillScores: { 'Penetration Testing': 95, Compliance: 92, 'Incident Response': 88 },
+    burnoutScore: 55,
+    burnoutSignals: [],
+    safeMode: false,
+    managerId: 'manager-001',
+    project: 'Security Audit',
+    currentLoad: 70,
   },
 ];
 

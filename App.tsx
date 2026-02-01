@@ -6,16 +6,21 @@ import {
 } from './types';
 import {
   MOCK_USER,
+  MOCK_TEAM,
+  MOCK_MANAGER,
 } from './constants';
 
 // Import components
 import OnboardingShell from './components/onboarding/OnboardingShell';
 import RoleDashboard from './components/dashboard/RoleDashboard';
+import ManagerDashboard from './components/dashboard/ManagerDashboard';
 import RoleSelectionScreen from './components/onboarding/RoleSelectionScreen';
 import ErrorBoundary from './components/ErrorBoundary';
+import { ToastProvider } from './components/ui/Toast';
 
 // Import styles
 import './styles/design-system.css';
+import { TeamProvider } from './hooks/useTeam';
 
 // Storage key for persisting state
 const STORAGE_KEY = 'dex_state';
@@ -26,44 +31,55 @@ interface AppPersistedState {
 }
 
 const App: React.FC = () => {
-  // Load persisted state
-  const loadPersistedState = (): AppPersistedState | null => {
-    try {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved) {
-        return JSON.parse(saved);
-      }
-    } catch (e) {
-      console.error('Failed to load persisted state:', e);
-    }
-    return null;
-  };
+  // appState and User initialization - always sequential
+  const [user, setUser] = useState<UserProfile>(() => {
+    const saved = localStorage.getItem('dex_user_profile');
+    if (saved) return JSON.parse(saved);
+    return { ...MOCK_USER, id: `user-${Math.random().toString(36).substr(2, 9)}` };
+  });
 
-  const persistedState = loadPersistedState();
+  const [appState, setAppState] = useState<AppState>(() => {
+    const savedUser = localStorage.getItem('dex_user_profile');
+    if (!savedUser) return 'ROLE_SELECTION';
 
-  // App State - Default to ROLE_SELECTION if no persisted state
-  const [appState, setAppState] = useState<AppState>(
-    persistedState?.appState || 'ROLE_SELECTION'
-  );
-  const [user, setUser] = useState<UserProfile>(
-    persistedState?.user || MOCK_USER
-  );
+    const parsedUser: UserProfile = JSON.parse(savedUser);
+    if (!parsedUser.onboardingComplete) return 'ONBOARDING';
+
+    return 'ROLE_BASED';
+  });
 
   // Check if today is Wednesday for Simulator
   const isWednesday = new Date().getDay() === 3;
 
-  // Persist state on change
+  // Persist user state on change
   useEffect(() => {
-    const state: AppPersistedState = { appState, user };
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  }, [appState, user]);
+    localStorage.setItem('dex_user_profile', JSON.stringify(user));
+  }, [user]);
 
   // Handle Role Selection
   const handleRoleSelect = (roleData: Partial<UserProfile>) => {
-    setUser((prev) => ({
-      ...prev,
+    // Find the persona from MOCK_TEAM if an ID is provided
+    let personaData = {};
+    if (roleData.id) {
+      const teamMember = MOCK_TEAM.find(m => m.id === roleData.id);
+      if (teamMember) {
+        personaData = {
+          id: teamMember.id,
+          name: teamMember.name,
+          jobTitle: teamMember.title,
+          manager: 'Sarah Chen', // Default reporting line
+        };
+      }
+    }
+
+    const updatedUser = {
+      ...user,
+      ...personaData,
       ...roleData,
-    }));
+      onboardingDay: 1
+    };
+
+    setUser(updatedUser);
     setAppState('ONBOARDING');
   };
 
@@ -92,38 +108,72 @@ const App: React.FC = () => {
     setAppState('ROLE_BASED');
   };
 
+  // Toggle Context (Employee <-> Manager)
+  const toggleManagerMode = () => {
+    setAppState(prev => prev === 'MANAGER_HUB' ? 'ROLE_BASED' : 'MANAGER_HUB');
+  };
+
   // Render Role Selection
   if (appState === 'ROLE_SELECTION') {
     return (
-      <ErrorBoundary>
-        <RoleSelectionScreen onSelectRole={handleRoleSelect} />
-      </ErrorBoundary>
+      <TeamProvider>
+        <ToastProvider>
+          <ErrorBoundary>
+            <RoleSelectionScreen onSelectRole={handleRoleSelect} />
+          </ErrorBoundary>
+        </ToastProvider>
+      </TeamProvider>
     );
   }
 
   // Render Onboarding Shell
   if (appState === 'ONBOARDING') {
     return (
-      <ErrorBoundary>
-        <OnboardingShell
-          user={user}
-          onDayComplete={handleDayComplete}
-          onGraduate={handleGraduate}
-        />
-      </ErrorBoundary>
+      <TeamProvider>
+        <ToastProvider>
+          <ErrorBoundary>
+            <OnboardingShell
+              user={user}
+              onDayComplete={handleDayComplete}
+              onGraduate={handleGraduate}
+            />
+          </ErrorBoundary>
+        </ToastProvider>
+      </TeamProvider>
+    );
+  }
+
+  // Manager Hub View
+  if (appState === 'MANAGER_HUB') {
+    return (
+      <TeamProvider>
+        <ToastProvider>
+          <ErrorBoundary>
+            <ManagerDashboard
+              user={MOCK_MANAGER} // View as Sarah Chen
+              onSwitchContext={toggleManagerMode}
+              onLogout={() => window.location.reload()}
+            />
+          </ErrorBoundary>
+        </ToastProvider>
+      </TeamProvider>
     );
   }
 
   // Unified Role-Based Dashboard (Day 6+)
-  // Both Employees and Managers use RoleDashboard, but Managers get an extra "My Team" tab
   return (
-    <ErrorBoundary>
-      <RoleDashboard
-        user={user}
-        isWednesday={isWednesday}
-        onUpdateUser={(updates) => setUser((prev) => ({ ...prev, ...updates }))}
-      />
-    </ErrorBoundary>
+    <TeamProvider>
+      <ToastProvider>
+        <ErrorBoundary>
+          <RoleDashboard
+            user={user}
+            isWednesday={isWednesday}
+            onUpdateUser={(updates) => setUser((prev) => ({ ...prev, ...updates }))}
+            onSwitchContext={toggleManagerMode}
+          />
+        </ErrorBoundary>
+      </ToastProvider>
+    </TeamProvider>
   );
 };
 

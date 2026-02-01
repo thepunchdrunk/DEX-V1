@@ -16,26 +16,36 @@ import {
     Calendar,
     Sparkles,
     ChevronRight,
+    ChevronLeft,
 } from 'lucide-react';
-import { DailyCard, CardSlot, SimulatorChallenge, MicroSkillCard, ContextAnchorCard } from '../../types';
+import { DailyCard, CardSlot, SimulatorChallenge, MicroSkillCard, ContextAnchorCard, UserProfile } from '../../types';
 import { MOCK_SIMULATOR, MONDAY_CONTEXT_ANCHOR, FRIDAY_MICRO_SKILL } from '../../constants';
 import { getWeekdayContext, generateCardExplainer } from '../../services/cardSelectionEngine';
+import { useToast } from '../ui/Toast';
 
 interface Daily3FeedProps {
-    cards: DailyCard[];
+    user: UserProfile;
+    cards?: DailyCard[];
+    greeting?: { title: string; subtitle: string };
+    loading?: boolean;
     isWednesday?: boolean;
-    onCardAction: (card: DailyCard) => void;
-    onCardFlag: (cardId: string, reason?: 'INCORRECT' | 'OUTDATED' | 'INAPPROPRIATE') => void;
-    user?: { jobTitle: string; department: string };
+    onCardAction?: (card: DailyCard) => void;
+    onCardFlag?: (cardId: string, reason: 'INCORRECT' | 'OUTDATED' | 'INAPPROPRIATE') => void;
 }
 
-const Daily3Feed: React.FC<Daily3FeedProps> = ({
-    cards,
+export default function Daily3Feed({
+    user,
+    cards: propCards,
+    greeting: propGreeting,
+    loading = false,
     isWednesday = false,
-    onCardAction,
-    onCardFlag,
-    user = { jobTitle: 'Employee', department: 'General' },
-}) => {
+    onCardAction = () => { },
+    onCardFlag = () => { }
+}: Daily3FeedProps) {
+    // If loading, we handle it in return
+    // If cards provided, use them. Else fallback (though we should avoid fallback now)
+    const cards = propCards || []; // MOCK_DAILY_CARDS fallback removed for purity
+    const { showToast } = useToast();
     const [completedCards, setCompletedCards] = useState<string[]>([]);
     const [showSimulator, setShowSimulator] = useState(false);
     const [expandedExplainer, setExpandedExplainer] = useState<string | null>(null);
@@ -45,21 +55,7 @@ const Daily3Feed: React.FC<Daily3FeedProps> = ({
     const dayOfWeek = new Date().getDay();
     const weekdayContext = getWeekdayContext(dayOfWeek);
 
-    // Get weekday-specific greeting
-    const getGreeting = () => {
-        switch (weekdayContext) {
-            case 'MONDAY_PLANNING':
-                return { title: 'Plan Your Week', subtitle: 'Focus on strategic priorities' };
-            case 'WEDNESDAY_SIMULATOR':
-                return { title: 'Simulator Wednesday', subtitle: 'Practice makes perfect' };
-            case 'FRIDAY_REFLECTION':
-                return { title: 'Reflect & Grow', subtitle: 'Celebrate your progress' };
-            default:
-                return { title: 'Your Daily 3', subtitle: 'Stay focused on what matters' };
-        }
-    };
-
-    const greeting = getGreeting();
+    // Adjust cards based on weekly rhythm
 
     // Adjust cards based on weekly rhythm
     const displayCards = useMemo(() => {
@@ -116,35 +112,35 @@ const Daily3Feed: React.FC<Daily3FeedProps> = ({
         switch (slot) {
             case 'CONTEXT_ANCHOR':
                 return {
-                    bg: 'bg-blue-50',
-                    border: 'border-blue-200 hover:border-blue-300',
-                    text: 'text-blue-600',
-                    glow: 'shadow-blue-100',
-                    badge: 'bg-blue-100 text-blue-600',
+                    bg: 'bg-blue-50/50',
+                    border: 'border-blue-100',
+                    text: 'text-blue-700',
+                    glow: 'shadow-blue-500/5',
+                    badge: 'bg-blue-100 text-blue-700',
                 };
             case 'DOMAIN_EDGE':
                 return {
-                    bg: 'bg-purple-50',
-                    border: 'border-purple-200 hover:border-purple-300',
-                    text: 'text-purple-600',
-                    glow: 'shadow-purple-100',
-                    badge: 'bg-purple-100 text-purple-600',
+                    bg: 'bg-purple-50/50',
+                    border: 'border-purple-100',
+                    text: 'text-purple-700',
+                    glow: 'shadow-purple-500/5',
+                    badge: 'bg-purple-100 text-purple-700',
                 };
             case 'MICRO_SKILL':
                 return {
-                    bg: 'bg-emerald-50',
-                    border: 'border-emerald-200 hover:border-emerald-300',
-                    text: 'text-emerald-600',
-                    glow: 'shadow-emerald-100',
-                    badge: 'bg-emerald-100 text-emerald-600',
+                    bg: 'bg-emerald-50/50',
+                    border: 'border-emerald-100',
+                    text: 'text-emerald-700',
+                    glow: 'shadow-emerald-500/5',
+                    badge: 'bg-emerald-100 text-emerald-700',
                 };
             case 'SIMULATOR':
                 return {
-                    bg: 'bg-red-50',
-                    border: 'border-red-200 hover:border-red-300',
-                    text: 'text-[#E60000]',
-                    glow: 'shadow-red-100',
-                    badge: 'bg-red-100 text-[#E60000]',
+                    bg: 'bg-red-50/50',
+                    border: 'border-red-100',
+                    text: 'text-[var(--brand-red)]',
+                    glow: 'shadow-red-500/5',
+                    badge: 'bg-red-100 text-[var(--brand-red)]',
                 };
         }
     };
@@ -177,11 +173,13 @@ const Daily3Feed: React.FC<Daily3FeedProps> = ({
 
     const handleMarkComplete = (cardId: string) => {
         setCompletedCards([...completedCards, cardId]);
+        showToast('Card marked as complete', 'success');
     };
 
     const handleFlagSubmit = (cardId: string, reason: 'INCORRECT' | 'OUTDATED' | 'INAPPROPRIATE') => {
         onCardFlag(cardId, reason);
         setShowFlagModal(null);
+        showToast('Feedback submitted. Thank you for helping improve DEX.', 'info');
     };
 
     // Generate explainer for a card
@@ -197,37 +195,92 @@ const Daily3Feed: React.FC<Daily3FeedProps> = ({
         });
     };
 
+    const [page, setPage] = useState(0);
+
+    const totalPages = Math.ceil(displayCards.length / 3);
+    const visibleCards = displayCards.slice(page * 3, (page + 1) * 3);
+
+    // ------------------------------------------------------------------------
+    // RENDER: Loading State
+    // ------------------------------------------------------------------------
+    if (loading) {
+        return (
+            <div className="space-y-6">
+                <div className="flex items-center gap-3 animate-pulse">
+                    <div className="w-10 h-10 rounded-xl bg-gray-200" />
+                    <div className="space-y-2">
+                        <div className="h-6 w-48 bg-gray-200 rounded" />
+                        <div className="h-4 w-32 bg-gray-200 rounded" />
+                    </div>
+                </div>
+                <div className="space-y-4">
+                    {[1, 2, 3].map((i) => (
+                        <div key={i} className="h-32 rounded-2xl bg-gray-100 animate-pulse border border-gray-200" />
+                    ))}
+                </div>
+            </div>
+        );
+    }
+
+    // ------------------------------------------------------------------------
+    // GREETING LOGIC (Fallback)
+    // ------------------------------------------------------------------------
+    const defaultGreeting = {
+        title: `Welcome back, ${user.name.split(' ')[0]}`,
+        subtitle: 'Here is your daily briefing.'
+    };
+    const greeting = propGreeting || defaultGreeting;
+
     return (
         <div className="space-y-6">
             {/* Header with Weekly Context */}
             <div className="flex items-center justify-between">
                 <div>
                     <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl bg-[#E60000] flex items-center justify-center">
+                        <div className="w-10 h-10 rounded-xl bg-[var(--brand-red)] flex items-center justify-center shadow-lg shadow-red-500/20">
                             <Sparkles className="w-5 h-5 text-white" />
                         </div>
                         <div>
-                            <h1 className="text-2xl font-bold text-black">{greeting.title}</h1>
-                            <p className="text-[#616161] text-sm">{greeting.subtitle}</p>
+                            <h1 className="text-2xl font-bold text-[var(--text-primary)]">{greeting.title}</h1>
+                            <p className="text-[var(--text-secondary)] text-sm">{greeting.subtitle}</p>
                         </div>
                     </div>
-                    <p className="text-[#9E9E9E] text-sm mt-2">
-                        {new Date().toLocaleDateString('en-US', {
-                            weekday: 'long',
-                            month: 'long',
-                            day: 'numeric',
-                        })}
-                    </p>
                 </div>
-                <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#FAFAFA] border border-[#E0E0E0] text-xs text-[#616161]">
-                    <Clock className="w-3.5 h-3.5" />
-                    <span>Refreshes at midnight</span>
+
+                <div className="flex items-center gap-4">
+                    {/* Carousel Controls */}
+                    {displayCards.length > 3 && (
+                        <div className="flex items-center gap-2 mr-2">
+                            <button
+                                onClick={() => setPage(p => Math.max(0, p - 1))}
+                                disabled={page === 0}
+                                className="p-2 rounded-lg hover:bg-[var(--surface-hover)] text-[var(--text-secondary)] disabled:opacity-30 disabled:hover:bg-transparent transition-all"
+                            >
+                                <ChevronLeft className="w-5 h-5" />
+                            </button>
+                            <span className="text-sm font-medium text-[var(--text-secondary)] min-w-[3rem] text-center">
+                                {page + 1} / {totalPages}
+                            </span>
+                            <button
+                                onClick={() => setPage(p => Math.min(totalPages - 1, p + 1))}
+                                disabled={page >= totalPages - 1}
+                                className="p-2 rounded-lg hover:bg-[var(--surface-hover)] text-[var(--text-secondary)] disabled:opacity-30 disabled:hover:bg-transparent transition-all"
+                            >
+                                <ChevronRight className="w-5 h-5" />
+                            </button>
+                        </div>
+                    )}
+
+                    <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[var(--surface-card)] border border-[var(--border-light)] text-xs text-[var(--text-secondary)] shadow-sm">
+                        <Clock className="w-3.5 h-3.5" />
+                        <span>Refreshes at midnight</span>
+                    </div>
                 </div>
             </div>
 
             {/* Cards */}
             <div className="space-y-4">
-                {displayCards.map((card, index) => {
+                {visibleCards.map((card, index) => {
                     const colors = getSlotColor(card.slot);
                     const isCompleted = completedCards.includes(card.id);
                     const isQuarantined = card.isQuarantined || (card.flagCount && card.flagCount >= 3);
@@ -238,14 +291,14 @@ const Daily3Feed: React.FC<Daily3FeedProps> = ({
                         <div
                             key={card.id}
                             className={`
-                                relative backdrop-blur-md rounded-2xl border overflow-hidden transition-all duration-300
+                                relative backdrop-blur-xl rounded-2xl border overflow-hidden transition-all duration-300
                                 ${colors.bg} ${colors.border} ${colors.glow}
-                                ${isCompleted ? 'opacity-50 scale-[0.98]' : 'hover:scale-[1.01] hover:shadow-xl'}
+                                ${isCompleted ? 'opacity-50 scale-[0.98] grayscale' : 'hover:scale-[1.01] hover:shadow-lg hover:border-opacity-80'}
                             `}
                             style={{ animationDelay: `${index * 100}ms` }}
                         >
                             {/* Top accent line */}
-                            <div className={`h-0.5 ${colors.text.replace('text-', 'bg-')} opacity-50`} />
+                            <div className={`h-0.5 ${colors.text.replace('text-', 'bg-')} opacity-30`} />
 
                             <div className="p-5">
                                 {/* Card Header */}
@@ -258,7 +311,7 @@ const Daily3Feed: React.FC<Daily3FeedProps> = ({
                                             <span className={`text-sm font-semibold ${colors.text}`}>
                                                 {getSlotLabel(card.slot)}
                                             </span>
-                                            <p className="text-xs text-[#9E9E9E]">
+                                            <p className="text-xs text-[var(--text-secondary)]">
                                                 {getSlotDescription(card.slot)}
                                             </p>
                                         </div>
@@ -499,4 +552,4 @@ const Daily3Feed: React.FC<Daily3FeedProps> = ({
     );
 };
 
-export default Daily3Feed;
+

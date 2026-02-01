@@ -13,7 +13,7 @@ import { THEME_COLORS } from '../../constants';
 
 // Import Day Components (Legacy)
 import GreenLightDashboard from './GreenLightDashboard';
-import CulturalOS from './CulturalOS';
+import CulturalOS from './CompanyCulture';
 import LearningFoundations from './LearningFoundations';
 import NetworkMapper from './NetworkMapper';
 import GraduationCeremony from './GraduationCeremony';
@@ -103,149 +103,123 @@ const OnboardingShell: React.FC<OnboardingShellProps> = ({
                     />
                 );
             default:
-                return <div className="text-white p-8">Select a day to continue</div>;
+                return <div className="text-[var(--text-secondary)] p-8">Select a day to continue</div>;
         }
     };
 
     return (
-        <div
-            className="min-h-screen flex bg-white"
-        >
-            {/* Sidebar: Day Navigation */}
-            <aside className="w-72 border-r border-[#E0E0E0] bg-[#FAFAFA] backdrop-blur-md p-6 flex flex-col hidden md:flex">
+        <div className="min-h-screen flex bg-[var(--surface-base)] text-[var(--text-primary)] font-sans">
+            {/* Sidebar: Day Navigation - Kinetic Glass */}
+            <aside className="w-80 flex-shrink-0 border-r border-[var(--surface-glass-border)] bg-[var(--surface-glass)] backdrop-blur-xl p-6 hidden md:flex flex-col fixed h-full z-30">
                 {/* Header */}
-                <div className="mb-8">
-                    <div className="flex items-center gap-2 mb-2">
-                        <div className="h-8 w-8 rounded-lg bg-[#E60000] flex items-center justify-center">
-                            <Sparkles className="h-4 w-4 text-white" />
+                <div className="mb-10">
+                    <div className="flex items-center gap-3 mb-2">
+                        <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-[var(--brand-red)] to-red-600 flex items-center justify-center shadow-lg shadow-red-500/20">
+                            <Sparkles className="h-5 w-5 text-white" />
                         </div>
-                        <span className="text-lg font-bold text-black">DEX</span>
+                        <span className="text-xl font-bold tracking-tight">DEX</span>
                     </div>
-                    <p className="text-[#757575]">Onboarding Period</p>
-                </div>
-
-                <div className="mb-6">
-                    <button
-                        onClick={() => {
-                            if (confirm('Reset demo state? This will return to Role Selection.')) {
-                                localStorage.clear();
-                                window.location.reload();
-                            }
-                        }}
-                        className="w-full py-2 px-3 bg-white hover:bg-red-50 text-[#757575] hover:text-[#E60000] text-xs rounded-lg transition-colors flex items-center justify-center gap-2 mb-2 border border-[#E0E0E0]"
-                    >
-                        <RefreshCw className="w-3 h-3" /> Reset Demo
-                    </button>
-                    <button
-                        onClick={() => {
-                            // Demo Utility: Mark all days as complete
-                            const updatedUser = { ...user };
-                            [0, 1, 2, 3, 4, 5].forEach(day => {
-                                if (updatedUser.dayProgress[day]) {
-                                    updatedUser.dayProgress[day].completed = true;
-                                }
-                            });
-                            // Force update by calling onDayComplete with the fully unlocked user
-                            onDayComplete(5);
-                            alert('Demo Mode: All days unlocked! (Refresh if needed)');
-                        }}
-                        className="w-full py-2 px-3 bg-white hover:bg-red-50 text-[#757575] hover:text-[#E60000] text-xs rounded-lg transition-colors flex items-center justify-center gap-2 mb-4 border border-[#E0E0E0]"
-                    >
-                        <Unlock className="w-3 h-3" /> Unlock All (Demo)
-                    </button>
-                    <div className="flex justify-between text-xs text-[#757575] mb-2">
-                        <span>Progress</span>
-                        <span>
-                            {Object.values(user.dayProgress).filter((d: any) => d.completed).length}/6
-                        </span>
-                    </div>
-                    <div className="h-2 bg-[#E0E0E0] rounded-full overflow-hidden">
-                        <div
-                            className="h-full bg-[#E60000] transition-all duration-500"
-                            style={{
-                                width: `${(Object.values(user.dayProgress).filter((d: any) => d.completed).length /
-                                    6) *
-                                    100
-                                    }% `,
-                            }}
-                        />
-                    </div>
+                    <p className="text-sm text-[var(--text-secondary)] font-medium pl-1">Onboarding Journey</p>
                 </div>
 
                 {/* Navigation List */}
-                <nav className="space-y-2 flex-1">
-                    {days
-                        .map((item) => {
-                            const status = getDayStatus(item.day);
-                            const isActive = status === 'active';
-                            const isLocked = status === 'locked';
+                <nav className="space-y-3 flex-1 overflow-y-auto pr-2 custom-scrollbar">
+                    {days.map((item) => {
+                        const status = getDayStatus(item.day);
+                        const isActive = status === 'active';
+                        const isLocked = status === 'locked';
 
-                            return (
-                                <button
-                                    key={item.day}
-                                    onClick={() => !isLocked && setCurrentDay(item.day)}
-                                    disabled={isLocked}
-                                    className={`
-w-full p-3 rounded-xl text-left transition-all border
-                                        ${isActive
-                                            ? 'bg-[#E60000] border-[#E60000] shadow-lg shadow-red-900/20'
-                                            : 'border-transparent hover:bg-gray-100'
-                                        }
-                                        ${isLocked ? 'opacity-50 cursor-not-allowed' : ''}
-`}
-                                >
-                                    <div className="flex items-center justify-between mb-1">
-                                        <span
-                                            className={`text-sm font-semibold ${isActive ? 'text-white' : 'text-black'}`}
-                                        >
-                                            Day {item.day}
-                                        </span>
-                                        {status === 'completed' && (
-                                            <Check className="h-4 w-4 text-[#4CAF50]" />
-                                        )}
-                                        {status === 'locked' && (
-                                            <Lock className="h-3 w-3 text-[#BDBDBD]" />
-                                        )}
-                                    </div>
-                                    <div
-                                        className={`text-xs ${isActive ? 'text-white/80' : 'text-[#757575]'}`}
-                                    >
-                                        {item.title}
-                                    </div>
-                                </button>
-                            );
-                        })}
+                        return (
+                            <button
+                                key={item.day}
+                                onClick={() => !isLocked && setCurrentDay(item.day)}
+                                disabled={isLocked}
+                                className={`
+                                    w-full p-4 rounded-xl text-left transition-all duration-300 border
+                                    group relative overflow-hidden
+                                    ${isActive
+                                        ? 'bg-gradient-to-r from-[var(--brand-red)] to-red-600 border-transparent shadow-lg shadow-red-500/10'
+                                        : 'bg-white/40 border-transparent hover:bg-white/60 hover:border-[var(--brand-red)]/20'
+                                    }
+                                    ${isLocked ? 'opacity-40 cursor-not-allowed grayscale' : ''}
+                                `}
+                            >
+                                <div className="flex items-center justify-between mb-1.5 relative z-10">
+                                    <span className={`text-sm font-bold ${isActive ? 'text-white' : 'text-[var(--text-primary)]'}`}>
+                                        Day {item.day}
+                                    </span>
+                                    {status === 'completed' && <Check className="h-4 w-4 text-[var(--status-success)]" />}
+                                    {status === 'locked' && <Lock className="h-3 w-3 text-[var(--text-tertiary)]" />}
+                                </div>
+                                <div className={`text-xs font-medium ${isActive ? 'text-white/90' : 'text-[var(--text-secondary)]'} relative z-10`}>
+                                    {item.title}
+                                </div>
+                                {isActive && (
+                                    <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 mix-blend-overlay" />
+                                )}
+                            </button>
+                        );
+                    })}
                 </nav>
 
-                {/* User Profile Snippet */}
-                <div className="mt-8 pt-6 border-t border-[#E0E0E0] flex items-center gap-3">
-                    <div className="h-10 w-10 rounded-full bg-gradient-to-tr from-gray-700 to-black flex items-center justify-center text-white font-bold">
-                        {user.name.charAt(0)}
+                <div className="mt-8 pt-6 border-t border-[var(--border-light)] space-y-4">
+                    {/* Demo Controls */}
+                    <div className="grid grid-cols-2 gap-2">
+                        <button
+                            onClick={() => {
+                                if (confirm('Reset demo state?')) {
+                                    localStorage.clear();
+                                    window.location.reload();
+                                }
+                            }}
+                            className="flex items-center justify-center gap-2 p-2 rounded-lg text-xs font-medium text-[var(--text-secondary)] hover:bg-red-50 hover:text-[var(--brand-red)] transition-colors border border-dashed border-[var(--border-light)]"
+                        >
+                            <RefreshCw className="w-3 h-3" /> Reset
+                        </button>
+                        <button
+                            onClick={() => {
+                                const updatedUser = { ...user };
+                                [0, 1, 2, 3, 4, 5].forEach(day => {
+                                    if (updatedUser.dayProgress[day]) updatedUser.dayProgress[day].completed = true;
+                                });
+                                onDayComplete(5);
+                                alert('All days unlocked!');
+                            }}
+                            className="flex items-center justify-center gap-2 p-2 rounded-lg text-xs font-medium text-[var(--text-secondary)] hover:bg-emerald-50 hover:text-emerald-600 transition-colors border border-dashed border-[var(--border-light)]"
+                        >
+                            <Unlock className="w-3 h-3" /> Unlock
+                        </button>
                     </div>
-                    <div className="flex-1 min-w-0">
-                        <div className="text-sm font-medium text-black truncate">
-                            {user.name}
+
+                    {/* User Profile */}
+                    <div className="flex items-center gap-3 bg-white/50 p-3 rounded-xl border border-[var(--border-light)]">
+                        <div className="h-9 w-9 rounded-full bg-gradient-to-tr from-gray-700 to-gray-900 flex items-center justify-center text-white text-sm font-bold shadow-md">
+                            {user.name.charAt(0)}
                         </div>
-                        <div className="text-xs text-[#757575] truncate">
-                            {user.jobTitle}
+                        <div className="flex-1 min-w-0">
+                            <div className="text-sm font-bold text-[var(--text-primary)] truncate">{user.name}</div>
+                            <div className="text-xs text-[var(--text-secondary)] truncate">{user.jobTitle}</div>
                         </div>
                     </div>
                 </div>
             </aside>
 
             {/* Main Content Area */}
-            <main className="flex-1 overflow-y-auto relative bg-white">
-                {/* Background Ambient Effects - Removed for Bright Mode */}
-
-                <div className="relative z-10 min-h-full">
-                    {/* Mobile Header (similar to sidebar logic but for small screens) */}
-                    <div className="md:hidden bg-white backdrop-blur-md p-4 sticky top-0 z-20 border-b border-[#E0E0E0] flex justify-between items-center">
-                        <span className="text-black font-bold">Day {currentDay}</span>
-                        <div className="text-xs text-[#616161]">
-                            {Object.values(user.dayProgress).filter((d: any) => d.completed).length}/6
+            <main className="flex-1 md:ml-80 overflow-y-auto relative min-h-screen">
+                {/* Mobile Header */}
+                <div className="md:hidden bg-[var(--surface-glass)] backdrop-blur-xl p-4 sticky top-0 z-20 border-b border-[var(--surface-glass-border)] flex justify-between items-center">
+                    <div className="flex items-center gap-2">
+                        <div className="h-8 w-8 rounded-lg bg-[var(--brand-red)] flex items-center justify-center">
+                            <Sparkles className="h-4 w-4 text-white" />
                         </div>
+                        <span className="text-black font-bold">Day {currentDay}</span>
                     </div>
+                    <div className="text-xs font-medium text-[var(--text-secondary)] bg-white/50 px-2 py-1 rounded-full border border-[var(--border-light)]">
+                        {Object.values(user.dayProgress).filter((d: any) => d.completed).length}/6
+                    </div>
+                </div>
 
+                <div className="relative z-10 pb-20">
                     {renderDayContent()}
                 </div>
             </main>

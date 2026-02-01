@@ -16,19 +16,39 @@ import {
     Moon,
 } from 'lucide-react';
 import { MeetingPattern } from '../../../types';
-import { MOCK_MEETING_PATTERNS } from '../../../constants';
 
 interface MeetingIntelligenceProps {
     className?: string;
+    data?: MeetingPattern;
 }
 
-const MeetingIntelligence: React.FC<MeetingIntelligenceProps & { viewMode?: 'FULL' | 'WIDGET' }> = ({ className = '', viewMode = 'FULL' }) => {
+const MeetingIntelligence: React.FC<MeetingIntelligenceProps & { viewMode?: 'FULL' | 'WIDGET' }> = ({
+    className = '',
+    viewMode = 'FULL',
+    data
+}) => {
     const [selectedDay, setSelectedDay] = useState<string | null>(null);
-    const pattern = MOCK_MEETING_PATTERNS;
+
+    // Default mock if none provided
+    const defaultPattern: MeetingPattern = {
+        weeklyMeetingHours: 15,
+        totalHours: 15,
+        meetingsCount: 12,
+        oneOnOneCount: 4,
+        teamMeetingCount: 6,
+        backToBackDays: 1,
+        averageMeetingLength: 45,
+        averageDuration: 45,
+        actionOwnershipRate: 85,
+        alerts: []
+    };
+
+    const pattern = data || defaultPattern;
 
     // Calculate insights
-    const meetingLoad = Math.round((pattern.totalHours / 40) * 100);
-    const focusTimePercent = Math.round(((40 - pattern.totalHours) / 40) * 100);
+    const totalPossibleHours = 40;
+    const meetingLoad = Math.round((pattern.totalHours / totalPossibleHours) * 100);
+    const focusTimePercent = Math.round(((totalPossibleHours - pattern.totalHours) / totalPossibleHours) * 100);
     const avgMeetingLength = Math.round(pattern.averageDuration);
 
     const getLoadColor = (load: number) => {
