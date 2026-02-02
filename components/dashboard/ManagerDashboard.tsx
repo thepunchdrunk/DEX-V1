@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { UserProfile } from '../../types';
 import AppShell from '../layout/AppShell';
-import ManagerHub, { MANAGER_NAV_ITEMS, ManagerView } from './manager/ManagerHub';
-import { RefreshCw } from 'lucide-react';
+import ManagerHub from './manager/ManagerHub';
+import { RefreshCw, Activity } from 'lucide-react';
 
 interface ManagerDashboardProps {
     user: UserProfile;
@@ -11,7 +11,10 @@ interface ManagerDashboardProps {
 }
 
 const ManagerDashboard: React.FC<ManagerDashboardProps> = ({ user, onSwitchContext, onLogout }) => {
-    const [activeView, setActiveView] = useState<ManagerView>('COMMAND');
+    // Minimal Sidebar for Manager (since nav is internal)
+    const MANAGER_SIDEBAR_ITEMS = [
+        { view: 'MANAGER_HUB', icon: Activity, label: 'Dashboard' }
+    ];
 
     // Header Actions (right side in AppShell)
     const HeaderActions = (
@@ -34,19 +37,15 @@ const ManagerDashboard: React.FC<ManagerDashboardProps> = ({ user, onSwitchConte
     return (
         <AppShell
             user={user}
-            activeView={activeView}
-            onViewChange={setActiveView}
+            activeView="MANAGER_HUB" // Matches sidebar item
+            onViewChange={() => { }} // No-op
             onLogout={onLogout}
             onSwitchContext={onSwitchContext}
             headerAction={HeaderActions}
             mode="MANAGER"
-            managerNavItems={MANAGER_NAV_ITEMS}
+            managerNavItems={MANAGER_SIDEBAR_ITEMS}
         >
-            <ManagerHub
-                activeView={activeView}
-                onViewChange={setActiveView}
-                showSafeMode={true}
-            />
+            <ManagerHub showSafeMode={true} />
         </AppShell>
     );
 };
