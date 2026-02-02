@@ -421,7 +421,7 @@ export const MOCK_MANAGER_ALERT: DailyCard = {
   slot: 'CONTEXT_ANCHOR',
   title: 'Team Readiness Alert',
   description: 'Two team members are failing their Day 1 Digital Setup. Click to view help tickets.',
-  source: 'Manager Hub',
+  source: 'Manager View',
   sourceType: 'SYSTEM',
   timestamp: new Date().toISOString(),
   priority: 'CRITICAL',

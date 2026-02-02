@@ -6,7 +6,7 @@
 // ----------------------------------------------------------------------------
 // APP STATE: Two Distinct Modes
 // ----------------------------------------------------------------------------
-export type AppState = 'ROLE_SELECTION' | 'ONBOARDING' | 'ROLE_BASED';
+export type AppState = 'ROLE_SELECTION' | 'ONBOARDING' | 'ROLE_BASED' | 'MANAGER_HUB';
 export type OnboardingDay = 0 | 1 | 2 | 3 | 4 | 5;
 
 // Theme transitions: Blue (Onboarding) → Gold (Role-Based)

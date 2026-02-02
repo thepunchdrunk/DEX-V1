@@ -66,9 +66,9 @@ const AppShell: React.FC<AppShellProps> = ({
                         {mode === 'MANAGER' ? <Users className="h-4 w-4 text-white" /> : <Sparkles className="h-4 w-4 text-white" />}
                     </div>
                     <div>
-                        <h1 className="font-bold tracking-tight text-lg">{mode === 'MANAGER' ? 'Team Hub' : 'DEX'}</h1>
+                        <h1 className="font-bold tracking-tight text-lg">{mode === 'MANAGER' ? 'Manager View' : 'DEX'}</h1>
                         <p className="text-[10px] text-[var(--text-secondary)] font-mono uppercase tracking-wider">
-                            {mode === 'MANAGER' ? 'Manager View' : 'Workspace'}
+                            {mode === 'MANAGER' ? 'Strategic Command' : 'Workspace'}
                         </p>
                     </div>
                 </div>
@@ -113,7 +113,7 @@ const AppShell: React.FC<AppShellProps> = ({
                             `}
                         >
                             <RefreshCw className="w-3.5 h-3.5" />
-                            {mode === 'MANAGER' ? 'Switch to Personal' : 'Switch to Team Hub'}
+                            {mode === 'MANAGER' ? 'Switch to Personal' : 'Switch to Manager View'}
                         </button>
                     </div>
                 )}
@@ -150,7 +150,7 @@ const AppShell: React.FC<AppShellProps> = ({
                         <div className={`h-8 w-8 rounded-lg flex items-center justify-center ${mode === 'MANAGER' ? 'bg-indigo-600' : 'bg-[var(--brand-red)]'}`}>
                             {mode === 'MANAGER' ? <Users className="h-4 w-4 text-white" /> : <Sparkles className="h-4 w-4 text-white" />}
                         </div>
-                        <span className="font-bold">DEX {mode === 'MANAGER' && 'Team'}</span>
+                        <span className="font-bold">DEX {mode === 'MANAGER' && 'Manager View'}</span>
                     </div>
                     <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="p-2 text-[var(--text-secondary)]">
                         {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -188,7 +188,7 @@ const AppShell: React.FC<AppShellProps> = ({
                                     className="w-full flex items-center gap-4 p-4 rounded-xl text-lg font-medium border border-indigo-100 bg-indigo-50 text-indigo-600 mt-4"
                                 >
                                     <RefreshCw className="w-6 h-6" />
-                                    {mode === 'MANAGER' ? 'Switch to Personal' : 'Switch to Team Hub'}
+                                    {mode === 'MANAGER' ? 'Switch to Personal' : 'Switch to Manager View'}
                                 </button>
                             )}
                         </nav>
