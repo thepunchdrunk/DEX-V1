@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import {
   AppState,
   OnboardingDay,
@@ -13,29 +13,27 @@ import {
 // Import components
 import OnboardingShell from './components/onboarding/OnboardingShell';
 import RoleDashboard from './components/dashboard/RoleDashboard';
-import ManagerDashboard from './components/dashboard/ManagerDashboard';
 import RoleSelectionScreen from './components/onboarding/RoleSelectionScreen';
 import ErrorBoundary from './components/ErrorBoundary';
 import { ToastProvider } from './components/ui/Toast';
 
 // Import styles
 import './styles/design-system.css';
-import { TeamProvider } from './hooks/useTeam';
-
-// Storage key for persisting state
-const STORAGE_KEY = 'dex_state';
-
-interface AppPersistedState {
-  appState: AppState;
-  user: UserProfile;
-}
+// Shared provider wrapper — defined OUTSIDE App to prevent remounting
+const Providers: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <ToastProvider>
+    <ErrorBoundary>
+      {children}
+    </ErrorBoundary>
+  </ToastProvider>
+);
 
 const App: React.FC = () => {
   // appState and User initialization - always sequential
-  const [user, setUser] = useState<UserProfile>(() => {
+  const [user, setUser] = useState<UserProfile | null>(() => {
     const saved = localStorage.getItem('dex_user_profile');
     if (saved) return JSON.parse(saved);
-    return { ...MOCK_USER, id: `user-${Math.random().toString(36).substr(2, 9)}` };
+    return null; // Start fresh if no saved profile
   });
 
   const [appState, setAppState] = useState<AppState>(() => {
@@ -48,12 +46,14 @@ const App: React.FC = () => {
     return 'ROLE_BASED';
   });
 
-  // Check if today is Wednesday for Simulator
-  const isWednesday = new Date().getDay() === 3;
+  // Check if today is Wednesday for Simulator — memoized
+  const isWednesday = useMemo(() => new Date().getDay() === 3, []);
 
-  // Persist user state on change
+  // Persist user state ONLY if user exists
   useEffect(() => {
-    localStorage.setItem('dex_user_profile', JSON.stringify(user));
+    if (user) {
+      localStorage.setItem('dex_user_profile', JSON.stringify(user));
+    }
   }, [user]);
 
   // Handle Role Selection
@@ -108,72 +108,28 @@ const App: React.FC = () => {
     setAppState('ROLE_BASED');
   };
 
-  // Toggle Context (Employee <-> Manager)
-  const toggleManagerMode = () => {
-    setAppState(prev => prev === 'MANAGER_HUB' ? 'ROLE_BASED' : 'MANAGER_HUB');
-  };
-
-  // Render Role Selection
-  if (appState === 'ROLE_SELECTION') {
-    return (
-      <TeamProvider>
-        <ToastProvider>
-          <ErrorBoundary>
-            <RoleSelectionScreen onSelectRole={handleRoleSelect} />
-          </ErrorBoundary>
-        </ToastProvider>
-      </TeamProvider>
-    );
-  }
-
-  // Render Onboarding Shell
-  if (appState === 'ONBOARDING') {
-    return (
-      <TeamProvider>
-        <ToastProvider>
-          <ErrorBoundary>
-            <OnboardingShell
-              user={user}
-              onDayComplete={handleDayComplete}
-              onGraduate={handleGraduate}
-            />
-          </ErrorBoundary>
-        </ToastProvider>
-      </TeamProvider>
-    );
-  }
-
-  // Manager Hub View
-  if (appState === 'MANAGER_HUB') {
-    return (
-      <TeamProvider>
-        <ToastProvider>
-          <ErrorBoundary>
-            <ManagerDashboard
-              user={MOCK_MANAGER} // View as Sarah Chen
-              onSwitchContext={toggleManagerMode}
-              onLogout={() => window.location.reload()}
-            />
-          </ErrorBoundary>
-        </ToastProvider>
-      </TeamProvider>
-    );
-  }
-
   // Unified Role-Based Dashboard (Day 6+)
+  // Safety check: If user is missing but state thinks we're done, reset/fallback
+  if (!user) {
+    return (
+      <Providers>
+        <RoleSelectionScreen onSelectRole={handleRoleSelect} />
+      </Providers>
+    );
+  }
+
   return (
-    <TeamProvider>
-      <ToastProvider>
-        <ErrorBoundary>
-          <RoleDashboard
-            user={user}
-            isWednesday={isWednesday}
-            onUpdateUser={(updates) => setUser((prev) => ({ ...prev, ...updates }))}
-            onSwitchContext={toggleManagerMode}
-          />
-        </ErrorBoundary>
-      </ToastProvider>
-    </TeamProvider>
+    <Providers>
+      <RoleDashboard
+        user={user}
+        isWednesday={isWednesday}
+        onUpdateUser={(updates) => setUser((prev) => ({ ...prev, ...updates }))}
+        onSwitchContext={() => {
+          // Toggle user role instead of app state
+          setUser(prev => ({ ...prev, role: prev.role === 'MANAGER' ? 'EMPLOYEE' : 'MANAGER' }));
+        }}
+      />
+    </Providers>
   );
 };
 

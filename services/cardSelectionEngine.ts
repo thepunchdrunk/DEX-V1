@@ -28,7 +28,7 @@ export interface CardCandidate {
     finalScore: number;
 }
 
-export interface UserContext {
+export interface CardSelectionContext {
     user: UserProfile;
     recentlySeenCardIds: string[];
     dayOfWeek: number; // 0 = Sunday, 1 = Monday, etc.
@@ -81,7 +81,7 @@ export function getWeekdayContext(dayOfWeek: number): WeekdayContext {
 /**
  * Calculate urgency score based on card priority and timing
  */
-function calculateUrgencyScore(card: DailyCard, context: UserContext): number {
+function calculateUrgencyScore(card: DailyCard, context: CardSelectionContext): number {
     const priorityMap: Record<CardPriority, number> = {
         CRITICAL: 1.0,
         HIGH: 0.8,
@@ -107,7 +107,7 @@ function calculateUrgencyScore(card: DailyCard, context: UserContext): number {
 /**
  * Calculate role relevance based on job title and department matching
  */
-function calculateRoleRelevanceScore(card: DailyCard, context: UserContext): number {
+function calculateRoleRelevanceScore(card: DailyCard, context: CardSelectionContext): number {
     const { user } = context;
 
     // Base relevance from sourceType
@@ -135,7 +135,7 @@ function calculateRoleRelevanceScore(card: DailyCard, context: UserContext): num
 /**
  * Calculate impact score - would ignoring this hurt effectiveness?
  */
-function calculateImpactScore(card: DailyCard, context: UserContext): number {
+function calculateImpactScore(card: DailyCard, context: CardSelectionContext): number {
     // Critical priority always high impact
     if (card.priority === 'CRITICAL') return 1.0;
     if (card.priority === 'HIGH') return 0.8;
@@ -161,7 +161,7 @@ function calculateImpactScore(card: DailyCard, context: UserContext): number {
 /**
  * Calculate novelty suppression - penalize recently seen content
  */
-function calculateNoveltyScore(card: DailyCard, context: UserContext): number {
+function calculateNoveltyScore(card: DailyCard, context: CardSelectionContext): number {
     // If card was recently shown, reduce novelty
     if (context.recentlySeenCardIds.includes(card.id)) {
         return 0.1;
@@ -172,7 +172,7 @@ function calculateNoveltyScore(card: DailyCard, context: UserContext): number {
 /**
  * Calculate cognitive load - respect user's current bandwidth
  */
-function calculateCognitiveLoadScore(card: DailyCard, context: UserContext): number {
+function calculateCognitiveLoadScore(card: DailyCard, context: CardSelectionContext): number {
     const { currentWorkload } = context;
 
     // Under high workload, prefer simpler cards
@@ -236,7 +236,7 @@ function calculateFinalScore(candidate: Omit<CardCandidate, 'finalScore'>): numb
  * Urgency → Role Relevance → Impact → Novelty Suppression → Cognitive Load → Confidence Threshold
  */
 export function selectDailyCards(
-    context: UserContext,
+    context: CardSelectionContext,
     availableCards: DailyCard[]
 ): DailyCard[] {
     const weekdayContext = getWeekdayContext(context.dayOfWeek);
@@ -319,7 +319,7 @@ export function selectDailyCards(
 /**
  * Generate card explainer text for "Why this appeared"
  */
-export function generateCardExplainer(card: DailyCard, context: UserContext): string {
+export function generateCardExplainer(card: DailyCard, context: CardSelectionContext): string {
     const weekdayContext = getWeekdayContext(context.dayOfWeek);
 
     switch (card.slot) {

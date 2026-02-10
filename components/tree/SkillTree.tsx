@@ -17,6 +17,7 @@ import {
     BarChart3,
 } from 'lucide-react';
 import { SkillBranch, SkillHealth, SkillMastery } from '../../types';
+import CareerHorizon from '../dashboard/features/CareerHorizon';
 
 interface SkillTreeProps {
     branches: SkillBranch[];
@@ -26,7 +27,7 @@ const SkillTree: React.FC<SkillTreeProps> = ({ branches }) => {
     const [expandedBranches, setExpandedBranches] = useState<string[]>(
         branches.map((b) => b.id)
     );
-    const [viewMode, setViewMode] = useState<'tree' | 'visual' | 'analytics'>('visual');
+    const [viewMode, setViewMode] = useState<'tree' | 'visual' | 'analytics' | 'career'>('visual');
     const [selectedSkill, setSelectedSkill] = useState<SkillBranch | null>(null);
 
     const toggleBranch = (branchId: string) => {
@@ -329,6 +330,7 @@ const SkillTree: React.FC<SkillTreeProps> = ({ branches }) => {
                         { id: 'visual', icon: Target, label: 'Visual' },
                         { id: 'tree', icon: TreePine, label: 'Tree' },
                         { id: 'analytics', icon: BarChart3, label: 'Stats' },
+                        { id: 'career', icon: TrendingUp, label: 'Career' },
                     ].map((mode) => (
                         <button
                             key={mode.id}
@@ -583,6 +585,10 @@ const SkillTree: React.FC<SkillTreeProps> = ({ branches }) => {
                         </button>
                     </div>
                 </div>
+            )}
+            {/* Career View */}
+            {viewMode === 'career' && (
+                <CareerHorizon className="animate-fadeIn" />
             )}
         </div>
     );

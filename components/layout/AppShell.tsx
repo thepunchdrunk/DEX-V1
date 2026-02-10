@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import {
     Sparkles, TreePine, Compass, TrendingUp, Users, Settings,
-    Menu, X, Bell, Search, LogOut, RefreshCw
+    Menu, X, Bell, Search, LogOut, RefreshCw, Wrench
 } from 'lucide-react';
 import { UserProfile } from '../../types';
 
@@ -20,8 +20,8 @@ interface AppShellProps {
 const NAV_ITEMS = [
     { view: 'DAILY', icon: Sparkles, label: 'Daily 3' },
     { view: 'SKILLS', icon: TreePine, label: 'Skill Tree' },
+    { view: 'TOOLS', icon: Wrench, label: 'My Tools' },
     { view: 'INSIGHTS', icon: Compass, label: 'Insights' },
-    { view: 'ANALYTICS', icon: TrendingUp, label: 'Performance' },
 ];
 
 const AppShell: React.FC<AppShellProps> = ({

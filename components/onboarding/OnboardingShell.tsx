@@ -8,15 +8,11 @@ import {
     LayoutDashboard,
     RefreshCw,
 } from 'lucide-react';
+import { confirmAndReset } from '../../utils/resetDemo';
 import { OnboardingDay, UserProfile } from '../../types';
 import { THEME_COLORS } from '../../constants';
 
-// Import Day Components (Legacy)
-import GreenLightDashboard from './GreenLightDashboard';
-import CulturalOS from './CompanyCulture';
-import LearningFoundations from './LearningFoundations';
-import NetworkMapper from './NetworkMapper';
-import GraduationCeremony from './GraduationCeremony';
+// Legacy day components removed — replaced by enhanced versions below
 
 // Import Enhanced Day Components
 import Day1LifeWorkSetup from './day1/Day1LifeWorkSetup';
@@ -40,8 +36,7 @@ const OnboardingShell: React.FC<OnboardingShellProps> = ({
     const initialDay = (user.onboardingDay > 0) ? user.onboardingDay : 1;
     const [currentDay, setCurrentDay] = useState<OnboardingDay>(initialDay as OnboardingDay);
 
-    // Feature flag to toggle between legacy and enhanced components
-    const useEnhancedComponents = true;
+
 
     const days: { day: OnboardingDay; title: string; description: string }[] = [
         { day: 1, title: 'Setup & Essentials', description: 'Everything to function comfortably' },
@@ -166,24 +161,18 @@ const OnboardingShell: React.FC<OnboardingShellProps> = ({
                     {/* Demo Controls */}
                     <div className="grid grid-cols-2 gap-2">
                         <button
-                            onClick={() => {
-                                if (confirm('Reset demo state?')) {
-                                    localStorage.clear();
-                                    window.location.reload();
-                                }
-                            }}
+                            onClick={() => confirmAndReset('Reset demo state?')}
                             className="flex items-center justify-center gap-2 p-2 rounded-lg text-xs font-medium text-[var(--text-secondary)] hover:bg-red-50 hover:text-[var(--brand-red)] transition-colors border border-dashed border-[var(--border-light)]"
                         >
                             <RefreshCw className="w-3 h-3" /> Reset
                         </button>
                         <button
                             onClick={() => {
-                                const updatedUser = { ...user };
-                                [0, 1, 2, 3, 4, 5].forEach(day => {
-                                    if (updatedUser.dayProgress[day]) updatedUser.dayProgress[day].completed = true;
+                                // Complete each day properly through the state setter
+                                ([1, 2, 3, 4, 5] as OnboardingDay[]).forEach(day => {
+                                    onDayComplete(day);
                                 });
-                                onDayComplete(5);
-                                alert('All days unlocked!');
+                                setCurrentDay(5 as OnboardingDay);
                             }}
                             className="flex items-center justify-center gap-2 p-2 rounded-lg text-xs font-medium text-[var(--text-secondary)] hover:bg-emerald-50 hover:text-emerald-600 transition-colors border border-dashed border-[var(--border-light)]"
                         >
@@ -215,7 +204,7 @@ const OnboardingShell: React.FC<OnboardingShellProps> = ({
                         <span className="text-black font-bold">Day {currentDay}</span>
                     </div>
                     <div className="text-xs font-medium text-[var(--text-secondary)] bg-white/50 px-2 py-1 rounded-full border border-[var(--border-light)]">
-                        {Object.values(user.dayProgress).filter((d: any) => d.completed).length}/6
+                        {Object.values(user.dayProgress).filter((d: any) => d.completed).length}/5
                     </div>
                 </div>
 

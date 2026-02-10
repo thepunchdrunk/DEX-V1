@@ -20,7 +20,7 @@ import {
 } from 'lucide-react';
 import { DailyCard, CardSlot, SimulatorChallenge, MicroSkillCard, ContextAnchorCard, UserProfile } from '../../types';
 import { MOCK_SIMULATOR, MONDAY_CONTEXT_ANCHOR, FRIDAY_MICRO_SKILL } from '../../constants';
-import { getWeekdayContext, generateCardExplainer } from '../../services/cardSelectionEngine';
+import { getWeekdayContext, generateCardExplainer, CardSelectionContext } from '../../services/cardSelectionEngine';
 import { useToast } from '../ui/Toast';
 
 interface Daily3FeedProps {
@@ -28,9 +28,11 @@ interface Daily3FeedProps {
     cards?: DailyCard[];
     greeting?: { title: string; subtitle: string };
     loading?: boolean;
+    error?: string | null;
     isWednesday?: boolean;
     onCardAction?: (card: DailyCard) => void;
     onCardFlag?: (cardId: string, reason: 'INCORRECT' | 'OUTDATED' | 'INAPPROPRIATE') => void;
+    onRetry?: () => void;
 }
 
 export default function Daily3Feed({
@@ -38,9 +40,11 @@ export default function Daily3Feed({
     cards: propCards,
     greeting: propGreeting,
     loading = false,
+    error = null,
     isWednesday = false,
     onCardAction = () => { },
-    onCardFlag = () => { }
+    onCardFlag = () => { },
+    onRetry,
 }: Daily3FeedProps) {
     // If loading, we handle it in return
     // If cards provided, use them. Else fallback (though we should avoid fallback now)
@@ -185,14 +189,15 @@ export default function Daily3Feed({
     // Generate explainer for a card
     const getExplainer = (card: DailyCard): string => {
         if (card.explainer) return card.explainer;
-        return generateCardExplainer(card, {
+        const explainerContext: CardSelectionContext = {
             user: { ...user } as any,
             recentlySeenCardIds: [],
             dayOfWeek,
             currentWorkload: 'MEDIUM',
             recentKPIAlerts: 0,
             pendingDeadlines: 0,
-        });
+        };
+        return generateCardExplainer(card, explainerContext);
     };
 
     const [page, setPage] = useState(0);
@@ -217,6 +222,49 @@ export default function Daily3Feed({
                     {[1, 2, 3].map((i) => (
                         <div key={i} className="h-32 rounded-2xl bg-gray-100 animate-pulse border border-gray-200" />
                     ))}
+                </div>
+            </div>
+        );
+    }
+
+    // ------------------------------------------------------------------------
+    // RENDER: Error State
+    // ------------------------------------------------------------------------
+    if (error) {
+        return (
+            <div className="space-y-6">
+                <div className="flex flex-col items-center justify-center py-16 px-6 text-center">
+                    <div className="w-14 h-14 rounded-2xl bg-red-50 border border-red-100 flex items-center justify-center mb-4">
+                        <AlertTriangle className="w-7 h-7 text-[var(--brand-red)]" />
+                    </div>
+                    <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-1">Unable to load your briefing</h3>
+                    <p className="text-sm text-[var(--text-secondary)] max-w-md mb-5">{error}</p>
+                    {onRetry && (
+                        <button
+                            onClick={onRetry}
+                            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[var(--brand-red)] text-white text-sm font-medium hover:bg-[#CC0000] transition-colors shadow-lg shadow-red-500/20"
+                        >
+                            <Calendar className="w-4 h-4" />
+                            Retry
+                        </button>
+                    )}
+                </div>
+            </div>
+        );
+    }
+
+    // ------------------------------------------------------------------------
+    // RENDER: Empty State
+    // ------------------------------------------------------------------------
+    if (displayCards.length === 0) {
+        return (
+            <div className="space-y-6">
+                <div className="flex flex-col items-center justify-center py-16 px-6 text-center">
+                    <div className="w-14 h-14 rounded-2xl bg-gray-50 border border-gray-200 flex items-center justify-center mb-4">
+                        <Sparkles className="w-7 h-7 text-[var(--text-secondary)]" />
+                    </div>
+                    <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-1">All caught up!</h3>
+                    <p className="text-sm text-[var(--text-secondary)] max-w-md">No cards for today. New content arrives at midnight.</p>
                 </div>
             </div>
         );

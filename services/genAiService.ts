@@ -63,6 +63,16 @@ function getDefaultCognitiveLoad(): CognitiveLoadState {
 }
 
 /**
+ * Time-aware greeting based on current hour
+ */
+function getTimeOfDayGreeting(): string {
+    const hour = new Date().getHours();
+    if (hour < 12) return 'Good Morning';
+    if (hour < 17) return 'Good Afternoon';
+    return 'Good Evening';
+}
+
+/**
  * Service to handle Generative AI content creation
  */
 export const GenAiService = {
@@ -77,12 +87,12 @@ export const GenAiService = {
         );
 
         if (!apiKey && !hasEnvKey) {
-            console.log('No API Key found. Using Deterministic Fallback.');
+            if (import.meta.env.DEV) console.log('No API Key found. Using Deterministic Fallback.');
             return getFallbackContent(user);
         }
 
         try {
-            console.log('API Key present. Calling Gemini AI...');
+            if (import.meta.env.DEV) console.log('API Key present. Calling Gemini AI...');
             const userContext = buildUserContext(user);
             const cognitiveLoad = getDefaultCognitiveLoad();
             const aiCards = await generateDaily3(userContext, cognitiveLoad);
@@ -91,7 +101,7 @@ export const GenAiService = {
                 return {
                     cards: aiCards,
                     greeting: {
-                        title: `Good Morning, ${user.name.split(' ')[0]}`,
+                        title: `${getTimeOfDayGreeting()}, ${user.name.split(' ')[0]}`,
                         subtitle: `I've curated these priorities for your ${user.jobTitle || 'role'}.`,
                     },
                     generated: true,
@@ -132,7 +142,7 @@ function getFallbackContent(user: UserProfile, isSimulation = false): Generation
 
     // 2. Generate Greeting
     const greeting = {
-        title: isSimulation ? `Good Morning, ${user.name.split(' ')[0]}` : `Welcome back, ${user.name.split(' ')[0]}`,
+        title: isSimulation ? `${getTimeOfDayGreeting()}, ${user.name.split(' ')[0]}` : `Welcome back, ${user.name.split(' ')[0]}`,
         subtitle: isSimulation
             ? `I've curated these priorities for your ${user.jobTitle} role.`
             : 'Here is your daily briefing.'

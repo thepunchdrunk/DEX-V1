@@ -1,0 +1,27 @@
+﻿App.tsx(20,30): error TS2307: Cannot find module './hooks/useTeam' or its corresponding type declarations.
+components/alerts/OrgShockBanner.tsx(12,10): error TS2305: Module '"../../types"' has no exported member 'OrgShockEvent'.
+components/alerts/OrgShockBanner.tsx(12,25): error TS2305: Module '"../../types"' has no exported member 'OrgShockSeverity'.
+components/behavior/BehaviorNudge.tsx(14,10): error TS2305: Module '"../../types"' has no exported member 'BehaviorNudge'.
+components/behavior/BehaviorNudge.tsx(14,46): error TS2305: Module '"../../types"' has no exported member 'BehaviorCategory'.
+components/core/CognitiveLoadIndicator.tsx(3,30): error TS2305: Module '"../../types"' has no exported member 'CognitiveLoadLevel'.
+components/core/Daily3Engine.tsx(14,34): error TS2305: Module '"../../types"' has no exported member 'HORIZON_CONFIG'.
+components/core/Daily3Engine.tsx(14,50): error TS2305: Module '"../../types"' has no exported member 'CognitiveLoadLevel'.
+components/core/TimeHorizonNav.tsx(3,23): error TS2305: Module '"../../types"' has no exported member 'HORIZON_CONFIG'.
+components/dashboard/InsightsHub.tsx(21,20): error TS2503: Cannot find namespace 'React'.
+components/dashboard/InsightsHub.tsx(23,41): error TS2304: Cannot find name 'useState'.
+components/dashboard/RoleDashboard.tsx(30,25): error TS2339: Property 'env' does not exist on type 'ImportMeta'.
+components/dashboard/RoleDashboard.tsx(37,25): error TS2339: Property 'env' does not exist on type 'ImportMeta'.
+components/ErrorBoundary.tsx(56,21): error TS2339: Property 'props' does not exist on type 'ErrorBoundary'.
+components/escalation/EscalationLadder.tsx(16,10): error TS2305: Module '"../../types"' has no exported member 'EscalationPath'.
+components/escalation/EscalationLadder.tsx(16,48): error TS2305: Module '"../../types"' has no exported member 'EscalationType'.
+components/escalation/EscalationLadder.tsx(17,10): error TS2305: Module '"../../constants"' has no exported member 'ESCALATION_LADDER'.
+components/graph/ContextGraph.tsx(3,21): error TS2305: Module '"../../types"' has no exported member 'SkillLink'.
+components/graph/ContextGraph.tsx(3,32): error TS2305: Module '"../../types"' has no exported member 'SkillStatus'.
+components/knowledge/KnowledgeCard.tsx(12,10): error TS2305: Module '"../../types"' has no exported member 'KnowledgeObject'.
+components/knowledge/KnowledgeCard.tsx(12,27): error TS2305: Module '"../../types"' has no exported member 'KnowledgeStatus'.
+components/search/MagicSearch.tsx(172,25): error TS2339: Property 'env' does not exist on type 'ImportMeta'.
+services/genAiService.ts(90,29): error TS2339: Property 'env' does not exist on type 'ImportMeta'.
+services/genAiService.ts(95,29): error TS2339: Property 'env' does not exist on type 'ImportMeta'.
+vitest.config.ts(7,5): error TS2769: No overload matches this call.
+  The last overload gave the following error.
+    Object literal may only specify known properties, and 'test' does not exist in type 'UserConfigExport'.

@@ -169,7 +169,7 @@ const MagicSearch: React.FC<MagicSearchProps> = ({ onClose }) => {
         }
 
         // Execute the action
-        console.log('Executing action:', result.action);
+        if (import.meta.env.DEV) console.log('Executing action:', result.action);
         if (result.action.url) {
             window.open(result.action.url, '_blank');
         }

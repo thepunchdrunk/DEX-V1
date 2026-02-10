@@ -137,21 +137,61 @@ const Day3ToolsWorkflow: React.FC<Day3ToolsWorkflowProps> = ({ user, onComplete 
 
     const renderToolkitPhase = () => (
         <div className="space-y-6">
-            <div className="flex items-center justify-between">
-                <div>
-                    <h3 className="text-xl font-semibold text-black">Your Work Toolkit</h3>
-                    <p className="text-[#616161] text-sm mt-1">
-                        Learn the essential tools you'll use daily in your role.
-                    </p>
+            {/* Toolkit Dashboard Header */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl p-6 text-white shadow-lg">
+                    <div className="flex items-center gap-3 mb-2">
+                        <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center">
+                            <Target className="w-5 h-5 text-red-400" />
+                        </div>
+                        <div>
+                            <p className="text-gray-400 text-xs font-medium uppercase tracking-wider">Mastery</p>
+                            <h3 className="text-2xl font-bold">{tools.filter(t => t.walkthroughCompleted).length}/{tools.length}</h3>
+                        </div>
+                    </div>
+                    <div className="w-full bg-gray-700/50 rounded-full h-1.5 mt-2">
+                        <div
+                            className="bg-red-500 h-1.5 rounded-full transition-all duration-1000"
+                            style={{ width: `${(tools.filter(t => t.walkthroughCompleted).length / tools.length) * 100}%` }}
+                        />
+                    </div>
                 </div>
-                {toolkitComplete && (
-                    <button
-                        onClick={() => setPhase('SIMULATOR')}
-                        className="px-4 py-2 bg-[#E60000] hover:bg-[#CC0000] text-white font-medium rounded-lg flex items-center gap-2 transition-all"
-                    >
-                        Continue to Simulator <ChevronRight className="w-4 h-4" />
-                    </button>
-                )}
+
+                <div className="bg-white rounded-2xl p-6 border border-[#E0E0E0] shadow-sm">
+                    <div className="flex items-center gap-3 mb-1">
+                        <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center">
+                            <Zap className="w-5 h-5 text-blue-600" />
+                        </div>
+                        <div>
+                            <p className="text-[#616161] text-xs font-medium uppercase tracking-wider">Productivity</p>
+                            <h3 className="text-2xl font-bold text-black border-none">+15%</h3>
+                        </div>
+                    </div>
+                    <p className="text-xs text-[#616161]">Projected gain from tool mastery</p>
+                </div>
+
+                <div className="bg-white rounded-2xl p-6 border border-[#E0E0E0] shadow-sm flex flex-col justify-center items-start">
+                    {toolkitComplete ? (
+                        <button
+                            onClick={() => setPhase('SIMULATOR')}
+                            className="w-full py-3 bg-[#E60000] hover:bg-[#CC0000] text-white font-medium rounded-xl flex items-center justify-center gap-2 transition-all shadow-md shadow-red-100"
+                        >
+                            Next: Simulator <ChevronRight className="w-4 h-4" />
+                        </button>
+                    ) : (
+                        <div className="flex items-center gap-2 text-[#616161]">
+                            <BookOpen className="w-5 h-5" />
+                            <span className="text-sm">Complete tool basics to unlock Simulator</span>
+                        </div>
+                    )}
+                </div>
+            </div>
+
+            <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-bold text-black">Your Digital Workbench</h3>
+                <span className="text-xs font-medium px-2 py-1 bg-red-50 text-red-600 rounded-lg border border-red-100">
+                    {user.role} Edition
+                </span>
             </div>
 
             {/* Tool Flow Diagram */}
@@ -161,10 +201,10 @@ const Day3ToolsWorkflow: React.FC<Day3ToolsWorkflowProps> = ({ user, onComplete 
                     {tools.filter(t => t.category === 'CORE').map((tool, index) => (
                         <React.Fragment key={tool.id}>
                             <div className={`
-                                flex flex-col items-center p-4 rounded-xl border-2 transition-all cursor-pointer
+                                flex flex-col items-center p-5 rounded-2xl border-2 transition-all cursor-pointer min-w-[120px]
                                 ${tool.walkthroughCompleted
-                                    ? 'border-[#4CAF50]/50 bg-[#E8F5E9]'
-                                    : 'border-[#E0E0E0] bg-white hover:border-[#E60000]/50'}
+                                    ? 'border-[#4CAF50] bg-[#E8F5E9] shadow-sm scale-105'
+                                    : 'border-[#E0E0E0] bg-white hover:border-[#E60000] hover:shadow-md'}
                             `}
                                 onClick={() => handleToolWalkthrough(tool.id)}
                             >
@@ -188,9 +228,9 @@ const Day3ToolsWorkflow: React.FC<Day3ToolsWorkflowProps> = ({ user, onComplete 
                     <div
                         key={tool.id}
                         className={`
-                            bg-[#FAFAFA] rounded-xl border transition-all
-                            ${tool.walkthroughCompleted ? 'border-[#4CAF50]/30' : 'border-[#E0E0E0]'}
-                            ${activeToolId === tool.id ? 'ring-2 ring-[#E60000]' : ''}
+                            bg-white rounded-2xl border transition-all duration-300
+                            ${tool.walkthroughCompleted ? 'border-[#4CAF50]/30 shadow-sm' : 'border-[#E0E0E0] hover:border-[#E60000]/30 hover:shadow-lg'}
+                            ${activeToolId === tool.id ? 'ring-2 ring-[#E60000] shadow-xl scale-[1.02]' : ''}
                         `}
                     >
                         <div className="p-4">
@@ -204,14 +244,35 @@ const Day3ToolsWorkflow: React.FC<Day3ToolsWorkflowProps> = ({ user, onComplete 
                                 <div className="flex-1">
                                     <div className="flex items-center gap-2">
                                         <h4 className="font-medium text-black">{tool.name}</h4>
-                                        <span className={`
-                                            text-xs px-2 py-0.5 rounded
-                                            ${tool.category === 'CORE' ? 'bg-red-50 text-[#E60000]' : 'bg-[#E0E0E0] text-[#616161]'}
-                                        `}>
-                                            {tool.category}
-                                        </span>
+                                        <div className="flex gap-2">
+                                            <span className={`
+                                                text-xs px-2 py-0.5 rounded
+                                                ${tool.category === 'CORE' ? 'bg-red-50 text-[#E60000]' : 'bg-[#E0E0E0] text-[#616161]'}
+                                            `}>
+                                                {tool.category}
+                                            </span>
+                                            {tool.category === 'CORE' && (
+                                                <span className="text-xs px-2 py-0.5 rounded bg-blue-50 text-blue-600 border border-blue-100 flex items-center gap-1">
+                                                    <Sparkles className="w-3 h-3" /> Recommended
+                                                </span>
+                                            )}
+                                        </div>
                                     </div>
-                                    <p className="text-sm text-[#616161] mt-1">{tool.purpose}</p>
+                                    <p className="text-sm text-[#616161] mt-1 line-clamp-2">{tool.purpose}</p>
+
+                                    {/* Mastery Level Indicator */}
+                                    <div className="mt-2 flex items-center gap-1">
+                                        <span className="text-xs text-[#9E9E9E] mr-1">Mastery:</span>
+                                        {[1, 2, 3].map((level) => (
+                                            <div
+                                                key={level}
+                                                className={`
+                                                    h-1.5 w-6 rounded-full transition-all
+                                                    ${tool.walkthroughCompleted ? 'bg-[#4CAF50]' : 'bg-[#E0E0E0]'}
+                                                `}
+                                            />
+                                        ))}
+                                    </div>
                                 </div>
                                 {tool.walkthroughCompleted ? (
                                     <CheckCircle2 className="w-6 h-6 text-[#4CAF50]" />
