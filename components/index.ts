@@ -3,9 +3,6 @@ export { default as TimeHorizonNav } from './core/TimeHorizonNav';
 export { default as CognitiveLoadIndicator } from './core/CognitiveLoadIndicator';
 export { default as Daily3Engine } from './core/Daily3Engine';
 
-// Onboarding
-export { default as OnboardingV2 } from './onboarding/OnboardingV2';
-
 // Search
 export { default as MagicSearch } from './search/MagicSearch';
 

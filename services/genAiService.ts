@@ -1,5 +1,6 @@
-import { DailyCard, UserProfile } from '../types';
+import { DailyCard, UserProfile, CognitiveLoadState, UserContext } from '../types';
 import { MOCK_DAILY_CARDS } from '../constants';
+import { generateDaily3 } from './geminiService';
 
 // Storage key for API Key
 export const API_KEY_STORAGE = 'dex_gemini_api_key';
@@ -14,6 +15,54 @@ interface GenerationResponse {
 }
 
 /**
+ * Build a UserContext from a UserProfile for the Gemini AI service
+ */
+function buildUserContext(user: UserProfile): UserContext {
+    const cognitiveLoad = getDefaultCognitiveLoad();
+    return {
+        id: user.id,
+        name: user.name,
+        email: user.email || '',
+        role: user.jobTitle || user.role || 'Employee',
+        department: user.department || 'Engineering',
+        team: user.department || 'Core Team',
+        seniority: 'MID',
+        location: user.location || '',
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+        tenureDays: 30,
+        currentFocus: '',
+        activeProjects: [],
+        recentActions: [],
+        skills: [],
+        cognitiveLoad,
+        privacySettings: {
+            shareDevelopmentData: !user.safeMode,
+            shareSkillProgress: !user.safeMode,
+            shareLearningHistory: !user.safeMode,
+            visibleToManager: [],
+            mandatoryCompliance: [],
+        },
+    };
+}
+
+/**
+ * Default cognitive load state — assume a normal workday
+ */
+function getDefaultCognitiveLoad(): CognitiveLoadState {
+    return {
+        overallLoad: 'MEDIUM',
+        meetingDensity: 40,
+        focusTimeAvailable: 120,
+        errorClusterCount: 0,
+        afterHoursSpike: false,
+        taskSwitchFrequency: 3,
+        deferralRecommended: false,
+        lastAssessed: new Date().toISOString(),
+        deferredItemCount: 0,
+    };
+}
+
+/**
  * Service to handle Generative AI content creation
  */
 export const GenAiService = {
@@ -22,23 +71,38 @@ export const GenAiService = {
      */
     generateBriefing: async (user: UserProfile): Promise<GenerationResponse> => {
         const apiKey = localStorage.getItem(API_KEY_STORAGE);
+        const hasEnvKey = !!(
+            (import.meta as any).env?.VITE_GEMINI_API_KEY ||
+            (typeof process !== 'undefined' && (process as any).env?.GEMINI_API_KEY)
+        );
 
-        // Simulate network delay for "Thinking" state
-        await new Promise(resolve => setTimeout(resolve, 2000));
-
-        if (!apiKey) {
+        if (!apiKey && !hasEnvKey) {
             console.log('No API Key found. Using Deterministic Fallback.');
             return getFallbackContent(user);
         }
 
         try {
-            // TODO: Real API Call Here
-            // For now, we simulate a successful "AI" generation using the mock data
-            // but we could swap this for a real fetch to Gemini.
-            console.log('API Key present. Simulating AI generation...');
+            console.log('API Key present. Calling Gemini AI...');
+            const userContext = buildUserContext(user);
+            const cognitiveLoad = getDefaultCognitiveLoad();
+            const aiCards = await generateDaily3(userContext, cognitiveLoad);
+
+            if (aiCards && aiCards.length > 0) {
+                return {
+                    cards: aiCards,
+                    greeting: {
+                        title: `Good Morning, ${user.name.split(' ')[0]}`,
+                        subtitle: `I've curated these priorities for your ${user.jobTitle || 'role'}.`,
+                    },
+                    generated: true,
+                };
+            }
+
+            // AI returned empty — fall back
+            console.warn('AI returned no cards. Using fallback.');
             return getFallbackContent(user, true);
         } catch (error) {
-            console.error('AI Generation failed:', error);
+            console.error('AI Generation failed, falling back:', error);
             return getFallbackContent(user);
         }
     }

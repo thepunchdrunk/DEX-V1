@@ -6,9 +6,6 @@
 /* ----------------------------------------------------------------------------
    CSS RESET & BASE
    ---------------------------------------------------------------------------- */
-/* ----------------------------------------------------------------------------
-   CSS RESET & BASE
-   ---------------------------------------------------------------------------- */
 *,
 *::before,
 *::after {
@@ -97,6 +94,19 @@ body {
   --duration-normal: 300ms;
   --duration-slow: 500ms;
 
+  /* Transition Shorthands */
+  --transition-base: 200ms ease;
+  --transition-slow: 500ms ease;
+
+  /* Extended Palette (Used by components) */
+  --blue-500: #2962FF;
+  --purple-400: #AB47BC;
+  --green-400: #66BB6A;
+  --amber-400: #FFA726;
+  --red-400: #EF5350;
+  --performance-primary: #E60000;
+  --performance-accent: #FF5252;
+
   /* Backward Compatibility Mappings (Deprecate slowly) */
   --brand-black: #000000;
   --slate-900: var(--surface-base);
@@ -181,9 +191,6 @@ body {
   transition: stroke-dashoffset var(--transition-slow);
 }
 
-/* ----------------------------------------------------------------------------
-   BUTTON STYLES
-   ---------------------------------------------------------------------------- */
 /* ----------------------------------------------------------------------------
    BUTTON STYLES
    ---------------------------------------------------------------------------- */

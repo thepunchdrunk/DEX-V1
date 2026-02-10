@@ -15,16 +15,13 @@ export function useDailyContent(user: UserProfile) {
     const [content, setContent] = useState<DailyContent | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [refreshKey, setRefreshKey] = useState(0);
 
     useEffect(() => {
         let mounted = true;
 
         async function fetchContent() {
             if (!user) return;
-
-            // Optional: Check cache here to prevent re-generation on every nav
-            // const cached = sessionStorage.getItem(`daily_content_${user.id}`);
-            // if (cached) { ... }
 
             setLoading(true);
             try {
@@ -50,11 +47,11 @@ export function useDailyContent(user: UserProfile) {
         return () => {
             mounted = false;
         };
-    }, [user.id, user.roleCategory, user.jobTitle]); // Re-run if user context changes
+    }, [user.id, user.roleCategory, user.jobTitle, refreshKey]);
 
     const refresh = () => {
         setContent(null);
-        setLoading(true);
+        setRefreshKey(k => k + 1);
     };
 
     return { content, loading, error, refresh };
