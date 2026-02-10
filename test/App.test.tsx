@@ -1,4 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { render, screen } from '@testing-library/react';
+import App from '../App';
 
 // Storage key matching App.tsx
 const STORAGE_KEY = 'dex_user_profile';
@@ -55,6 +57,15 @@ describe('App State Machine', () => {
         localStorage.setItem(STORAGE_KEY, JSON.stringify({ id: 'test' }));
         localStorage.removeItem(STORAGE_KEY);
 
+        expect(localStorage.getItem(STORAGE_KEY)).toBeNull();
+    });
+
+    it('falls back to role selection when saved profile is malformed JSON', () => {
+        localStorage.setItem(STORAGE_KEY, '{not valid json');
+
+        render(<App />);
+
+        expect(screen.getByText('Welcome to DEX')).toBeInTheDocument();
         expect(localStorage.getItem(STORAGE_KEY)).toBeNull();
     });
 });
