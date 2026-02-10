@@ -7,7 +7,6 @@ import {
 import {
   MOCK_USER,
   MOCK_TEAM,
-  MOCK_MANAGER,
 } from './constants';
 
 // Import components
@@ -19,6 +18,37 @@ import { ToastProvider } from './components/ui/Toast';
 
 // Import styles
 import './styles/design-system.css';
+
+const STORAGE_KEY = 'dex_user_profile';
+
+const isValidOnboardingDay = (day: unknown): day is OnboardingDay =>
+  typeof day === 'number' && day >= 0 && day <= 5;
+
+const parseSavedUser = (): UserProfile | null => {
+  const saved = localStorage.getItem(STORAGE_KEY);
+  if (!saved) return null;
+
+  try {
+    const parsed = JSON.parse(saved) as Partial<UserProfile>;
+
+    if (!parsed?.id || !parsed?.name || !parsed?.role || !isValidOnboardingDay(parsed?.onboardingDay)) {
+      return null;
+    }
+
+    return {
+      ...MOCK_USER,
+      ...parsed,
+      dayProgress: {
+        ...MOCK_USER.dayProgress,
+        ...(parsed.dayProgress ?? {}),
+      },
+    };
+  } catch {
+    localStorage.removeItem(STORAGE_KEY);
+    return null;
+  }
+};
+
 // Shared provider wrapper — defined OUTSIDE App to prevent remounting
 const Providers: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <ToastProvider>
@@ -30,18 +60,12 @@ const Providers: React.FC<{ children: React.ReactNode }> = ({ children }) => (
 
 const App: React.FC = () => {
   // appState and User initialization - always sequential
-  const [user, setUser] = useState<UserProfile | null>(() => {
-    const saved = localStorage.getItem('dex_user_profile');
-    if (saved) return JSON.parse(saved);
-    return null; // Start fresh if no saved profile
-  });
+  const [user, setUser] = useState<UserProfile | null>(parseSavedUser);
 
   const [appState, setAppState] = useState<AppState>(() => {
-    const savedUser = localStorage.getItem('dex_user_profile');
+    const savedUser = parseSavedUser();
     if (!savedUser) return 'ROLE_SELECTION';
-
-    const parsedUser: UserProfile = JSON.parse(savedUser);
-    if (!parsedUser.onboardingComplete) return 'ONBOARDING';
+    if (!savedUser.onboardingComplete) return 'ONBOARDING';
 
     return 'ROLE_BASED';
   });
@@ -52,7 +76,7 @@ const App: React.FC = () => {
   // Persist user state ONLY if user exists
   useEffect(() => {
     if (user) {
-      localStorage.setItem('dex_user_profile', JSON.stringify(user));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(user));
     }
   }, [user]);
 
@@ -72,7 +96,8 @@ const App: React.FC = () => {
       }
     }
 
-    const updatedUser = {
+    const updatedUser: UserProfile = {
+      ...MOCK_USER,
       ...user,
       ...personaData,
       ...roleData,
@@ -86,11 +111,14 @@ const App: React.FC = () => {
   // Handle onboarding day completion
   const handleDayComplete = (day: OnboardingDay) => {
     setUser((prev) => ({
+      ...MOCK_USER,
       ...prev,
       onboardingDay: Math.min(5, day + 1) as OnboardingDay,
       dayProgress: {
+        ...MOCK_USER.dayProgress,
         ...prev.dayProgress,
         [day]: {
+          ...MOCK_USER.dayProgress[day],
           ...prev.dayProgress[day],
           completed: true,
           completedAt: new Date().toISOString(),
@@ -120,15 +148,23 @@ const App: React.FC = () => {
 
   return (
     <Providers>
-      <RoleDashboard
-        user={user}
-        isWednesday={isWednesday}
-        onUpdateUser={(updates) => setUser((prev) => ({ ...prev, ...updates }))}
-        onSwitchContext={() => {
-          // Toggle user role instead of app state
-          setUser(prev => ({ ...prev, role: prev.role === 'MANAGER' ? 'EMPLOYEE' : 'MANAGER' }));
-        }}
-      />
+      {appState === 'ROLE_SELECTION' && <RoleSelectionScreen onSelectRole={handleRoleSelect} />}
+
+      {appState === 'ONBOARDING' && (
+        <OnboardingShell
+          user={user}
+          onDayComplete={handleDayComplete}
+          onGraduate={handleGraduate}
+        />
+      )}
+
+      {appState === 'ROLE_BASED' && (
+        <RoleDashboard
+          user={user}
+          isWednesday={isWednesday}
+          onUpdateUser={(updates) => setUser((prev) => ({ ...prev, ...updates }))}
+        />
+      )}
     </Providers>
   );
 };
